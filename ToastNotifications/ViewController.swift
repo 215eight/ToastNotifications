@@ -17,8 +17,10 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        let toast1 = ToastContent.Element(ToastSize(width: 4, height: 1), .Text("Testy Toasty"))
-        let toast2 = ToastContent.Element(ToastSize(width: 4, height: 1), .Text("Toasty Testy"))
+        let toast1 = ToastContent.Element(ToastSize(width: 4, height: 1),
+                                          ToastElement(text: "Testy Toasty"))
+        let toast2 = ToastContent.Element(ToastSize(width: 4, height: 1),
+                                          ToastElement(text: "Toasty Testy"))
         let toastContent = toast1 ||| toast1
 
 

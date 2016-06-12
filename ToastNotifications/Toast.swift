@@ -98,7 +98,8 @@ extension Toast {
 
     convenience init(text: String) {
 
-        let content = ToastContent.Element(ToastSize(width: 16, height: 1), .Text(text))
+        let content = ToastContent.Element(ToastSize(width: 16, height: 1),
+                                           ToastElement(text: text))
         let presentationStyle = ToastPresentationStyle.Plain
         let animatiionStyle = ToastAnimationStyle.Simple
 

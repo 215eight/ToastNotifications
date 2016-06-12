@@ -9,40 +9,6 @@
 import Foundation
 import UIKit
 
-// MARK: ToastElement
-
-enum Attribute {
-    case Font(UIFont)
-    case Alignment(NSTextAlignment)
-    case ForegroundColor(UIColor)
-    case BackgroundColor(UIColor)
-}
-
-/**
- List the available toast elements
-
- + Text: Adds the text for that element
- + Image: Adds the image with specified named for that element
- */
-
-indirect enum ToastElement {
-    case Text(String)
-    case Image(String)
-}
-
-extension ToastElement: Equatable { }
-
-func ==(lhs: ToastElement, rhs: ToastElement) -> Bool {
-    switch (lhs, rhs) {
-    case (.Text(let lhsText), .Text(let rhsText)):
-        return lhsText == rhsText
-    case (.Image(let lhsName), .Image(let rhsName)):
-        return lhsName == rhsName
-    default:
-        return false
-    }
-}
-
 
 /**
  Models the content of a toast
@@ -62,7 +28,7 @@ indirect enum ToastContent {
 
     init() {
 
-        self = .Element(ToastSize(), .Text(""))
+        self = .Element(ToastSize(), ToastElement(text: ""))
     }
 
     /**
@@ -71,7 +37,7 @@ indirect enum ToastContent {
     init(text: String) {
 
         let size = ToastSize(width: 1, height: 1)
-        self = .Element(size, .Text(text))
+        self = .Element(size, ToastElement(text: text))
     }
 
     /**

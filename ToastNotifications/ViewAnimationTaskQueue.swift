@@ -2,8 +2,8 @@
 //  ViewAnimationTaskQueue.swift
 //  ToastNotifications
 //
-//  Created by Erick Andrade on 6/6/16.
-//  Copyright © 2016 Erick Andrade. All rights reserved.
+//  Created by pman215 on 6/6/16.
+//  Copyright © 2016 pman215. All rights reserved.
 //
 
 import Foundation

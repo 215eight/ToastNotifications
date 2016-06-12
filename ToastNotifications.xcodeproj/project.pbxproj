@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		53BE04DF1D0D037900958E63 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */; };
+		53BE04E11D0D131100958E63 /* ToastContentConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E01D0D131100958E63 /* ToastContentConversion.swift */; };
 		A72672751D03A85600B08EBF /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672741D03A85600B08EBF /* ToastView.swift */; };
 		A72672771D03A8E500B08EBF /* ToastPresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */; };
 		A72672791D053D6E00B08EBF /* ToastSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672781D053D6E00B08EBF /* ToastSize.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		53BE04E01D0D131100958E63 /* ToastContentConversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContentConversion.swift; sourceTree = "<group>"; };
 		A72672741D03A85600B08EBF /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastPresentationStyle.swift; sourceTree = "<group>"; };
 		A72672781D053D6E00B08EBF /* ToastSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastSize.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				A72F57011D072747007B3542 /* ViewAnimationTaskQueueTests.swift */,
 				A726727C1D05464300B08EBF /* CGRectExtensionsTests.swift */,
 				A77248BD1D079C3400D5B425 /* ToastViewTests.swift */,
+				53BE04E01D0D131100958E63 /* ToastContentConversion.swift */,
 			);
 			path = ToastNotificationsTests;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				A726727F1D0620E000B08EBF /* ViewAnimationTests.swift in Sources */,
 				A7ED30BA1D01E96F006494F2 /* ToastContentTests.swift in Sources */,
 				A72F57001D069289007B3542 /* ViewAnimationTaskTests.swift in Sources */,
+				53BE04E11D0D131100958E63 /* ToastContentConversion.swift in Sources */,
 				A7DC1AC61D074862006D8E4B /* ToastTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -2,8 +2,8 @@
 //  ToastQueueTests.swift
 //  ToastNotifications
 //
-//  Created by Erick Andrade on 6/1/16.
-//  Copyright © 2016 Erick Andrade. All rights reserved.
+//  Created by pman215 on 6/1/16.
+//  Copyright © 2016 pman215. All rights reserved.
 //
 
 @testable import ToastNotifications
@@ -22,6 +22,7 @@ class ToastQueueTests: XCTestCase {
     func testQueueCanQueueToasts() {
 
         let viewController = UIViewController()
+        let _ = viewController.view
         let queue = ToastQueue(viewController: viewController)
         queue.queue(Toast(content: ToastContent(text: ""),
                             presentationStyle: .Plain,
@@ -40,6 +41,7 @@ class ToastQueueTests: XCTestCase {
                            animationStyle: .Simple)
 
         let viewController = UIViewController()
+        let _ = viewController.view
         let queue = ToastQueue(viewController: viewController)
 
         queue.queue(toast1)

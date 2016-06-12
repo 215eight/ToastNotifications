@@ -2,8 +2,8 @@
 //  ToastContent.swift
 //  ToastNotifications
 //
-//  Created by Erick Andrade on 6/1/16.
-//  Copyright © 2016 Erick Andrade. All rights reserved.
+//  Created by pman215 on 6/1/16.
+//  Copyright © 2016 pman215. All rights reserved.
 //
 
 import Foundation
@@ -148,7 +148,7 @@ func convert(toastContent: ToastContent, frame: CGRect) -> [UIView] {
 
     case .Element(let size, let element):
         let frame = size.fit(frame)
-        let view = convert(element, rect: frame)
+        let view = convert(element, frame: frame)
         views.append(view)
 
     case .Beside(let lhs, let rhs):
@@ -170,18 +170,18 @@ func convert(toastContent: ToastContent, frame: CGRect) -> [UIView] {
 /**
  Converts a toast element to a UI element with the specified frame
  */
-func convert(element: ToastElement, rect: CGRect) -> UIView {
+func convert(element: ToastElement, frame: CGRect) -> UIView {
 
     switch element {
 
     case .Text(let text):
-        let label = UILabel(frame: rect)
+        let label = UILabel(frame: frame)
         label.text = text
         return label
 
     case .Image(let name):
         let image = UIImage.nonNullImage(name)
-        let imageView = UIImageView(frame: rect)
+        let imageView = UIImageView(frame: frame)
         imageView.image = image
         return imageView
     }

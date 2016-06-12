@@ -2,8 +2,8 @@
 //  ViewAnimationTests.swift
 //  ToastNotifications
 //
-//  Created by Erick Andrade on 6/6/16.
-//  Copyright © 2016 Erick Andrade. All rights reserved.
+//  Created by pman215 on 6/6/16.
+//  Copyright © 2016 pman215. All rights reserved.
 //
 
 @testable import ToastNotifications
@@ -39,21 +39,21 @@ class ViewAnimationTests: XCTestCase {
 
         let test = ViewAnimation()
                     .duration(2)
-                    .initialAnimation { (view) in
+                    .initialState { (view) in
                         view.alpha = 0
                         initialAnimationExpectation.fulfill()
                     }
-                    .finalAnimation { (view) in
+                    .finalState { (view) in
                         view.alpha = 1
                         finalAnimationExpectation.fulfill()
                     }
 
         let dummyView = UIView()
 
-        test.initialAnimation(dummyView)
+        test.initialState(dummyView)
         XCTAssertEqual(dummyView.alpha, 0)
 
-        test.finalAnimation(dummyView)
+        test.finalState(dummyView)
         XCTAssertEqual(dummyView.alpha, 1)
 
         waitForExpectationsWithTimeout(1, handler: nil)

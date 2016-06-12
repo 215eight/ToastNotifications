@@ -9,12 +9,34 @@
 import Foundation
 import UIKit
 
+/**
+ Lists the possible states of a `ViewAnimationTask`
+
+ + Ready: View animation task was initialized and is ready to animate
+ + Animating: View animation task started animating. It will continue in this
+ state until the animation finished
+ + Finished: View animation task finished
+ */
 enum ViewAnimationTaskState {
     case Ready
     case Animating
     case Finished
 }
 
+/**
+ The `ViewAnimationTask` encapsulates the code and data associated with a view
+ animation task.
+
+ A `ViewAnimationTask` object is a single-shot object than can only be executed
+ once.
+
+ A `ViewAnimationTask` is executed by calling it `animate()` method or by adding
+ it to a `ViewAnimationTaskQueue`. The queue will process it serially in a FIFO
+ order.
+
+ A `ViewAnimationTask` maintain state information via internally to notify the
+ queue is contained by when the task finished execution.
+ */
 class ViewAnimationTask {
 
     private let view: UIView
@@ -28,14 +50,13 @@ class ViewAnimationTask {
         willSet {
             switch (state, newValue) {
 
-            case (.Ready, .Animating):
+            case (.Ready, .Animating),
+                 (.Animating, .Finished):
                 break
-            case (.Animating, .Finished):
-                break
-            case (.Ready, .Ready), (.Animating, .Animating), (.Finished, .Finished):
-                fatalError("Invalid state transition \(state) -> \(newValue)")
-            default:
-                fatalError("Invalid state transition \(state) -> \(newValue)")
+            case (.Ready, _),
+                 (.Animating, _),
+                 (.Finished, _):
+                assertionFailure("Invalid state transition \(state) -> \(newValue)")
             }
         }
 
@@ -43,7 +64,7 @@ class ViewAnimationTask {
             switch state {
             case .Finished:
                 queue?.animationDidFinish(self)
-            default:
+            case .Ready, .Animating:
                 break
             }
         }
@@ -60,14 +81,14 @@ class ViewAnimationTask {
             self.state = .Animating
 
             self.view.hidden = false
-            self.animation.initialAnimation(self.view)
+            self.animation.initialState(self.view)
             
             UIView.animateWithDuration(self.animation.duration,
                                        delay: self.animation.delay,
                                        options: self.animation.options,
                                        animations: { 
-                                            self.animation.finalAnimation(self.view)
-                                       }) { (completion) in
+                                            self.animation.finalState(self.view)
+                                       }) { (_) in
                                             self.state = .Finished
                                        }
         }

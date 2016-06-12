@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		53BE04DF1D0D037900958E63 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */; };
 		A72672751D03A85600B08EBF /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672741D03A85600B08EBF /* ToastView.swift */; };
 		A72672771D03A8E500B08EBF /* ToastPresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */; };
 		A72672791D053D6E00B08EBF /* ToastSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672781D053D6E00B08EBF /* ToastSize.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		A72672741D03A85600B08EBF /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastPresentationStyle.swift; sourceTree = "<group>"; };
 		A72672781D053D6E00B08EBF /* ToastSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastSize.swift; sourceTree = "<group>"; };
@@ -129,8 +131,9 @@
 				A72F56FB1D06404B007B3542 /* ViewAnimationTask.swift */,
 				A72F56F91D064040007B3542 /* ViewAnimationTaskQueue.swift */,
 				A72672741D03A85600B08EBF /* ToastView.swift */,
-				A726727A1D053DDC00B08EBF /* CGRectExtensions.swift */,
 				A7DC1AC71D074949006D8E4B /* Toast.swift */,
+				A726727A1D053DDC00B08EBF /* CGRectExtensions.swift */,
+				53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */,
 			);
 			path = ToastNotifications;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				A7A9CF741CFF8B140055A3F6 /* ToastContent.swift in Sources */,
 				A7A9CF4F1CFF7EFE0055A3F6 /* AppDelegate.swift in Sources */,
 				A7A9CF721CFF80D50055A3F6 /* ToastQueue.swift in Sources */,
+				53BE04DF1D0D037900958E63 /* UIImageExtensions.swift in Sources */,
 				A72F56FC1D06404B007B3542 /* ViewAnimationTask.swift in Sources */,
 				A72672751D03A85600B08EBF /* ToastView.swift in Sources */,
 				A72F56FA1D064040007B3542 /* ViewAnimationTaskQueue.swift in Sources */,

@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+/**
+ A `ToastView` object is in charge of presenting, animating and translating a
+ `Toast` object into UI elements.
+ */
 class ToastView: UIView {
 
     private var toast: Toast
@@ -24,7 +28,7 @@ class ToastView: UIView {
 
         self.animationsQueue.delegate = self
         
-        let _ = convert(bounds, toastContent:toast.content)
+        let _ = convert(toast.content, frame:bounds)
                 .map { addSubview($0) }
 
         let _ = toast.animationStyle.animations.map{
@@ -56,14 +60,3 @@ extension ToastView: ViewAnimationTaskQueueDelegate {
     }
 }
 
-// TODO: Move to UIImage extensions
-
-extension UIImage {
-
-    static func nonNullImage(name: String) -> UIImage {
-        guard let image = UIImage(named: name) else {
-            return UIImage()
-        }
-        return image
-    }
-}

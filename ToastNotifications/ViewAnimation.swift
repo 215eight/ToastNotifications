@@ -9,67 +9,80 @@
 import Foundation
 import UIKit
 
-typealias Animation = (UIView) -> Void
 
+/**
+ A block that receives a view and contains whatever state changes to animate
+ */
+typealias AnimationState = (UIView) -> Void
+
+/**
+ Data structure that models a view animation
+ */
 struct ViewAnimation {
 
-    private (set) var duration: NSTimeInterval = 0
-    private (set) var delay: NSTimeInterval = 0
-    private (set) var options: UIViewAnimationOptions = .LayoutSubviews
-    private (set) var initialAnimation: Animation = { (_) in }
-    private (set) var finalAnimation: Animation = { (_) in }
+    let duration: NSTimeInterval
+    let delay: NSTimeInterval
+    let options: UIViewAnimationOptions
+    let initialState: AnimationState
+    let finalState: AnimationState
 
-    init() { }
+    init() {
+        self.init(duration: 0,
+                  delay: 0,
+                  options: .LayoutSubviews,
+                  initialState: { (_) in },
+                  finalState: { (_) in })
+    }
 
     private init(duration: NSTimeInterval,
                  delay: NSTimeInterval,
                  options: UIViewAnimationOptions,
-                 initialAnimation: Animation,
-                 finalAnimation: Animation) {
+                 initialState: AnimationState,
+                 finalState: AnimationState) {
         self.duration = duration
         self.delay = delay
         self.options = options
-        self.initialAnimation = initialAnimation
-        self.finalAnimation = finalAnimation
+        self.initialState = initialState
+        self.finalState = finalState
     }
 
-    func duration(duration: NSTimeInterval) -> ViewAnimation {
+    func duration(duration: NSTimeInterval) -> ViewAnimation{
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
-                              initialAnimation: initialAnimation,
-                              finalAnimation: finalAnimation)
+                              initialState: initialState,
+                              finalState: finalState)
     }
 
     func delay(delay: NSTimeInterval) -> ViewAnimation {
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
-                              initialAnimation: initialAnimation,
-                              finalAnimation: finalAnimation)
+                              initialState: initialState,
+                              finalState: finalState)
     }
 
     func options(options: UIViewAnimationOptions) -> ViewAnimation {
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
-                              initialAnimation: initialAnimation,
-                              finalAnimation: finalAnimation)
+                              initialState: initialState,
+                              finalState: finalState)
     }
 
-    func initialAnimation(initialAnimation: Animation) -> ViewAnimation {
+    func initialState(initialState: AnimationState) -> ViewAnimation {
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
-                              initialAnimation: initialAnimation,
-                              finalAnimation: finalAnimation)
+                              initialState: initialState,
+                              finalState: finalState)
     }
 
-    func finalAnimation(finalAnimation: Animation) -> ViewAnimation {
+    func finalState(finalState: AnimationState) -> ViewAnimation {
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
-                              initialAnimation: initialAnimation,
-                              finalAnimation: finalAnimation)
+                              initialState: initialState,
+                              finalState: finalState)
     }
 }

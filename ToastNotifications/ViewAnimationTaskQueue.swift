@@ -8,6 +8,23 @@
 
 import Foundation
 
+/**
+
+ Describes the possible states of a `ViewAnimationTaskQueue`
+
+ + New: Queue was initialized and is ready to queue tasks and start processing
+ them
+
+ + Processing: Queue started processing tasks. Queueing more tasks is not
+ allowed
+
+ + Idle: Queue just processed a task. Waiting to process additional
+ tasks if exist or to finish execution
+
+ + Finished: Queue processed all tasks in the queue.
+
+ */
+
 enum ViewAnimationTaskQueueState {
     case New
     case Processing
@@ -15,11 +32,31 @@ enum ViewAnimationTaskQueueState {
     case Finished
 }
 
+/**
+ Interface that defines the communication messages sent between the queue and
+ its delegate
+ */
 protocol ViewAnimationTaskQueueDelegate: class {
 
+    /**
+     Called when a `ViewAnimationTaskQueue` finished processing all queued tasks
+     */
     func queueDidFinishProcessing(queue: ViewAnimationTaskQueue)
 }
 
+/**
+ A `ViewAnimationTaskQueue` coordinates the execution of `ViewAnimationTask`
+ objects. When a task is added to the queue it will start execution immediately
+ as long as there are no other task being processed. Tasks are processed in a
+ FIFO serial order
+
+ When a `ViewAnimationTaskQueue` object is initialized, all tasks intended for
+ processing should be added. Once the queue starts processing, by colling its
+ `process()`, no more tasks can be queued.
+
+ A queue is a single-shot object, once it has finished processing all its tasks,
+ the queue should be disposed.
+ */
 class ViewAnimationTaskQueue {
 
     private var queue = [ViewAnimationTask]()
@@ -29,23 +66,18 @@ class ViewAnimationTaskQueue {
         willSet {
 
             switch (state, newValue) {
-            case (.New, .Processing):
+            case (.New, .Processing),
+                 (.Idle, .Processing),
+                 (.Processing, .Idle),
+                 (.Idle, .Finished),
+                 (.New, .Finished):
                 break
-            case (.Idle, .Processing):
-                break
-            case (.Processing, .Idle):
-                break
-            case (.Idle, .Finished):
-                break
-            case (.New, .Finished):
-                break
-            case (.New, .New),
-                 (.Idle, .Idle),
-                 (.Processing, .Processing),
-                 (.Finished, .Finished):
-                fatalError("Invalid state transition \(state) -> \(newValue)")
-            default:
-                fatalError("Invalid state transition \(state) -> \(newValue)")
+            case (.New, _),
+                 (.Idle, _),
+                 (.Processing, _),
+                 (.Finished, _):
+                let message = "Invalid state transition \(state) -> \(newValue)"
+                assertionFailure(message)
             }
         }
 
@@ -54,7 +86,7 @@ class ViewAnimationTaskQueue {
             switch state {
             case .Finished:
                 delegate?.queueDidFinishProcessing(self)
-            default:
+            case .New, .Processing, .Idle:
                 break
             }
         }
@@ -86,7 +118,6 @@ class ViewAnimationTaskQueue {
 }
 
 private extension ViewAnimationTaskQueue {
-
 
     func canStart() -> Bool {
         return state == .New
@@ -121,4 +152,3 @@ private extension ViewAnimationTaskQueue {
         }
     }
 }
-

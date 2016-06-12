@@ -9,17 +9,40 @@
 import Foundation
 import UIKit
 
+/**
 
+ List the states of a `ToastQueue`
+
+ + Idle: Queue is empty, waiting to process toasts
+ + Processing: Processing a toast
+
+ */
 enum ToastQueueState {
     case Idle
     case Processing
 }
 
+/**
+ Data structure that describes the status of `ToastQueue`
+
+ + toastCount: Number of toast contained by the queue
+ + state: Current state queue
+
+ */
 struct ToastQueueStatus {
     let toastCount: Int
     let state: ToastQueueState
 }
 
+/**
+
+ A `ToastQueue` coordinates the order in which toasts are processed. The queue
+ will process toasts in a FIFO serial order. Toasts can be added at any moment
+ in time while the queue exists.
+
+ Toast will be shown in the view controller specified when the queue was created
+
+ */
 @objc class ToastQueue: NSObject {
 
     private var queue = [Toast]()
@@ -33,9 +56,8 @@ struct ToastQueueStatus {
                 break
             case (.Processing, .Idle):
                 break
-            case (.Idle, .Idle), (.Processing, .Processing):
-                fatalError("Invalid state transition \(state) -> \(newState)")
-            default:
+            case (.Idle, _),
+                 (.Processing, _):
                 fatalError("Invalid state transition \(state) -> \(newState)")
             }
         }
@@ -53,6 +75,11 @@ struct ToastQueueStatus {
     func queue(toast: Toast) {
         toast.queue = self
         queue.append(toast)
+        processFirstToast()
+    }
+
+    func toastDidShow(toast: Toast) {
+        dequeueFirstToast()
         processFirstToast()
     }
 }
@@ -75,13 +102,5 @@ private extension ToastQueue {
         let first = queue.removeFirst()
         first.queue = nil
         state = .Idle
-    }
-}
-
-extension ToastQueue {
-
-    func toastDidShow(toast: Toast) {
-        dequeueFirstToast()
-        processFirstToast()
     }
 }

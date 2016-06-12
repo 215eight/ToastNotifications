@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+/**
+ Lists the available toast presentation styles
+
+ + Center: The view will show in the center of the screen
+
+ */
 enum ToastPresentationStyle {
     case Plain
 
@@ -22,23 +28,11 @@ enum ToastPresentationStyle {
     var origin: CGPoint {
         let screenSize = UIScreen.mainScreen().bounds.size
         let originX = screenSize.width * 0.05
-        let originY = screenSize.height * 0.45
+        let originY = screenSize.height * 0.75
         return CGPoint(x: originX, y: originY)
     }
 
     var frame: CGRect {
         return CGRect(origin: origin, size: size)
-    }
-
-    var center: CGPoint {
-        // TODO: Add a convenience function to get the centr of a rectangle
-        let screenSize = UIScreen.mainScreen().bounds
-        let centerX = CGRectGetMidX(screenSize)
-        let centerY = CGRectGetMidY(screenSize)
-        return CGPoint(x: centerX, y: centerY)
-    }
-
-    var backgroundColor: UIColor {
-        return UIColor.blueColor()
     }
 }

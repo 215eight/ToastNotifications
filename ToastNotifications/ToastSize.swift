@@ -40,25 +40,25 @@ extension ToastSize {
     }
 }
 
-func /(lhs: ToastSize, rhs: ToastSize) -> ToastSize {
+func / (lhs: ToastSize, rhs: ToastSize) -> ToastSize {
     let width = lhs.width / rhs.width
     let height = lhs.height / rhs.height
     return ToastSize(width: width, height: height)
 }
 
-func /(lhs: CGSize, rhs: ToastSize) -> CGSize {
+func / (lhs: CGSize, rhs: ToastSize) -> CGSize {
     let width = lhs.width / CGFloat(rhs.width)
     let height = lhs.height / CGFloat(rhs.height)
     return CGSize(width: width, height: height)
 }
 
-func /(lhs: ToastSize, rhs: CGSize) -> CGSize {
+func / (lhs: ToastSize, rhs: CGSize) -> CGSize {
     let width = CGFloat(lhs.width) / rhs.width
     let height = CGFloat(lhs.height) / rhs.height
     return CGSize(width: width, height: height)
 }
 
-func *(lhs: CGFloat, rhs: ToastSize) -> CGSize {
+func * (lhs: CGFloat, rhs: ToastSize) -> CGSize {
     let width = CGFloat(rhs.width) * lhs
     let height = CGFloat(rhs.height) * lhs
     return CGSize(width: width, height: height)

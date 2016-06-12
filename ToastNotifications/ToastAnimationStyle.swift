@@ -8,6 +8,13 @@
 
 import Foundation
 
+/**
+ Lists the available toast animation styles
+
+ + Simple: The view will take 1 second to fade in, stay for 2 seconds and the
+ fade out in 1 second
+
+ */
 enum ToastAnimationStyle {
     case Simple
     case Custom([ViewAnimation])
@@ -38,17 +45,17 @@ private extension ToastAnimationStyle {
         let intro = ViewAnimation()
                         .delay(0)
                         .duration(1)
-                        .initialAnimation { (view) in
+                        .initialState { (view) in
                             view.alpha = 0
                         }
-                        .finalAnimation { (view) in
+                        .finalState { (view) in
                             view.alpha = 1
                         }
 
         let exit = ViewAnimation()
                     .delay(2)
                     .duration(1)
-                    .finalAnimation { (view) in
+                    .finalState { (view) in
                             view.alpha = 0
                     }
 

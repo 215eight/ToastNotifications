@@ -55,3 +55,27 @@ indirect enum TextAttribute {
                            .map { .BackgroundColor(UIColor.clearColor()) }
     }
 }
+
+extension TextAttribute: Equatable { }
+
+func == (lhs: TextAttribute, rhs: TextAttribute) -> Bool {
+
+    switch (lhs, rhs) {
+    case (.Font(let lhsFont), .Font(let rhsFont)):
+        return lhsFont == rhsFont
+    case (.Alignment(let lhsAlignment), .Alignment(let rhsAlignment)):
+        return lhsAlignment == rhsAlignment
+    case (.ForegroundColor(let lhsColor), .ForegroundColor(let rhsColor)):
+        return lhsColor == rhsColor
+    case (.BackgroundColor(let lhsColor), .BackgroundColor(let rhsColor)):
+        return lhsColor == rhsColor
+    case (.Compose(let lhsAttrribute), .Compose(let rhsAttribute)):
+        return lhsAttrribute == rhsAttribute
+    case (.Font(_), _),
+         (.Alignment(_), _),
+         (.ForegroundColor(_), _),
+         (.BackgroundColor(_), _),
+         (.Compose(_, _), _):
+        return false
+    }
+}

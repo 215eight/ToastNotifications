@@ -70,10 +70,8 @@ class ToastAttributeConverterTests: XCTestCase {
         let font = UIFont.systemFontOfSize(12)
         let color = UIColor.blackColor()
 
-        let attribute1 = TextAttribute.Font(font)
-        let attribute2 = TextAttribute.ForegroundColor(color)
-
-        let textAttributes = TextAttribute.Compose(attribute1, attribute2)
+        let textAttributes = TextAttribute.Font(font)
+                                          .map{ .ForegroundColor(color) }
 
         let attributes = convert(textAttributes)
 
@@ -100,4 +98,25 @@ class ToastAttributeConverterTests: XCTestCase {
         XCTAssertEqual(attributes[NSFontAttributeName] as? UIFont, font2)
     }
 
+    func testDefaultTextAttributes() {
+
+        let attributes = convert(TextAttribute())
+
+        let expectedFont = UIFont.systemFontOfSize(16)
+        let actualFont = attributes[NSFontAttributeName] as? UIFont
+        XCTAssertEqual(expectedFont, actualFont)
+
+        let expectedAlignment = NSTextAlignment.Center
+        let paragraphStyle = attributes[NSParagraphStyleAttributeName] as? NSParagraphStyle
+        let actualAlignment = paragraphStyle!.alignment
+        XCTAssertEqual(expectedAlignment, actualAlignment)
+
+        let expectedColor = UIColor.blackColor()
+        let actualColor = attributes[NSForegroundColorAttributeName] as? UIColor
+        XCTAssertEqual(expectedColor, actualColor)
+
+        let expectedBackgroundColor = UIColor.clearColor()
+        let actualBackgroundColor = attributes[NSBackgroundColorAttributeName] as? UIColor
+        XCTAssertEqual(expectedBackgroundColor, actualBackgroundColor)
+    }
 }

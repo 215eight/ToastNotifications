@@ -18,4 +18,40 @@ indirect enum TextAttribute {
     case ForegroundColor(UIColor)
     case BackgroundColor(UIColor)
     case Compose(TextAttribute, TextAttribute)
+
+    init(fontName: String, size: CGFloat) {
+
+        let font: UIFont
+
+        if let _font = UIFont(name: fontName, size: size) {
+            font = _font
+        } else {
+            font = UIFont.systemFontOfSize(size)
+        }
+
+        self = .Font(font)
+    }
+
+    init(alignment: NSTextAlignment) {
+        self = .Alignment(alignment)
+    }
+
+    init(color: UIColor) {
+        self = .ForegroundColor(color)
+    }
+
+    init(backgroundColor: UIColor) {
+        self = .BackgroundColor(backgroundColor)
+    }
+
+    func map(@noescape f: () -> TextAttribute) -> TextAttribute {
+        return .Compose(self, f())
+    }
+
+    init() {
+       self = TextAttribute.Font(UIFont.systemFontOfSize(16))
+                           .map { .Alignment(.Center) }
+                           .map { .ForegroundColor(UIColor.blackColor()) }
+                           .map { .BackgroundColor(UIColor.clearColor()) }
+    }
 }

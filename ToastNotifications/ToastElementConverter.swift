@@ -22,6 +22,10 @@ func convert(element: ToastElement, frame: CGRect) -> UIView {
                                                 attributes: attributes)
         let label = UILabel(frame: frame)
         label.attributedText = attributedText
+
+        if let backgroundColor = attributes[NSBackgroundColorAttributeName] as? UIColor{
+            label.backgroundColor = backgroundColor
+        }
         return label
 
     case .Image(let name):

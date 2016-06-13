@@ -22,6 +22,14 @@ indirect enum ToastElement {
     init(text: String) {
         self = .Text(text, TextAttribute())
     }
+
+    init(imageName: String) {
+        self = .Image(imageName)
+    }
+
+    init(text: String , attribute: TextAttribute) {
+        self = .Text(text, attribute)
+    }
 }
 
 extension ToastElement: Equatable { }

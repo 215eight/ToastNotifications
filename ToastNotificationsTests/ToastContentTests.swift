@@ -13,7 +13,8 @@ class ToastContentTests: XCTestCase {
 
     func testEmptyToastContent() {
 
-        let expected = ToastContent.Element(ToastSize(), .Text(""))
+        let expected = ToastContent.Element(ToastSize(),
+                                            ToastElement(text: ""))
         let toast = ToastContent()
 
         XCTAssertEqual(expected, toast)
@@ -23,7 +24,8 @@ class ToastContentTests: XCTestCase {
     func testTextToastContent() {
 
         let size = ToastSize(width: 1, height: 1)
-        let expected = ToastContent.Element(size, .Text("Test"))
+        let expected = ToastContent.Element(size,
+                                            ToastElement(text: "Test"))
         let toast = ToastContent(text: "Test")
 
         XCTAssertEqual(expected, toast)
@@ -52,8 +54,10 @@ class ToastContentTests: XCTestCase {
 
     func testBesideElementsWithCustomSize() {
 
-        let leftToast = ToastContent.Element(ToastSize(width: 2, height: 1), .Text("Testy"))
-        let rightToast = ToastContent.Element(ToastSize(width: 2, height: 1), .Text("Testy"))
+        let leftToast = ToastContent.Element(ToastSize(width: 2, height: 1),
+                                             ToastElement(text: "Testy"))
+        let rightToast = ToastContent.Element(ToastSize(width: 2, height: 1),
+                                              ToastElement(text: "Testy"))
 
         let besideToasts = ToastContent.Beside(leftToast, rightToast)
 
@@ -62,8 +66,10 @@ class ToastContentTests: XCTestCase {
 
     func testBesideOpertor() {
 
-        let leftToast = ToastContent.Element(ToastSize(width: 2, height: 1), .Text("Testy"))
-        let rightToast = ToastContent.Element(ToastSize(width: 2, height: 1), .Text("Testy"))
+        let leftToast = ToastContent.Element(ToastSize(width: 2, height: 1),
+                                             ToastElement(text: "Testy"))
+        let rightToast = ToastContent.Element(ToastSize(width: 2, height: 1),
+                                              ToastElement(text: "Testy"))
 
         let besideToasts = leftToast ||| rightToast
 

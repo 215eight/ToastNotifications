@@ -49,6 +49,13 @@ indirect enum ToastContent {
         self = .Element(size, .Image(imageName))
     }
 
+    init(size: ToastSize, element: ToastElement) {
+        self = .Element(size, element)
+    }
+
+    /**
+     Returns logical size of the content.
+     */
     var size: ToastSize {
 
         switch self {
@@ -77,10 +84,12 @@ func ==(lhs: ToastContent, rhs: ToastContent) -> Bool {
 
     switch (lhs, rhs) {
 
-    case (.Element(let lhsSize, let lhsElement), .Element(let rhsSize, let rhsElement)):
+    case (.Element(let lhsSize, let lhsElement),
+          .Element(let rhsSize, let rhsElement)):
         return lhsSize == rhsSize && lhsElement == rhsElement
 
-    case (.Beside(let lhsLeft, let lhsRight), .Beside(let rhsLeft, let rhsRight)):
+    case (.Beside(let lhsLeft, let lhsRight),
+          .Beside(let rhsLeft, let rhsRight)):
         return lhsLeft == rhsLeft && lhsRight == rhsRight
 
     default:
@@ -88,6 +97,9 @@ func ==(lhs: ToastContent, rhs: ToastContent) -> Bool {
     }
 }
 
+/**
+ Returns a new `ToastContent` with the content of lhs and rhs beside each other
+ */
 infix operator ||| { associativity left }
 
 func |||(lhs: ToastContent, rhs: ToastContent) -> ToastContent {
@@ -95,60 +107,13 @@ func |||(lhs: ToastContent, rhs: ToastContent) -> ToastContent {
     return ToastContent.Beside(lhs, rhs)
 }
 
+/**
+ Returns a new `ToasContent` with the content of top and bottom stack against
+ each other
+ */
 infix operator --- { associativity left }
 
 func ---(top: ToastContent, bottom: ToastContent) -> ToastContent {
 
     return ToastContent.Stack(top, bottom)
-}
-
-/**
- Converts the toast content to a collection of UI elements contained by the
- specified frame
- */
-func convert(toastContent: ToastContent, frame: CGRect) -> [UIView] {
-
-    var views = [UIView]()
-
-    switch toastContent {
-
-    case .Element(let size, let element):
-        let frame = size.fit(frame)
-        let view = convert(element, frame: frame)
-        views.append(view)
-
-    case .Beside(let lhs, let rhs):
-        let widthRatio = CGFloat((lhs.size / toastContent.size).width)
-        let (leftRect, rightRect) = frame.split(widthRatio, edge: .MinXEdge)
-        views.appendContentsOf( [(leftRect, lhs), (rightRect, rhs)]
-                                .flatMap { convert($0.1, frame: $0.0) } )
-
-    case .Stack(let lhs, let rhs):
-        let heightRatio = CGFloat((lhs.size / toastContent.size).height)
-        let (topRect, bottomRect) = frame.split(heightRatio, edge: .MinYEdge)
-        views.appendContentsOf( [(topRect, lhs), (bottomRect, rhs)]
-                                .flatMap { convert($0.1, frame: $0.0) } )
-    }
-
-    return views
-}
-
-/**
- Converts a toast element to a UI element with the specified frame
- */
-func convert(element: ToastElement, frame: CGRect) -> UIView {
-
-    switch element {
-
-    case .Text(let text):
-        let label = UILabel(frame: frame)
-        label.text = text
-        return label
-
-    case .Image(let name):
-        let image = UIImage.nonNullImage(name)
-        let imageView = UIImageView(frame: frame)
-        imageView.image = image
-        return imageView
-    }
 }

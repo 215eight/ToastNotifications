@@ -1,5 +1,5 @@
 //
-//  ToastContentConversion.swift
+//  ToastContentConverter.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/11/16.
@@ -9,27 +9,7 @@
 @testable import ToastNotifications
 import XCTest
 
-class ToastContentConversion: XCTestCase {
-
-    func testConvertTextElement() {
-
-        let text = ToastElement.Text("")
-        let frame = CGRect(x: 0, y: 0, width: 200, height: 100)
-
-        let view = convert(text, frame: frame)
-        XCTAssertTrue(view is UILabel)
-        XCTAssertEqual(view.frame, frame)
-    }
-
-    func testConvertImageElement() {
-
-        let image = ToastElement.Image("")
-        let frame = CGRect(x: 0, y: 0, width: 200, height: 100)
-
-        let view = convert(image, frame: frame)
-        XCTAssertTrue(view is UIImageView)
-        XCTAssertEqual(view.frame, frame)
-    }
+class ToastContentConverter: XCTestCase {
 
     func testConvertToastContent() {
 
@@ -44,7 +24,8 @@ class ToastContentConversion: XCTestCase {
 
     func testConvertToastContentCustomSize() {
 
-        let text = ToastContent.Element(ToastSize(width: 2, height: 1), .Text(""))
+        let text = ToastContent.Element(ToastSize(width: 2, height: 1),
+                                        ToastElement(text: ""))
         let frame = CGRect(x: 0, y: 0, width: 300, height: 100)
 
         let views = convert(text, frame: frame)
@@ -71,9 +52,12 @@ class ToastContentConversion: XCTestCase {
     func testConvertToastContentsBesideCustomSize() {
 
         let frame: CGRect = CGRect(x: 0, y: 0, width: 500, height: 300)
-        let leftContent = ToastContent.Element(ToastSize(width: 2, height: 1), .Text(""))
-        let centerContent = ToastContent.Element(ToastSize(width: 2, height: 2), .Text(""))
-        let rightContent = ToastContent.Element(ToastSize(width: 1, height: 3), .Text(""))
+        let leftContent = ToastContent.Element(ToastSize(width: 2, height: 1),
+                                               ToastElement(text: ""))
+        let centerContent = ToastContent.Element(ToastSize(width: 2, height: 2),
+                                                 ToastElement(text: ""))
+        let rightContent = ToastContent.Element(ToastSize(width: 1, height: 3),
+                                                ToastElement(text: ""))
 
         let content = leftContent ||| centerContent ||| rightContent
 
@@ -103,9 +87,12 @@ class ToastContentConversion: XCTestCase {
     func testConvertToastContentStackCustomSize() {
 
         let frame = CGRect(x: 0, y: 0, width: 300, height: 500)
-        let topContent = ToastContent.Element(ToastSize(width: 1, height: 2), .Text(""))
-        let middleContent = ToastContent.Element(ToastSize(width: 2, height: 2), .Text(""))
-        let bottomContent = ToastContent.Element(ToastSize(width: 3, height: 1), .Text(""))
+        let topContent = ToastContent.Element(ToastSize(width: 1, height: 2),
+                                              ToastElement(text: ""))
+        let middleContent = ToastContent.Element(ToastSize(width: 2, height: 2),
+                                                 ToastElement(text: ""))
+        let bottomContent = ToastContent.Element(ToastSize(width: 3, height: 1),
+                                                 ToastElement(text: ""))
 
         let content = topContent --- middleContent --- bottomContent
 

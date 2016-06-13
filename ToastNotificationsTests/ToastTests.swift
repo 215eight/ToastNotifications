@@ -34,6 +34,8 @@ class ToastTests: XCTestCase {
 
 
         let toastView = ToastView(toast: toast)
+        let containerView = UIView()
+        containerView.addSubview(toastView)
 
         XCTAssertTrue(toast.state == .New)
 

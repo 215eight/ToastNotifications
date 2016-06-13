@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		533A97D51D0E2FD4008AF0BF /* ToastElementConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533A97D41D0E2FD4008AF0BF /* ToastElementConverterTests.swift */; };
 		53BE04DF1D0D037900958E63 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */; };
-		53BE04E11D0D131100958E63 /* ToastContentConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E01D0D131100958E63 /* ToastContentConversion.swift */; };
+		53BE04E11D0D131100958E63 /* ToastContentConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E01D0D131100958E63 /* ToastContentConverter.swift */; };
+		53BE04E31D0E0BC600958E63 /* TextAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E21D0E0BC600958E63 /* TextAttribute.swift */; };
+		53BE04E51D0E0C2C00958E63 /* ToastElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E41D0E0C2C00958E63 /* ToastElement.swift */; };
+		53BE04E71D0E0CC200958E63 /* ToastElementConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E61D0E0CC200958E63 /* ToastElementConverter.swift */; };
+		53BE04E91D0E0D2000958E63 /* ToastContentConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E81D0E0D2000958E63 /* ToastContentConverter.swift */; };
+		53BE04EB1D0E0D5F00958E63 /* TextAttributeConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04EA1D0E0D5F00958E63 /* TextAttributeConverter.swift */; };
+		53BE04ED1D0E102D00958E63 /* TextAttributeConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04EC1D0E102D00958E63 /* TextAttributeConverterTests.swift */; };
 		A72672751D03A85600B08EBF /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672741D03A85600B08EBF /* ToastView.swift */; };
 		A72672771D03A8E500B08EBF /* ToastPresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */; };
 		A72672791D053D6E00B08EBF /* ToastSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672781D053D6E00B08EBF /* ToastSize.swift */; };
@@ -46,8 +53,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		533A97D41D0E2FD4008AF0BF /* ToastElementConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastElementConverterTests.swift; sourceTree = "<group>"; };
 		53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
-		53BE04E01D0D131100958E63 /* ToastContentConversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContentConversion.swift; sourceTree = "<group>"; };
+		53BE04E01D0D131100958E63 /* ToastContentConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContentConverter.swift; sourceTree = "<group>"; };
+		53BE04E21D0E0BC600958E63 /* TextAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttribute.swift; sourceTree = "<group>"; };
+		53BE04E41D0E0C2C00958E63 /* ToastElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastElement.swift; sourceTree = "<group>"; };
+		53BE04E61D0E0CC200958E63 /* ToastElementConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastElementConverter.swift; sourceTree = "<group>"; };
+		53BE04E81D0E0D2000958E63 /* ToastContentConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContentConverter.swift; sourceTree = "<group>"; };
+		53BE04EA1D0E0D5F00958E63 /* TextAttributeConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttributeConverter.swift; sourceTree = "<group>"; };
+		53BE04EC1D0E102D00958E63 /* TextAttributeConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttributeConverterTests.swift; sourceTree = "<group>"; };
 		A72672741D03A85600B08EBF /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastPresentationStyle.swift; sourceTree = "<group>"; };
 		A72672781D053D6E00B08EBF /* ToastSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastSize.swift; sourceTree = "<group>"; };
@@ -125,7 +139,6 @@
 				A7A9CF571CFF7EFE0055A3F6 /* LaunchScreen.storyboard */,
 				A7A9CF5A1CFF7EFE0055A3F6 /* Info.plist */,
 				A72672781D053D6E00B08EBF /* ToastSize.swift */,
-				A7A9CF731CFF8B140055A3F6 /* ToastContent.swift */,
 				A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */,
 				A72F56FD1D064326007B3542 /* ToastAnimationStyle.swift */,
 				A7A9CF711CFF80D50055A3F6 /* ToastQueue.swift */,
@@ -136,6 +149,12 @@
 				A7DC1AC71D074949006D8E4B /* Toast.swift */,
 				A726727A1D053DDC00B08EBF /* CGRectExtensions.swift */,
 				53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */,
+				53BE04E21D0E0BC600958E63 /* TextAttribute.swift */,
+				53BE04EA1D0E0D5F00958E63 /* TextAttributeConverter.swift */,
+				53BE04E41D0E0C2C00958E63 /* ToastElement.swift */,
+				53BE04E61D0E0CC200958E63 /* ToastElementConverter.swift */,
+				A7A9CF731CFF8B140055A3F6 /* ToastContent.swift */,
+				53BE04E81D0E0D2000958E63 /* ToastContentConverter.swift */,
 			);
 			path = ToastNotifications;
 			sourceTree = "<group>";
@@ -153,7 +172,9 @@
 				A72F57011D072747007B3542 /* ViewAnimationTaskQueueTests.swift */,
 				A726727C1D05464300B08EBF /* CGRectExtensionsTests.swift */,
 				A77248BD1D079C3400D5B425 /* ToastViewTests.swift */,
-				53BE04E01D0D131100958E63 /* ToastContentConversion.swift */,
+				53BE04EC1D0E102D00958E63 /* TextAttributeConverterTests.swift */,
+				533A97D41D0E2FD4008AF0BF /* ToastElementConverterTests.swift */,
+				53BE04E01D0D131100958E63 /* ToastContentConverter.swift */,
 			);
 			path = ToastNotificationsTests;
 			sourceTree = "<group>";
@@ -261,6 +282,9 @@
 			files = (
 				A7DC1AC81D074949006D8E4B /* Toast.swift in Sources */,
 				A72F56FE1D064326007B3542 /* ToastAnimationStyle.swift in Sources */,
+				53BE04E91D0E0D2000958E63 /* ToastContentConverter.swift in Sources */,
+				53BE04E51D0E0C2C00958E63 /* ToastElement.swift in Sources */,
+				53BE04E71D0E0CC200958E63 /* ToastElementConverter.swift in Sources */,
 				A72672811D0623A700B08EBF /* ViewAnimation.swift in Sources */,
 				A7A9CF511CFF7EFE0055A3F6 /* ViewController.swift in Sources */,
 				A726727B1D053DDC00B08EBF /* CGRectExtensions.swift in Sources */,
@@ -269,10 +293,12 @@
 				A7A9CF4F1CFF7EFE0055A3F6 /* AppDelegate.swift in Sources */,
 				A7A9CF721CFF80D50055A3F6 /* ToastQueue.swift in Sources */,
 				53BE04DF1D0D037900958E63 /* UIImageExtensions.swift in Sources */,
+				53BE04E31D0E0BC600958E63 /* TextAttribute.swift in Sources */,
 				A72F56FC1D06404B007B3542 /* ViewAnimationTask.swift in Sources */,
 				A72672751D03A85600B08EBF /* ToastView.swift in Sources */,
 				A72F56FA1D064040007B3542 /* ViewAnimationTaskQueue.swift in Sources */,
 				A72672791D053D6E00B08EBF /* ToastSize.swift in Sources */,
+				53BE04EB1D0E0D5F00958E63 /* TextAttributeConverter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,14 +306,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53BE04ED1D0E102D00958E63 /* TextAttributeConverterTests.swift in Sources */,
 				A77248BE1D079C3400D5B425 /* ToastViewTests.swift in Sources */,
 				A72F57021D072747007B3542 /* ViewAnimationTaskQueueTests.swift in Sources */,
 				A726727D1D05464300B08EBF /* CGRectExtensionsTests.swift in Sources */,
+				533A97D51D0E2FD4008AF0BF /* ToastElementConverterTests.swift in Sources */,
 				A7A9CF701CFF7F400055A3F6 /* ToastQueueTests.swift in Sources */,
 				A726727F1D0620E000B08EBF /* ViewAnimationTests.swift in Sources */,
 				A7ED30BA1D01E96F006494F2 /* ToastContentTests.swift in Sources */,
 				A72F57001D069289007B3542 /* ViewAnimationTaskTests.swift in Sources */,
-				53BE04E11D0D131100958E63 /* ToastContentConversion.swift in Sources */,
+				53BE04E11D0D131100958E63 /* ToastContentConverter.swift in Sources */,
 				A7DC1AC61D074862006D8E4B /* ToastTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

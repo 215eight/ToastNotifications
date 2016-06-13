@@ -17,22 +17,54 @@ import UIKit
  */
 enum ToastPresentationStyle {
     case Plain
+    case RoundedRect
 
-    var size: CGSize {
-        let screenSize = UIScreen.mainScreen().bounds.size
-        let width = screenSize.width * 0.9
-        let height = screenSize.height * 0.1
-        return CGSize(width: width, height: height)
+    func widthRatio(view: UIView) -> CGFloat {
+        switch self {
+        case .Plain:
+            return 1
+        case .RoundedRect:
+            return 0.9
+        }
     }
 
-    var origin: CGPoint {
-        let screenSize = UIScreen.mainScreen().bounds.size
-        let originX = screenSize.width * 0.05
-        let originY = screenSize.height * 0.75
-        return CGPoint(x: originX, y: originY)
+    func heightRatio(view: UIView) -> CGFloat {
+        switch self {
+        case .Plain:
+            return 1
+        case .RoundedRect:
+            return 0.1
+        }
     }
 
-    var frame: CGRect {
-        return CGRect(origin: origin, size: size)
+    func cneterXRatio(view: UIView) -> CGFloat {
+        switch self {
+        case .Plain:
+            return 1
+        case .RoundedRect:
+            return 1
+        }
     }
+    func centerYRatio(view: UIView) -> CGFloat {
+        switch self {
+        case .Plain:
+            return 1
+        case .RoundedRect:
+            return 1
+        }
+    }
+
+    func styleConfiguration() -> (UIView) -> Void {
+        switch self {
+        case .Plain:
+            return { (_) in }
+        case .RoundedRect:
+            return { (view) in
+                view.layer.cornerRadius = 10
+                view.clipsToBounds = true
+                view.backgroundColor = UIColor.orangeColor()
+            }
+        }
+    }
+    
 }

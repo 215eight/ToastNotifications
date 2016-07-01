@@ -8,14 +8,21 @@
 
 import UIKit
 
-func ==(lhs: NSLayoutConstraint, rhs: NSLayoutConstraint) -> Bool {
+extension NSLayoutConstraint {
 
-    return lhs.firstItem === rhs.firstItem &&
-        lhs.firstAttribute == rhs.firstAttribute &&
-        lhs.relation == lhs.relation &&
-        lhs.secondItem === rhs.secondItem &&
-        lhs.secondAttribute == rhs.secondAttribute &&
-        lhs.multiplier == rhs.multiplier &&
-        lhs.constant == rhs.constant &&
-        lhs.priority == rhs.priority
+    override public func isEqual(object: AnyObject?) -> Bool {
+
+        guard let otherConstraint = object as? NSLayoutConstraint else {
+            return false
+        }
+
+        return self.firstItem === otherConstraint.firstItem &&
+            self.firstAttribute == otherConstraint.firstAttribute &&
+            self.relation == self.relation &&
+            self.secondItem === otherConstraint.secondItem &&
+            self.secondAttribute == otherConstraint.secondAttribute &&
+            self.multiplier == otherConstraint.multiplier &&
+            self.constant == otherConstraint.constant &&
+            self.priority == otherConstraint.priority
+    }
 }

@@ -26,11 +26,6 @@ indirect enum ToastContent {
     case Beside(ToastContent, ToastContent)
     case Stack(ToastContent, ToastContent)
 
-    init() {
-
-        self = .Element(ToastSize(), ToastElement(text: ""))
-    }
-
     /**
      Creates a toast content with a single text element of size 1x1
      */

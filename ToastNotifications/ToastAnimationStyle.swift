@@ -6,7 +6,7 @@
 //  Copyright © 2016 pman215. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /**
  Lists the available toast animation styles
@@ -42,22 +42,24 @@ private extension ToastAnimationStyle {
 
     func simpleAnimation() -> [ViewAnimation] {
 
+        func hide(view: UIView) {
+            view.alpha = 0
+        }
+
+        func show(view: UIView) {
+            view.alpha = 1
+        }
+
         let intro = ViewAnimation()
                         .delay(0)
                         .duration(1)
-                        .initialState { (view) in
-                            view.alpha = 0
-                        }
-                        .finalState { (view) in
-                            view.alpha = 1
-                        }
+                        .initialState(hide)
+                        .finalState(show)
 
         let exit = ViewAnimation()
                     .delay(2)
                     .duration(1)
-                    .finalState { (view) in
-                            view.alpha = 0
-                    }
+                    .finalState(hide)
 
         return [intro, exit]
     }

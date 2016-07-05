@@ -1,5 +1,5 @@
 //
-//  ToastElementConverter.swift
+//  ContentElementConverter.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/12/16.
@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 /**
- Converts a toast element to a UI element with the specified frame
+ Converts a toast element to a UI element
  */
-func convert(element: ToastElement, frame: CGRect) -> UIView {
+func convert(element: ContentElement) -> UIView {
 
     switch element {
 
@@ -20,7 +20,7 @@ func convert(element: ToastElement, frame: CGRect) -> UIView {
         let attributes = convert(attribute)
         let attributedText = NSAttributedString(string: text,
                                                 attributes: attributes)
-        let label = UILabel(frame: frame)
+        let label = UILabel(frame: CGRect.zero)
         label.attributedText = attributedText
 
         if let backgroundColor = attributes[NSBackgroundColorAttributeName] as? UIColor{
@@ -30,8 +30,9 @@ func convert(element: ToastElement, frame: CGRect) -> UIView {
 
     case .Image(let name):
         let image = UIImage.nonNullImage(name)
-        let imageView = UIImageView(frame: frame)
+        let imageView = UIImageView(frame: CGRect.zero)
         imageView.image = image
         return imageView
     }
 }
+

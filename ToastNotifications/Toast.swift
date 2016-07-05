@@ -45,7 +45,7 @@ enum ToastState {
 
 @objc class Toast: NSObject {
 
-    let content: ToastContent
+    let content: Content
     let presentationStyle: ToastPresentationStyle
     let animationStyle: ToastAnimationStyle
 
@@ -76,7 +76,7 @@ enum ToastState {
         }
     }
 
-    init(content: ToastContent,
+    init(content: Content,
          presentationStyle: ToastPresentationStyle,
          animationStyle: ToastAnimationStyle) {
         self.content = content
@@ -90,22 +90,6 @@ enum ToastState {
 
     func didShow() {
         state = .DidShow
-    }
-}
-
-// MARK: Obj-C Interoerability
-extension Toast {
-
-    convenience init(text: String) {
-
-        let content = ToastContent.Element(ToastSize(width: 16, height: 1),
-                                           ToastElement(text: text))
-        let presentationStyle = ToastPresentationStyle.Plain
-        let animatiionStyle = ToastAnimationStyle.Simple
-
-        self.init(content: content,
-                  presentationStyle: presentationStyle,
-                  animationStyle: animatiionStyle)
     }
 }
 

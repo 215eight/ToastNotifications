@@ -1,5 +1,5 @@
 //
-//  ToastContentTests.swift
+//  ContentTests.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/3/16.
@@ -9,34 +9,24 @@
 @testable import ToastNotifications
 import XCTest
 
-class ToastContentTests: XCTestCase {
+class ContentTests: XCTestCase {
 
-    func testEmptyToastContent() {
+    func testTextContent() {
 
-        let expected = ToastContent.Element(ToastSize(),
-                                            ToastElement(text: ""))
-        let toast = ToastContent()
-
-        XCTAssertEqual(expected, toast)
-        XCTAssertEqual(toast.size, ToastSize())
-    }
-
-    func testTextToastContent() {
-
-        let size = ToastSize(width: 1, height: 1)
-        let expected = ToastContent.Element(size,
-                                            ToastElement(text: "Test"))
-        let toast = ToastContent(text: "Test")
+        let size = ContentSize(width: 1, height: 1)
+        let expected = Content.Element(size,
+                                            ContentElement(text: "Test"))
+        let toast = Content(text: "Test")
 
         XCTAssertEqual(expected, toast)
         XCTAssertEqual(toast.size, size)
     }
 
-    func testImageToastContent() {
+    func testImageContent() {
 
-        let size = ToastSize(width: 1, height: 1)
-        let expected = ToastContent.Element(size, .Image("icon"))
-        let toast = ToastContent(imageName: "icon")
+        let size = ContentSize(width: 1, height: 1)
+        let expected = Content.Element(size, .Image("icon"))
+        let toast = Content(imageName: "icon")
 
         XCTAssertEqual(expected, toast)
         XCTAssertEqual(toast.size, size)
@@ -44,36 +34,36 @@ class ToastContentTests: XCTestCase {
 
     func testBesideElements() {
 
-        let leftToast = ToastContent(text: "Testy")
-        let rightToast = ToastContent(text: "Toasty")
+        let leftToast = Content(text: "Testy")
+        let rightToast = Content(text: "Toasty")
 
-        let besideToasts = ToastContent.Beside(leftToast, rightToast)
+        let besideToasts = Content.Beside(leftToast, rightToast)
 
-        XCTAssertEqual(besideToasts.size, ToastSize(width: 2, height: 1))
+        XCTAssertEqual(besideToasts.size, ContentSize(width: 2, height: 1))
     }
 
     func testBesideElementsWithCustomSize() {
 
-        let leftToast = ToastContent.Element(ToastSize(width: 2, height: 1),
-                                             ToastElement(text: "Testy"))
-        let rightToast = ToastContent.Element(ToastSize(width: 2, height: 1),
-                                              ToastElement(text: "Testy"))
+        let leftToast = Content.Element(ContentSize(width: 2, height: 1),
+                                             ContentElement(text: "Testy"))
+        let rightToast = Content.Element(ContentSize(width: 2, height: 1),
+                                              ContentElement(text: "Testy"))
 
-        let besideToasts = ToastContent.Beside(leftToast, rightToast)
+        let besideToasts = Content.Beside(leftToast, rightToast)
 
-        XCTAssertEqual(besideToasts.size, ToastSize(width: 4, height: 1))
+        XCTAssertEqual(besideToasts.size, ContentSize(width: 4, height: 1))
     }
 
     func testBesideOpertor() {
 
-        let leftToast = ToastContent.Element(ToastSize(width: 2, height: 1),
-                                             ToastElement(text: "Testy"))
-        let rightToast = ToastContent.Element(ToastSize(width: 2, height: 1),
-                                              ToastElement(text: "Testy"))
+        let leftToast = Content.Element(ContentSize(width: 2, height: 1),
+                                             ContentElement(text: "Testy"))
+        let rightToast = Content.Element(ContentSize(width: 2, height: 1),
+                                              ContentElement(text: "Testy"))
 
         let besideToasts = leftToast ||| rightToast
 
-        XCTAssertEqual(besideToasts.size, ToastSize(width: 4, height: 1))
+        XCTAssertEqual(besideToasts.size, ContentSize(width: 4, height: 1))
     }
 }
 

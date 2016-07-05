@@ -18,7 +18,7 @@ typealias AnimationState = (UIView) -> Void
 /**
  Data structure that models a view animation
  */
-struct ViewAnimation {
+internal struct ViewAnimation {
 
     let duration: NSTimeInterval
     let delay: NSTimeInterval

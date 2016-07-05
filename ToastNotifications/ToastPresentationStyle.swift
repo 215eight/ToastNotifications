@@ -19,45 +19,56 @@ enum ToastPresentationStyle {
     case Plain
     case RoundedRect
 
-    func widthRatio(view: UIView) -> CGFloat {
-        switch self {
-        case .Plain:
-            return 1
-        case .RoundedRect:
-            return 0.9
-        }
-    }
-
-    func heightRatio(view: UIView) -> CGFloat {
-        switch self {
-        case .Plain:
-            return 1
-        case .RoundedRect:
-            return 0.1
-        }
-    }
-
-    func cneterXRatio(view: UIView) -> CGFloat {
-        switch self {
-        case .Plain:
-            return 1
-        case .RoundedRect:
-            return 1
-        }
-    }
-    func centerYRatio(view: UIView) -> CGFloat {
-        switch self {
-        case .Plain:
-            return 1
-        case .RoundedRect:
-            return 1
-        }
-    }
-
     func styleConfiguration() -> (UIView) -> Void {
         switch self {
         case .Plain:
-            return { (_) in }
+            return { (view) in
+                guard let superview = view.superview else {
+                    assertionFailure("Can't apply style to a view that is not in the view hierarchy")
+                    return
+                }
+
+                view.translatesAutoresizingMaskIntoConstraints = false
+
+                let widthConstraint = NSLayoutConstraint(item: view,
+                                                         attribute: .Width,
+                                                         relatedBy: .Equal,
+                                                         toItem: superview,
+                                                         attribute: .Width,
+                                                         multiplier: 1,
+                                                         constant: 0)
+
+                let heightConstraint = NSLayoutConstraint(item: view,
+                                                          attribute: .Height,
+                                                          relatedBy: .Equal,
+                                                          toItem: superview,
+                                                          attribute: .Height,
+                                                          multiplier: 0.1,
+                                                          constant: 0)
+
+                let centerXConstraint = NSLayoutConstraint(item: view,
+                                                           attribute: .CenterX,
+                                                           relatedBy: .Equal,
+                                                           toItem: superview,
+                                                           attribute: .CenterX,
+                                                           multiplier: 1,
+                                                           constant: 0)
+
+                let centerYConstraint = NSLayoutConstraint(item: view,
+                                                           attribute: .CenterY,
+                                                           relatedBy: .Equal,
+                                                           toItem: superview,
+                                                           attribute: .CenterY,
+                                                           multiplier: 1,
+                                                           constant: 0)
+
+                let constraints = [widthConstraint,
+                                   heightConstraint,
+                                   centerXConstraint,
+                                   centerYConstraint]
+
+                NSLayoutConstraint.activateConstraints(constraints)
+            }
         case .RoundedRect:
             return { (view) in
                 view.layer.cornerRadius = 10

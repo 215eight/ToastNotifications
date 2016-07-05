@@ -7,20 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		533A97D51D0E2FD4008AF0BF /* ToastElementConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533A97D41D0E2FD4008AF0BF /* ToastElementConverterTests.swift */; };
+		533A97D51D0E2FD4008AF0BF /* ContentElementConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533A97D41D0E2FD4008AF0BF /* ContentElementConverterTests.swift */; };
+		534AC30F1D2B7DDA00C79947 /* ContentPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534AC30E1D2B7DDA00C79947 /* ContentPoint.swift */; };
 		53BE04DF1D0D037900958E63 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */; };
-		53BE04E11D0D131100958E63 /* ToastContentConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E01D0D131100958E63 /* ToastContentConverter.swift */; };
+		53BE04E11D0D131100958E63 /* ContentConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E01D0D131100958E63 /* ContentConverterTests.swift */; };
 		53BE04E31D0E0BC600958E63 /* TextAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E21D0E0BC600958E63 /* TextAttribute.swift */; };
-		53BE04E51D0E0C2C00958E63 /* ToastElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E41D0E0C2C00958E63 /* ToastElement.swift */; };
-		53BE04E71D0E0CC200958E63 /* ToastElementConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E61D0E0CC200958E63 /* ToastElementConverter.swift */; };
-		53BE04E91D0E0D2000958E63 /* ToastContentConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E81D0E0D2000958E63 /* ToastContentConverter.swift */; };
+		53BE04E51D0E0C2C00958E63 /* ContentElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E41D0E0C2C00958E63 /* ContentElement.swift */; };
+		53BE04E71D0E0CC200958E63 /* ContentElementConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E61D0E0CC200958E63 /* ContentElementConverter.swift */; };
+		53BE04E91D0E0D2000958E63 /* ContentConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04E81D0E0D2000958E63 /* ContentConverter.swift */; };
 		53BE04EB1D0E0D5F00958E63 /* TextAttributeConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04EA1D0E0D5F00958E63 /* TextAttributeConverter.swift */; };
 		53BE04ED1D0E102D00958E63 /* TextAttributeConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BE04EC1D0E102D00958E63 /* TextAttributeConverterTests.swift */; };
 		A72672751D03A85600B08EBF /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672741D03A85600B08EBF /* ToastView.swift */; };
 		A72672771D03A8E500B08EBF /* ToastPresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */; };
-		A72672791D053D6E00B08EBF /* ToastSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672781D053D6E00B08EBF /* ToastSize.swift */; };
-		A726727B1D053DDC00B08EBF /* CGRectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726727A1D053DDC00B08EBF /* CGRectExtensions.swift */; };
-		A726727D1D05464300B08EBF /* CGRectExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726727C1D05464300B08EBF /* CGRectExtensionsTests.swift */; };
+		A72672791D053D6E00B08EBF /* ContentSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672781D053D6E00B08EBF /* ContentSize.swift */; };
 		A726727F1D0620E000B08EBF /* ViewAnimationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726727E1D0620E000B08EBF /* ViewAnimationTests.swift */; };
 		A72672811D0623A700B08EBF /* ViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72672801D0623A700B08EBF /* ViewAnimation.swift */; };
 		A72F56FA1D064040007B3542 /* ViewAnimationTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F56F91D064040007B3542 /* ViewAnimationTaskQueue.swift */; };
@@ -38,7 +37,7 @@
 		A7A9CF591CFF7EFE0055A3F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7A9CF571CFF7EFE0055A3F6 /* LaunchScreen.storyboard */; };
 		A7A9CF701CFF7F400055A3F6 /* ToastQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9CF6F1CFF7F400055A3F6 /* ToastQueueTests.swift */; };
 		A7A9CF721CFF80D50055A3F6 /* ToastQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9CF711CFF80D50055A3F6 /* ToastQueue.swift */; };
-		A7A9CF741CFF8B140055A3F6 /* ToastContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9CF731CFF8B140055A3F6 /* ToastContent.swift */; };
+		A7A9CF741CFF8B140055A3F6 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9CF731CFF8B140055A3F6 /* Content.swift */; };
 		A7DC1AC61D074862006D8E4B /* ToastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DC1AC51D074862006D8E4B /* ToastTests.swift */; };
 		A7DC1AC81D074949006D8E4B /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DC1AC71D074949006D8E4B /* Toast.swift */; };
 		A7ED30BA1D01E96F006494F2 /* ToastContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ED30B91D01E96F006494F2 /* ToastContentTests.swift */; };
@@ -55,20 +54,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		533A97D41D0E2FD4008AF0BF /* ToastElementConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastElementConverterTests.swift; sourceTree = "<group>"; };
+		533A97D41D0E2FD4008AF0BF /* ContentElementConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentElementConverterTests.swift; sourceTree = "<group>"; };
+		534AC30E1D2B7DDA00C79947 /* ContentPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentPoint.swift; sourceTree = "<group>"; };
 		53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
-		53BE04E01D0D131100958E63 /* ToastContentConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContentConverter.swift; sourceTree = "<group>"; };
+		53BE04E01D0D131100958E63 /* ContentConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentConverterTests.swift; sourceTree = "<group>"; };
 		53BE04E21D0E0BC600958E63 /* TextAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttribute.swift; sourceTree = "<group>"; };
-		53BE04E41D0E0C2C00958E63 /* ToastElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastElement.swift; sourceTree = "<group>"; };
-		53BE04E61D0E0CC200958E63 /* ToastElementConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastElementConverter.swift; sourceTree = "<group>"; };
-		53BE04E81D0E0D2000958E63 /* ToastContentConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContentConverter.swift; sourceTree = "<group>"; };
+		53BE04E41D0E0C2C00958E63 /* ContentElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentElement.swift; sourceTree = "<group>"; };
+		53BE04E61D0E0CC200958E63 /* ContentElementConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentElementConverter.swift; sourceTree = "<group>"; };
+		53BE04E81D0E0D2000958E63 /* ContentConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentConverter.swift; sourceTree = "<group>"; };
 		53BE04EA1D0E0D5F00958E63 /* TextAttributeConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttributeConverter.swift; sourceTree = "<group>"; };
 		53BE04EC1D0E102D00958E63 /* TextAttributeConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttributeConverterTests.swift; sourceTree = "<group>"; };
 		A72672741D03A85600B08EBF /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastPresentationStyle.swift; sourceTree = "<group>"; };
-		A72672781D053D6E00B08EBF /* ToastSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastSize.swift; sourceTree = "<group>"; };
-		A726727A1D053DDC00B08EBF /* CGRectExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectExtensions.swift; sourceTree = "<group>"; };
-		A726727C1D05464300B08EBF /* CGRectExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectExtensionsTests.swift; sourceTree = "<group>"; };
+		A72672781D053D6E00B08EBF /* ContentSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentSize.swift; sourceTree = "<group>"; };
 		A726727E1D0620E000B08EBF /* ViewAnimationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewAnimationTests.swift; sourceTree = "<group>"; };
 		A72672801D0623A700B08EBF /* ViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewAnimation.swift; sourceTree = "<group>"; };
 		A72F56F91D064040007B3542 /* ViewAnimationTaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewAnimationTaskQueue.swift; sourceTree = "<group>"; };
@@ -91,7 +89,7 @@
 		A7A9CF6E1CFF7F400055A3F6 /* ToastNotificationsTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToastNotificationsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		A7A9CF6F1CFF7F400055A3F6 /* ToastQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastQueueTests.swift; sourceTree = "<group>"; };
 		A7A9CF711CFF80D50055A3F6 /* ToastQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastQueue.swift; sourceTree = "<group>"; };
-		A7A9CF731CFF8B140055A3F6 /* ToastContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContent.swift; sourceTree = "<group>"; };
+		A7A9CF731CFF8B140055A3F6 /* Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		A7DC1AC51D074862006D8E4B /* ToastTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastTests.swift; sourceTree = "<group>"; };
 		A7DC1AC71D074949006D8E4B /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		A7ED30B91D01E96F006494F2 /* ToastContentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContentTests.swift; sourceTree = "<group>"; };
@@ -115,6 +113,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		534AC3101D2B840C00C79947 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				534AC30E1D2B7DDA00C79947 /* ContentPoint.swift */,
+				A72672781D053D6E00B08EBF /* ContentSize.swift */,
+				A7A9CF731CFF8B140055A3F6 /* Content.swift */,
+				53BE04E41D0E0C2C00958E63 /* ContentElement.swift */,
+				53BE04E21D0E0BC600958E63 /* TextAttribute.swift */,
+				53BE04EA1D0E0D5F00958E63 /* TextAttributeConverter.swift */,
+				53BE04E61D0E0CC200958E63 /* ContentElementConverter.swift */,
+				53BE04E81D0E0D2000958E63 /* ContentConverter.swift */,
+			);
+			name = Content;
+			sourceTree = "<group>";
+		};
+		534AC3111D2B842800C79947 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */,
+				A72F56FD1D064326007B3542 /* ToastAnimationStyle.swift */,
+				A7A9CF711CFF80D50055A3F6 /* ToastQueue.swift */,
+				A72672741D03A85600B08EBF /* ToastView.swift */,
+				A7DC1AC71D074949006D8E4B /* Toast.swift */,
+			);
+			name = Toast;
+			sourceTree = "<group>";
+		};
+		534AC3121D2B845700C79947 /* ViewAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				A72672801D0623A700B08EBF /* ViewAnimation.swift */,
+				A72F56FB1D06404B007B3542 /* ViewAnimationTask.swift */,
+				A72F56F91D064040007B3542 /* ViewAnimationTaskQueue.swift */,
+			);
+			name = ViewAnimation;
+			sourceTree = "<group>";
+		};
+		534AC3131D2B846A00C79947 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */,
+				A77BAFA51D26EF350059A273 /* NSLayouConstraintExtension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		A7A9CF421CFF7EFE0055A3F6 = {
 			isa = PBXGroup;
 			children = (
@@ -136,30 +180,16 @@
 		A7A9CF4D1CFF7EFE0055A3F6 /* ToastNotifications */ = {
 			isa = PBXGroup;
 			children = (
+				534AC3121D2B845700C79947 /* ViewAnimation */,
+				534AC3101D2B840C00C79947 /* Content */,
+				534AC3111D2B842800C79947 /* Toast */,
+				534AC3131D2B846A00C79947 /* Extensions */,
 				A7A9CF4E1CFF7EFE0055A3F6 /* AppDelegate.swift */,
 				A7A9CF501CFF7EFE0055A3F6 /* ViewController.swift */,
 				A7A9CF521CFF7EFE0055A3F6 /* Main.storyboard */,
 				A7A9CF551CFF7EFE0055A3F6 /* Assets.xcassets */,
 				A7A9CF571CFF7EFE0055A3F6 /* LaunchScreen.storyboard */,
 				A7A9CF5A1CFF7EFE0055A3F6 /* Info.plist */,
-				A72672781D053D6E00B08EBF /* ToastSize.swift */,
-				A72672761D03A8E500B08EBF /* ToastPresentationStyle.swift */,
-				A72F56FD1D064326007B3542 /* ToastAnimationStyle.swift */,
-				A7A9CF711CFF80D50055A3F6 /* ToastQueue.swift */,
-				A72672801D0623A700B08EBF /* ViewAnimation.swift */,
-				A72F56FB1D06404B007B3542 /* ViewAnimationTask.swift */,
-				A72F56F91D064040007B3542 /* ViewAnimationTaskQueue.swift */,
-				A72672741D03A85600B08EBF /* ToastView.swift */,
-				A7DC1AC71D074949006D8E4B /* Toast.swift */,
-				A726727A1D053DDC00B08EBF /* CGRectExtensions.swift */,
-				53BE04DE1D0D037900958E63 /* UIImageExtensions.swift */,
-				53BE04E21D0E0BC600958E63 /* TextAttribute.swift */,
-				53BE04EA1D0E0D5F00958E63 /* TextAttributeConverter.swift */,
-				53BE04E41D0E0C2C00958E63 /* ToastElement.swift */,
-				53BE04E61D0E0CC200958E63 /* ToastElementConverter.swift */,
-				A7A9CF731CFF8B140055A3F6 /* ToastContent.swift */,
-				53BE04E81D0E0D2000958E63 /* ToastContentConverter.swift */,
-				A77BAFA51D26EF350059A273 /* NSLayouConstraintExtension.swift */,
 			);
 			path = ToastNotifications;
 			sourceTree = "<group>";
@@ -175,11 +205,10 @@
 				A726727E1D0620E000B08EBF /* ViewAnimationTests.swift */,
 				A72F56FF1D069289007B3542 /* ViewAnimationTaskTests.swift */,
 				A72F57011D072747007B3542 /* ViewAnimationTaskQueueTests.swift */,
-				A726727C1D05464300B08EBF /* CGRectExtensionsTests.swift */,
 				A77248BD1D079C3400D5B425 /* ToastViewTests.swift */,
 				53BE04EC1D0E102D00958E63 /* TextAttributeConverterTests.swift */,
-				533A97D41D0E2FD4008AF0BF /* ToastElementConverterTests.swift */,
-				53BE04E01D0D131100958E63 /* ToastContentConverter.swift */,
+				533A97D41D0E2FD4008AF0BF /* ContentElementConverterTests.swift */,
+				53BE04E01D0D131100958E63 /* ContentConverterTests.swift */,
 				A77BAFA31D26EDE20059A273 /* NSLayoutConstraintExtensionTests.swift */,
 			);
 			path = ToastNotificationsTests;
@@ -288,14 +317,13 @@
 			files = (
 				A7DC1AC81D074949006D8E4B /* Toast.swift in Sources */,
 				A72F56FE1D064326007B3542 /* ToastAnimationStyle.swift in Sources */,
-				53BE04E91D0E0D2000958E63 /* ToastContentConverter.swift in Sources */,
-				53BE04E51D0E0C2C00958E63 /* ToastElement.swift in Sources */,
-				53BE04E71D0E0CC200958E63 /* ToastElementConverter.swift in Sources */,
+				53BE04E91D0E0D2000958E63 /* ContentConverter.swift in Sources */,
+				53BE04E51D0E0C2C00958E63 /* ContentElement.swift in Sources */,
+				53BE04E71D0E0CC200958E63 /* ContentElementConverter.swift in Sources */,
 				A72672811D0623A700B08EBF /* ViewAnimation.swift in Sources */,
 				A7A9CF511CFF7EFE0055A3F6 /* ViewController.swift in Sources */,
-				A726727B1D053DDC00B08EBF /* CGRectExtensions.swift in Sources */,
 				A72672771D03A8E500B08EBF /* ToastPresentationStyle.swift in Sources */,
-				A7A9CF741CFF8B140055A3F6 /* ToastContent.swift in Sources */,
+				A7A9CF741CFF8B140055A3F6 /* Content.swift in Sources */,
 				A7A9CF4F1CFF7EFE0055A3F6 /* AppDelegate.swift in Sources */,
 				A7A9CF721CFF80D50055A3F6 /* ToastQueue.swift in Sources */,
 				53BE04DF1D0D037900958E63 /* UIImageExtensions.swift in Sources */,
@@ -304,8 +332,9 @@
 				A72672751D03A85600B08EBF /* ToastView.swift in Sources */,
 				A77BAFA61D26EF350059A273 /* NSLayouConstraintExtension.swift in Sources */,
 				A72F56FA1D064040007B3542 /* ViewAnimationTaskQueue.swift in Sources */,
-				A72672791D053D6E00B08EBF /* ToastSize.swift in Sources */,
+				A72672791D053D6E00B08EBF /* ContentSize.swift in Sources */,
 				53BE04EB1D0E0D5F00958E63 /* TextAttributeConverter.swift in Sources */,
+				534AC30F1D2B7DDA00C79947 /* ContentPoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,13 +346,12 @@
 				A77BAFA41D26EDE20059A273 /* NSLayoutConstraintExtensionTests.swift in Sources */,
 				A77248BE1D079C3400D5B425 /* ToastViewTests.swift in Sources */,
 				A72F57021D072747007B3542 /* ViewAnimationTaskQueueTests.swift in Sources */,
-				A726727D1D05464300B08EBF /* CGRectExtensionsTests.swift in Sources */,
-				533A97D51D0E2FD4008AF0BF /* ToastElementConverterTests.swift in Sources */,
+				533A97D51D0E2FD4008AF0BF /* ContentElementConverterTests.swift in Sources */,
 				A7A9CF701CFF7F400055A3F6 /* ToastQueueTests.swift in Sources */,
 				A726727F1D0620E000B08EBF /* ViewAnimationTests.swift in Sources */,
 				A7ED30BA1D01E96F006494F2 /* ToastContentTests.swift in Sources */,
 				A72F57001D069289007B3542 /* ViewAnimationTaskTests.swift in Sources */,
-				53BE04E11D0D131100958E63 /* ToastContentConverter.swift in Sources */,
+				53BE04E11D0D131100958E63 /* ContentConverterTests.swift in Sources */,
 				A7DC1AC61D074862006D8E4B /* ToastTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

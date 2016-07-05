@@ -1,5 +1,5 @@
 //
-//  ToastContent.swift
+//  Content.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/1/16.
@@ -11,47 +11,47 @@ import UIKit
 
 
 /**
- Models the content of a toast
+ Models of content that contain content elements with a certain layout
 
- + Element: A toast element and its size relative to other elements that are
+ + Element: A content element and its size relative to other elements that are
  part of the same content
 
- + Beside: Two content elements side by side
+ + Beside: Two content items positioned side by side
 
- + Stack: Two content element stacked against each other
+ + Stack: Two content items positioned against each other
  */
-indirect enum ToastContent {
+indirect enum Content {
 
-    case Element(ToastSize, ToastElement)
-    case Beside(ToastContent, ToastContent)
-    case Stack(ToastContent, ToastContent)
+    case Element(ContentSize, ContentElement)
+    case Beside(Content, Content)
+    case Stack(Content, Content)
 
     /**
-     Creates a toast content with a single text element of size 1x1
+     Creates a text content element of size 1x1
      */
     init(text: String) {
 
-        let size = ToastSize(width: 1, height: 1)
-        self = .Element(size, ToastElement(text: text))
+        let size = ContentSize(width: 1, height: 1)
+        self = .Element(size, ContentElement(text: text))
     }
 
     /**
-     Creates a toast content with a single image element of size 1x1
+     Creates an image content element of size 1x1
      */
     init(imageName: String) {
 
-        let size = ToastSize(width: 1, height: 1)
+        let size = ContentSize(width: 1, height: 1)
         self = .Element(size, .Image(imageName))
     }
 
-    init(size: ToastSize, element: ToastElement) {
+    init(size: ContentSize, element: ContentElement) {
         self = .Element(size, element)
     }
 
     /**
      Returns logical size of the content.
      */
-    var size: ToastSize {
+    var size: ContentSize {
 
         switch self {
 
@@ -61,21 +61,21 @@ indirect enum ToastContent {
         case .Beside(let lhs, let rhs):
             let width = lhs.size.width + rhs.size.width
             let height = max(lhs.size.height, rhs.size.height)
-            let size = ToastSize(width: width, height: height)
+            let size = ContentSize(width: width, height: height)
             return size
 
         case .Stack(let lhs, let rhs):
             let width = max(lhs.size.width, rhs.size.width)
             let height = lhs.size.height + rhs.size.height
-            let size = ToastSize(width: width, height: height)
+            let size = ContentSize(width: width, height: height)
             return size
         }
     }
 }
 
-extension ToastContent: Equatable { }
+extension Content: Equatable { }
 
-func ==(lhs: ToastContent, rhs: ToastContent) -> Bool {
+func ==(lhs: Content, rhs: Content) -> Bool {
 
     switch (lhs, rhs) {
 
@@ -93,22 +93,22 @@ func ==(lhs: ToastContent, rhs: ToastContent) -> Bool {
 }
 
 /**
- Returns a new `ToastContent` with the content of lhs and rhs beside each other
+ Returns a new `Content` with the content of lhs and rhs beside each other
  */
 infix operator ||| { associativity left }
 
-func |||(lhs: ToastContent, rhs: ToastContent) -> ToastContent {
+func |||(lhs: Content, rhs: Content) -> Content {
 
-    return ToastContent.Beside(lhs, rhs)
+    return Content.Beside(lhs, rhs)
 }
 
 /**
- Returns a new `ToasContent` with the content of top and bottom stack against
+ Returns a new `Content` with the content of top and bottom stack against
  each other
  */
 infix operator --- { associativity left }
 
-func ---(top: ToastContent, bottom: ToastContent) -> ToastContent {
+func ---(top: Content, bottom: Content) -> Content {
 
-    return ToastContent.Stack(top, bottom)
+    return Content.Stack(top, bottom)
 }

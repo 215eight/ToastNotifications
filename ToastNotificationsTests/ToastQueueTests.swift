@@ -24,7 +24,7 @@ class ToastQueueTests: XCTestCase {
         let viewController = UIViewController()
         let _ = viewController.view
         let queue = ToastQueue(viewController: viewController)
-        queue.queue(Toast(content: ToastContent(text: ""),
+        queue.queue(Toast(content: Content(text: ""),
                             presentationStyle: .Plain,
                             animationStyle: .Simple))
 
@@ -33,10 +33,10 @@ class ToastQueueTests: XCTestCase {
 
     func testQueueFIFOAutomaticToastProcessing() {
 
-        let toast1 = Toast(content: ToastContent(text: ""),
+        let toast1 = Toast(content: Content(text: ""),
                            presentationStyle: .Plain,
                            animationStyle: .Simple)
-        let toast2 = Toast(content: ToastContent(text: ""),
+        let toast2 = Toast(content: Content(text: ""),
                            presentationStyle: .Plain,
                            animationStyle: .Simple)
 

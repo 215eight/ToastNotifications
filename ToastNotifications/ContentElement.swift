@@ -1,5 +1,5 @@
 //
-//  ToastElement.swift
+//  ContentElement.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/12/16.
@@ -9,13 +9,13 @@
 import Foundation
 
 /**
- List of supported toast elements
+ List of supported content elements
 
  + Text: Adds the text for that element
  + Image: Adds the image with specified named for that element
  */
 
-indirect enum ToastElement {
+indirect enum ContentElement {
     case Text(String, TextAttribute)
     case Image(String)
 
@@ -32,9 +32,9 @@ indirect enum ToastElement {
     }
 }
 
-extension ToastElement: Equatable { }
+extension ContentElement: Equatable { }
 
-func == (lhs: ToastElement, rhs: ToastElement) -> Bool {
+func == (lhs: ContentElement, rhs: ContentElement) -> Bool {
     switch (lhs, rhs) {
     case (.Text(let lhsText, let lhsAttribute), .Text(let rhsText, let rhsAttribute)):
         return lhsText == rhsText && lhsAttribute == rhsAttribute

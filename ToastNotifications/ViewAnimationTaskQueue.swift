@@ -25,7 +25,7 @@ import Foundation
 
  */
 
-enum ViewAnimationTaskQueueState {
+internal enum ViewAnimationTaskQueueState {
     case New
     case Processing
     case Idle
@@ -36,7 +36,7 @@ enum ViewAnimationTaskQueueState {
  Interface that defines the communication messages sent between the queue and
  its delegate
  */
-protocol ViewAnimationTaskQueueDelegate: class {
+internal protocol ViewAnimationTaskQueueDelegate: class {
 
     /**
      Called when a `ViewAnimationTaskQueue` finished processing all queued tasks
@@ -57,7 +57,7 @@ protocol ViewAnimationTaskQueueDelegate: class {
  A queue is a single-shot object, once it has finished processing all its tasks,
  the queue should be disposed.
  */
-class ViewAnimationTaskQueue {
+internal class ViewAnimationTaskQueue {
 
     private var queue = [ViewAnimationTask]()
 

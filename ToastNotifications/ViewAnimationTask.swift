@@ -17,7 +17,7 @@ import UIKit
  state until the animation finished
  + Finished: View animation task finished
  */
-enum ViewAnimationTaskState {
+internal enum ViewAnimationTaskState {
     case Ready
     case Animating
     case Finished
@@ -37,7 +37,7 @@ enum ViewAnimationTaskState {
  A `ViewAnimationTask` maintain state information via internally to notify the
  queue is contained by when the task finished execution.
  */
-class ViewAnimationTask {
+internal class ViewAnimationTask {
 
     private let view: UIView
     private let animation: ViewAnimation

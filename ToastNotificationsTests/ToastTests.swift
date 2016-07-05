@@ -13,7 +13,7 @@ class ToastTests: XCTestCase {
 
     func testToastCreation() {
 
-        let content = ToastContent(text: "")
+        let content = Content(text: "")
         let presentationStyle = ToastPresentationStyle.Plain
         let animationStyle = ToastAnimationStyle.Simple
 
@@ -24,7 +24,7 @@ class ToastTests: XCTestCase {
 
     func testToastCanShow() {
 
-        let content = ToastContent(text: "")
+        let content = Content(text: "")
         let presentationStyle = ToastPresentationStyle.Plain
         let animationStyle = ToastAnimationStyle.Simple
 

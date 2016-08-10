@@ -13,52 +13,43 @@ class ContentConverterTests: XCTestCase {
 
     func testConvertContent() {
 
-        let frame = CGRect(x: 0, y: 0, width: 200, height: 100)
-        let containerView = UIView(frame: frame)
         let content = Content(text: "Toast")
+        let contentView = convert(content: content)
+        let constraints = contentView.constraints
 
-        let uiElements: ToastUIElements = convert(content, container: containerView)
-
-        guard let toastView = uiElements.0.first else {
-            XCTFail("No views found")
-            return
-        }
-
-        let constraints = uiElements.1
         XCTAssertEqual(constraints.count, 4)
 
-        let widthConstraint = NSLayoutConstraint(item: toastView,
+        let widthConstraint = NSLayoutConstraint(item: contentView.subviews.first!,
                                                  attribute: .Width,
                                                  relatedBy: .Equal,
-                                                 toItem: containerView,
+                                                 toItem: contentView,
                                                  attribute: .Width,
                                                  multiplier: 1,
                                                  constant: 0)
         XCTAssertTrue(constraints.contains(widthConstraint))
 
-        let heightConstraint = NSLayoutConstraint(item: toastView,
+        let heightConstraint = NSLayoutConstraint(item: contentView.subviews.first!,
                                                   attribute: .Height,
                                                   relatedBy: .Equal,
-                                                  toItem: containerView,
+                                                  toItem: contentView,
                                                   attribute: .Height,
                                                   multiplier: 1,
                                                   constant: 0)
         XCTAssertTrue(constraints.contains(heightConstraint))
 
-        let centerXConstraint = NSLayoutConstraint(item: toastView,
+        let centerXConstraint = NSLayoutConstraint(item: contentView.subviews.first!,
                                                    attribute: .CenterX,
                                                    relatedBy: .Equal,
-                                                   toItem: containerView,
+                                                   toItem: contentView,
                                                    attribute: .CenterX,
                                                    multiplier: 1,
                                                    constant: 0)
         XCTAssertTrue(constraints.contains(centerXConstraint))
 
-        let centerYConstraint = NSLayoutConstraint(item: toastView,
-                                                   
+        let centerYConstraint = NSLayoutConstraint(item: contentView.subviews.first!,
                                                    attribute: .CenterY,
                                                    relatedBy: .Equal,
-                                                   toItem: containerView,
+                                                   toItem: contentView,
                                                    attribute: .CenterY,
                                                    multiplier: 1,
                                                    constant: 0)
@@ -67,91 +58,82 @@ class ContentConverterTests: XCTestCase {
 
     func testConvertContentBeside() {
 
-        let frame = CGRect(x: 0, y: 0, width: 200, height: 100)
-        let containerView = UIView(frame: frame)
         let leftContent = Content(text: "Left")
         let rightContent = Content(text: "Right")
-
         let content = leftContent ||| rightContent
+        let contentView = convert(content: content)
 
-        let uiElements = convert(content, container: containerView)
+        let constraints = contentView.constraints
 
-        guard let leftView = uiElements.0.first,
-              let rightView = uiElements.0.last else {
-            XCTFail("No views found")
-            return
-        }
-
-        let constraints = uiElements.1
         XCTAssertEqual(constraints.count, 8)
 
-        let leftViewWidth = NSLayoutConstraint(item: leftView,
+        let leftViewWidth = NSLayoutConstraint(item: contentView.subviews.first!,
                                                attribute: .Width,
                                                relatedBy: .Equal,
-                                               toItem: containerView,
+                                               toItem: contentView,
                                                attribute: .Width,
                                                multiplier: 0.5,
                                                constant: 0)
         XCTAssertTrue(constraints.contains(leftViewWidth))
 
-        let rightViewWidth = NSLayoutConstraint(item: rightView,
+        let rightViewWidth = NSLayoutConstraint(item: contentView.subviews.last!,
                                                 attribute: .Width,
                                                 relatedBy: .Equal,
-                                                toItem: containerView,
+                                                toItem: contentView,
                                                 attribute: .Width,
                                                 multiplier: 0.5,
                                                 constant: 0)
         XCTAssertTrue(constraints.contains(rightViewWidth))
 
-        let leftViewHeight = NSLayoutConstraint(item: leftView,
+        let leftViewHeight = NSLayoutConstraint(item: contentView.subviews.first!,
                                                 attribute: .Height,
                                                 relatedBy: .Equal,
-                                                toItem: containerView,
+                                                toItem: contentView,
                                                 attribute: .Height,
                                                 multiplier: 1,
                                                 constant: 0)
         XCTAssertTrue(constraints.contains(leftViewHeight))
 
-        let rightViewHeight = NSLayoutConstraint(item: rightView,
+        let rightViewHeight = NSLayoutConstraint(item: contentView.subviews.last!,
                                                  attribute: .Height,
                                                  relatedBy: .Equal,
-                                                 toItem: containerView,
+                                                 toItem: contentView,
                                                  attribute: .Height,
                                                  multiplier: 1,
                                                  constant: 0)
         XCTAssertTrue(constraints.contains(rightViewHeight))
 
-        let leftViewCenterX = NSLayoutConstraint(item: leftView,
+        let leftViewCenterX = NSLayoutConstraint(item: contentView.subviews.first!,
                                                  attribute: .CenterX,
                                                  relatedBy: .Equal,
-                                                 toItem: containerView,
+                                                 toItem: contentView,
                                                  attribute: .CenterX,
                                                  multiplier: 0.5,
                                                  constant: 0)
         XCTAssertTrue(constraints.contains(leftViewCenterX))
 
-        let rightViewCenterX = NSLayoutConstraint(item: rightView,
+        let rightViewCenterX = NSLayoutConstraint(item: contentView.subviews.last!,
                                                   attribute: .CenterX,
                                                   relatedBy: .Equal,
-                                                  toItem: containerView,
+                                                  toItem: contentView,
                                                   attribute: .CenterX,
                                                   multiplier: 1.5,
                                                   constant: 0)
         XCTAssertTrue(constraints.contains(rightViewCenterX))
 
-        let leftViewCenterY = NSLayoutConstraint(item: leftView,
+        let leftViewCenterY = NSLayoutConstraint(item: contentView.subviews.first!,
                                                  attribute: .CenterY,
                                                  relatedBy: .Equal,
-                                                 toItem: containerView,
+                                                 toItem: contentView,
                                                  attribute: .CenterY,
                                                  multiplier: 1,
                                                  constant: 0)
         XCTAssertTrue(constraints.contains(leftViewCenterY))
 
-        let rightViewCenterY = NSLayoutConstraint(item: rightView,
+        let rightViewCenterY = NSLayoutConstraint(item: contentView.subviews.last!,
                                                   attribute: .CenterY,
                                                   relatedBy: .Equal,
-                                                  toItem: containerView,
+                                                  toItem: contentView,
                                                   attribute: .CenterY,
                                                   multiplier: 1,
                                                   constant: 0)
@@ -161,91 +143,81 @@ class ContentConverterTests: XCTestCase {
 
     func testConvertContentStack() {
 
-        let frame = CGRect(x: 0, y: 0, width: 100, height: 200)
-        let containerView = UIView(frame: frame)
         let topContent = Content(text: "Top")
         let bottomContent = Content(text: "Bottom")
-
         let content = topContent --- bottomContent
+        let contentView = convert(content: content)
 
-        let uiElements = convert(content, container: containerView)
-
-        guard let topView = uiElements.0.first,
-              let bottomView = uiElements.0.last else {
-            XCTFail("No views found")
-            return
-        }
-
-        let constraints = uiElements.1
+        let constraints = contentView.constraints
         XCTAssertEqual(constraints.count, 8)
 
-        let topViewWidth = NSLayoutConstraint(item: topView,
+        let topViewWidth = NSLayoutConstraint(item: contentView.subviews.first!,
                                                attribute: .Width,
                                                relatedBy: .Equal,
-                                               toItem: containerView,
+                                               toItem: contentView,
                                                attribute: .Width,
                                                multiplier: 1,
                                                constant: 0)
         XCTAssertTrue(constraints.contains(topViewWidth))
 
-        let bottomViewWidth = NSLayoutConstraint(item: bottomView,
+        let bottomViewWidth = NSLayoutConstraint(item: contentView.subviews.last!,
                                                 attribute: .Width,
                                                 relatedBy: .Equal,
-                                                toItem: containerView,
+                                                toItem: contentView,
                                                 attribute: .Width,
                                                 multiplier: 1,
                                                 constant: 0)
         XCTAssertTrue(constraints.contains(bottomViewWidth))
 
-        let topViewHeight = NSLayoutConstraint(item: topView,
+        let topViewHeight = NSLayoutConstraint(item: contentView.subviews.first!,
                                                 attribute: .Height,
                                                 relatedBy: .Equal,
-                                                toItem: containerView,
+                                                toItem: contentView,
                                                 attribute: .Height,
                                                 multiplier: 0.5,
                                                 constant: 0)
         XCTAssertTrue(constraints.contains(topViewHeight))
 
-        let bottomViewHeight = NSLayoutConstraint(item: bottomView,
+        let bottomViewHeight = NSLayoutConstraint(item: contentView.subviews.last!,
                                                  attribute: .Height,
                                                  relatedBy: .Equal,
-                                                 toItem: containerView,
+                                                 toItem: contentView,
                                                  attribute: .Height,
                                                  multiplier: 0.5,
                                                  constant: 0)
         XCTAssertTrue(constraints.contains(bottomViewHeight))
 
-        let topViewCenterX = NSLayoutConstraint(item: topView,
+        let topViewCenterX = NSLayoutConstraint(item: contentView.subviews.first!,
                                                  attribute: .CenterX,
                                                  relatedBy: .Equal,
-                                                 toItem: containerView,
+                                                 toItem: contentView,
                                                  attribute: .CenterX,
                                                  multiplier: 1,
                                                  constant: 0)
         XCTAssertTrue(constraints.contains(topViewCenterX))
 
-        let bottomViewCenterX = NSLayoutConstraint(item: bottomView,
+        let bottomViewCenterX = NSLayoutConstraint(item: contentView.subviews.last!,
                                                   attribute: .CenterX,
                                                   relatedBy: .Equal,
-                                                  toItem: containerView,
+                                                  toItem: contentView,
                                                   attribute: .CenterX,
                                                   multiplier: 1,
                                                   constant: 0)
         XCTAssertTrue(constraints.contains(bottomViewCenterX))
 
-        let topViewCenterY = NSLayoutConstraint(item: topView,
+        let topViewCenterY = NSLayoutConstraint(item: contentView.subviews.first!,
                                                  attribute: .CenterY,
                                                  relatedBy: .Equal,
-                                                 toItem: containerView,
+                                                 toItem: contentView,
                                                  attribute: .CenterY,
                                                  multiplier: 0.5,
                                                  constant: 0)
         XCTAssertTrue(constraints.contains(topViewCenterY))
 
-        let bottomViewCenterY = NSLayoutConstraint(item: bottomView,
+        let bottomViewCenterY = NSLayoutConstraint(item: contentView.subviews.last!,
                                                   attribute: .CenterY,
                                                   relatedBy: .Equal,
-                                                  toItem: containerView,
+                                                  toItem: contentView,
                                                   attribute: .CenterY,
                                                   multiplier: 1.5,
                                                   constant: 0)

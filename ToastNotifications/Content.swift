@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import UIKit
-
 
 /**
- Models of content that contain content elements with a certain layout
+ Model of text or image content arranged in a grid layout positione beside or
+ stacked relative to each other
 
- + Element: A content element and its size relative to other elements that are
- part of the same content
+ + Element: A content element and its size relative to other elements that compose
+ the whole content
 
  + Beside: Two content items positioned side by side
 
@@ -30,7 +29,6 @@ indirect enum Content {
      Creates a text content element of size 1x1
      */
     init(text: String) {
-
         let size = ContentSize(width: 1, height: 1)
         self = .Element(size, ContentElement(text: text))
     }
@@ -39,7 +37,6 @@ indirect enum Content {
      Creates an image content element of size 1x1
      */
     init(imageName: String) {
-
         let size = ContentSize(width: 1, height: 1)
         self = .Element(size, .Image(imageName))
     }
@@ -52,9 +49,7 @@ indirect enum Content {
      Returns logical size of the content.
      */
     var size: ContentSize {
-
         switch self {
-
         case .Element(let size, _):
             return size
 
@@ -87,7 +82,13 @@ func ==(lhs: Content, rhs: Content) -> Bool {
           .Beside(let rhsLeft, let rhsRight)):
         return lhsLeft == rhsLeft && lhsRight == rhsRight
 
-    default:
+    case (.Stack(let lhsLeft, let lhsRight),
+        .Stack(let rhsLeft, let rhsRight)):
+        return lhsLeft == rhsLeft && lhsRight == rhsRight
+
+    case (.Element(_,_), _),
+         (.Beside(_,_), _),
+         (.Stack(_,_), _):
         return false
     }
 }
@@ -98,7 +99,6 @@ func ==(lhs: Content, rhs: Content) -> Bool {
 infix operator ||| { associativity left }
 
 func |||(lhs: Content, rhs: Content) -> Content {
-
     return Content.Beside(lhs, rhs)
 }
 
@@ -109,6 +109,5 @@ func |||(lhs: Content, rhs: Content) -> Content {
 infix operator --- { associativity left }
 
 func ---(top: Content, bottom: Content) -> Content {
-
     return Content.Stack(top, bottom)
 }

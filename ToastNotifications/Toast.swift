@@ -7,24 +7,24 @@
 //
 
 import Foundation
-import UIKit
 
 /**
  List the possible states of a Toast
 
  + New: Toast was created and is waiting to be shown
-
  + Showing: Toast is now being shown
-
  + DidShow: Toast did show
+ + Hiding: Toast is now hiding
+ + Didhide: Toast is no longer visible
 
  */
 enum ToastState {
     case New
     case Showing
     case DidShow
+    case Hiding
+    case DidHide
 }
-
 
 /**
 
@@ -43,24 +43,29 @@ enum ToastState {
 
  */
 
-@objc class Toast: NSObject {
+class Toast {
 
     let content: Content
-    let presentationStyle: ToastPresentationStyle
-    let animationStyle: ToastAnimationStyle
+    let presentation: ToastPresentation
+    let animation: ToastAnimation
 
     weak var queue: ToastQueue?
+    private weak var presenter: ToastPresenter?
 
-    private (set) var state: ToastState = .New {
+    private(set) var state: ToastState = .New {
 
         willSet(newState) {
             switch (state, newState) {
             case (.New, .Showing),
-                 (.Showing, .DidShow):
+                 (.Showing, .DidShow),
+                 (.DidShow, .Hiding),
+                 (.Hiding, .DidHide):
                 break
             case (.New, _),
                  (.Showing, _),
-                 (.DidShow, _):
+                 (.DidShow, _),
+                 (.Hiding, _),
+                 (.DidHide, _):
                 let message = "Invalid state transition \(state) -> \(newState)"
                 assertionFailure(message)
             }
@@ -68,44 +73,55 @@ enum ToastState {
 
         didSet {
             switch state {
-            case .DidShow:
-                queue?.toastDidShow(self)
-            case .New, .Showing:
+            case .DidHide:
+                queue?.toastDidHide(self)
+            case .New, .Showing, .DidShow, .Hiding:
                 break
             }
         }
     }
 
-    init(content: Content,
-         presentationStyle: ToastPresentationStyle,
-         animationStyle: ToastAnimationStyle) {
-        self.content = content
-        self.presentationStyle = presentationStyle
-        self.animationStyle = animationStyle
+    convenience init(text: String)  {
+        let content = Content(text: text)
+
+        self.init(content: content,
+                  presentation: ToastPresentation.defaultPresentation(),
+                  animation: ToastAnimation.defaultAnimations())
     }
 
-    func isShowing() {
+    init(content: Content,
+         presentation: ToastPresentation,
+         animation: ToastAnimation) {
+        self.content = content
+        self.presentation = presentation
+        self.animation = animation
+    }
+
+    func show(in presenter: ToastPresenter) {
+        self.presenter = presenter
+        presenter.show(self)
+    }
+
+    func hide() {
+        presenter?.hide(self)
+    }
+}
+
+extension Toast: AnimatableViewDelegate {
+
+    func willShow() {
         state = .Showing
     }
 
     func didShow() {
         state = .DidShow
     }
-}
 
-// MARK: Model to View Conversion
-func show(toast: Toast, inViewController viewController: UIViewController) {
-
-    guard viewController.isViewLoaded(), let rootView = viewController.view else {
-        let message = "No view available to show toast"
-        assertionFailure(message)
-        return
+    func willHide() {
+        state = .Hiding
     }
 
-    let toastView = ToastView(toast: toast)
-    toastView.hidden = true
-    rootView.addSubview(toastView)
-    rootView.bringSubviewToFront(toastView)
-
-    toastView.show()
+    func didHide() {
+        state = .DidHide
+    }
 }

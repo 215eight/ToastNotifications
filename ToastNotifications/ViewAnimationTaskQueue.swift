@@ -105,7 +105,7 @@ internal class ViewAnimationTaskQueue {
 
     func process() -> Bool {
         if canStart() {
-            processFirstAnimation()
+            processFirstAnimationIfNeeded()
             return true
         }
         return false
@@ -113,7 +113,7 @@ internal class ViewAnimationTaskQueue {
 
     func animationDidFinish(task: ViewAnimationTask) {
         dequeueFirstAnimation(task)
-        processFirstAnimation()
+        processFirstAnimationIfNeeded()
     }
 }
 
@@ -131,11 +131,11 @@ private extension ViewAnimationTaskQueue {
         return queue.count == 0 && (state == .New || state == .Idle)
     }
 
-    func processFirstAnimation() {
+    func processFirstAnimationIfNeeded() {
 
-        if canProcess(), let first = queue.first {
+        if canProcess(), let viewAnimationTask = queue.first {
             state = .Processing
-            first.animate()
+            viewAnimationTask.animate()
         } else if didFinish() {
             state = .Finished
         }

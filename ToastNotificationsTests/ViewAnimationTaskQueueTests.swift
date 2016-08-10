@@ -90,10 +90,10 @@ class ViewAnimationTaskQueueTests: XCTestCase {
 
     func testQueueNotifiesDelegateDidFinishProcessing() {
 
-
         class TestDelegate: ViewAnimationTaskQueueDelegate {
 
             var queueDidFinishProcessingHandler: (()-> Void)?
+
             func queueDidFinishProcessing(queue: ViewAnimationTaskQueue) {
                 queueDidFinishProcessingHandler?()
             }

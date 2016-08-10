@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 /**
 
@@ -46,7 +45,7 @@ struct ToastQueueStatus {
 @objc class ToastQueue: NSObject {
 
     private var queue = [Toast]()
-    private var viewController: UIViewController
+    private var presenter: ToastPresenter
 
     private var state: ToastQueueState = .Idle {
 
@@ -68,19 +67,19 @@ struct ToastQueueStatus {
                                 state: state)
     }
 
-    init(viewController: UIViewController) {
-        self.viewController = viewController
+    init(presenter: ToastPresenter) {
+        self.presenter = presenter
     }
 
     func queue(toast: Toast) {
         toast.queue = self
         queue.append(toast)
-        processFirstToast()
+        processFirstToastIfNeeded()
     }
 
-    func toastDidShow(toast: Toast) {
+    func toastDidHide(toast: Toast) {
         dequeueFirstToast()
-        processFirstToast()
+        processFirstToastIfNeeded()
     }
 }
 
@@ -90,11 +89,11 @@ private extension ToastQueue {
         return (state == .Idle && queue.count > 0)
     }
 
-    func processFirstToast() {
+    func processFirstToastIfNeeded() {
 
         if shouldStartProcessing(), let toast = queue.first {
             state = .Processing
-            show(toast, inViewController: viewController)
+            toast.show(in: presenter)
         }
     }
 

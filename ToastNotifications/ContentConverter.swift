@@ -9,27 +9,36 @@
 import Foundation
 import UIKit
 
-typealias ToastUIElements = ([UIView], [NSLayoutConstraint])
+typealias UIElements = (subviews: [UIView], constraints: [NSLayoutConstraint])
+
+func convert(content content: Content) -> UIView {
+    let subContentOrigin = ContentPoint(x: 0, y: 0)
+    let container = UIView()
+    let (subViews, constraints) = convert(content: content,
+                                          subContent: content,
+                                          subContentOrigin: subContentOrigin,
+                                          container: container)
+
+    subViews.forEach {
+        container.addSubview($0)
+    }
+
+    container.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activateConstraints(constraints)
+
+    return container
+}
 
 /**
  Converts content to a collection of UI elements contained by the
  specified container view
  */
-func convert(toastContent: Content, container: UIView) -> ToastUIElements {
-    let subContentOrigin = ContentPoint(x: 0, y: 0)
-    return contentUIElements(content: toastContent,
-                             subContent: toastContent,
-                             subContentOrigin: subContentOrigin,
-                             container: container)
-}
-
-func contentUIElements(content content: Content,
-                      subContent: Content,
-                      subContentOrigin: ContentPoint,
-                      container: UIView) -> ToastUIElements {
+func convert(content content: Content,
+             subContent: Content,
+             subContentOrigin: ContentPoint,
+             container: UIView) -> UIElements {
 
     switch subContent {
-
     case .Element(_, let element):
         let subview = convert(element)
         let constraints = subContentConstraints(content: content,
@@ -40,43 +49,40 @@ func contentUIElements(content content: Content,
         return ([subview], constraints)
 
     case .Beside(let leftContent, let rightContent):
-
         let leftContentOrigin = subContentOrigin
-        let leftContentUIElements = contentUIElements(content: content,
-                                                      subContent: leftContent,
-                                                      subContentOrigin: leftContentOrigin,
-                                                      container: container)
+        let leftContentUIElements = convert(content: content,
+                                            subContent: leftContent,
+                                            subContentOrigin: leftContentOrigin,
+                                            container: container)
         
         let rightContentOrigin = leftContentOrigin.offsetX(leftContent.size.width)
-        let rightContentUIElements = contentUIElements(content: content,
-                                                       subContent: rightContent,
-                                                       subContentOrigin: rightContentOrigin,
-                                                       container: container)
+        let rightContentUIElements = convert(content: content,
+                                             subContent: rightContent,
+                                             subContentOrigin: rightContentOrigin,
+                                             container: container)
         
         let UIElements = [leftContentUIElements, rightContentUIElements]
-        let subviews = UIElements.flatMap { $0.0 }
-        let constraints = UIElements.flatMap { $0.1 }
-        
+        let subviews = UIElements.flatMap { $0.subviews }
+        let constraints = UIElements.flatMap { $0.constraints }
         return (subviews, constraints)
         
     case .Stack(let topContent, let bottomContent):
 
         let topContentOrigin = subContentOrigin
-        let topContentUIElements = contentUIElements(content: content,
-                                                     subContent: topContent,
-                                                     subContentOrigin: topContentOrigin,
-                                                     container: container)
+        let topContentUIElements = convert(content: content,
+                                           subContent: topContent,
+                                           subContentOrigin: topContentOrigin,
+                                           container: container)
         
         let bottomContentOrigin = topContentOrigin.offsetY(topContent.size.height)
-        let bottomContentUIElements = contentUIElements(content: content,
-                                                        subContent: bottomContent,
-                                                        subContentOrigin: bottomContentOrigin,
-                                                        container: container)
+        let bottomContentUIElements = convert(content: content,
+                                              subContent: bottomContent,
+                                              subContentOrigin: bottomContentOrigin,
+                                              container: container)
         
         let UIElements = [topContentUIElements, bottomContentUIElements]
-        let subviews = UIElements.flatMap { $0.0 }
-        let constraints = UIElements.flatMap { $0.1 }
-
+        let subviews = UIElements.flatMap { $0.subviews}
+        let constraints = UIElements.flatMap { $0.constraints }
         return (subviews, constraints)
     }
 }

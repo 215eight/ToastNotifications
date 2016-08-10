@@ -35,5 +35,7 @@ class ViewAnimationTaskTests: XCTestCase {
         fakeQueue.process()
 
         waitForExpectationsWithTimeout(1.0, handler: nil)
+
     }
+
 }

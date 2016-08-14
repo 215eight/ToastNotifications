@@ -8,6 +8,14 @@
 
 import Foundation
 
+enum AnimatableViewState {
+    case New
+    case Showing
+    case DidShow
+    case Hiding
+    case DidHide
+}
+
 protocol AnimatableViewDelegate: class {
 
     func willShow()
@@ -18,40 +26,45 @@ protocol AnimatableViewDelegate: class {
 
 protocol AnimatableView {
 
+    var state: AnimatableViewState { get set }
     weak var delegate: AnimatableViewDelegate? { get set }
     var showAnimations: [ViewAnimationTask] { get }
     var hideAnimations: [ViewAnimationTask] { get }
     var showAnimationsQueue: ViewAnimationTaskQueue { get }
     var hideAnimationsQueue: ViewAnimationTaskQueue { get }
 
-    func show()
+    mutating func show()
 
-    func didShow()
+    mutating func didShow()
 
-    func hide()
+    mutating func hide()
 
-    func didHide()
+    mutating func didHide()
 }
 
 extension AnimatableView {
 
-    func show() {
+    mutating func show() {
+        state = .Showing
         delegate?.willShow()
         queueShowAnimations()
         showAnimationsQueue.process()
     }
 
-    func didShow() {
+    mutating func didShow() {
+        state = .DidShow
         delegate?.didShow()
     }
 
-    func hide() {
+    mutating func hide() {
+        state = .Hiding
         delegate?.willHide()
         queueHideAnimations()
         hideAnimationsQueue.process()
     }
 
-    func didHide() {
+    mutating func didHide() {
+        state = .DidHide
         delegate?.didHide()
     }
 }

@@ -15,6 +15,24 @@ import UIKit
  */
 class ToastView: UIView {
 
+    private var _state: AnimatableViewState = .New {
+        willSet(newState) {
+            switch (state, newState) {
+            case (.New, .Showing),
+                 (.Showing, .DidShow),
+                 (.DidShow, .Hiding),
+                 (.Hiding, .DidHide):
+                break
+            case (.New, _),
+                 (.Showing, _),
+                 (.DidShow, _),
+                 (.Hiding, _),
+                 (.DidHide, _):
+                let message = "Invalid state transition \(state) -> \(newState)"
+                assertionFailure(message)
+            }
+        }
+    }
     private weak var _delegate: AnimatableViewDelegate?
 
     private let toast: Toast
@@ -122,6 +140,15 @@ private extension ToastView {
 
 extension ToastView: AnimatableView {
 
+    var state: AnimatableViewState {
+        get {
+            return _state
+        }
+        set(newState) {
+            _state = newState
+        }
+    }
+
     var delegate: AnimatableViewDelegate? {
         get {
             return _delegate
@@ -151,13 +178,14 @@ extension ToastView: AnimatableView {
 extension ToastView: ViewAnimationTaskQueueDelegate {
 
     func queueDidFinishProcessing(queue: ViewAnimationTaskQueue) {
+        var mutableSelf = self
         if queue === showAnimationsQueue {
-            didShow()
+            mutableSelf.didShow()
             if case .AutoDismiss = toast.animation.style {
-                hide()
+                mutableSelf.hide()
             }
         } else if queue === hideAnimationsQueue {
-            didHide()
+            mutableSelf.didHide()
         } else {
             assertionFailure("Unknown queue passed in as parameter")
         }

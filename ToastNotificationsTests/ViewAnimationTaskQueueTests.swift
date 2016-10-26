@@ -16,7 +16,7 @@ class FakeViewAnimationTask: ViewAnimationTask {
     }
 
     override func animate() {
-        state = .Animating
+        state = .animating
     }
 }
 
@@ -26,7 +26,7 @@ class ViewAnimationTaskQueueTests: XCTestCase {
 
         let queue = ViewAnimationTaskQueue()
 
-        XCTAssertTrue(queue.state == .New)
+        XCTAssertTrue(queue.state == .new)
         XCTAssertEqual(queue.tasks.count, 0)
     }
 
@@ -37,10 +37,10 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         let task2 = ViewAnimationTask(view: view, animation: ViewAnimation())
 
         let queue = ViewAnimationTaskQueue()
-        queue.queue(task1)
-        queue.queue(task2)
+        queue.queue(task: task1)
+        queue.queue(task: task2)
 
-        XCTAssertTrue(queue.state == .New)
+        XCTAssertTrue(queue.state == .new)
         XCTAssertEqual(queue.tasks.count, 2)
     }
 
@@ -50,34 +50,34 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         let task2 = FakeViewAnimationTask()
 
         let queue = ViewAnimationTaskQueue()
-        queue.queue(task1)
-        queue.queue(task2)
+        queue.queue(task: task1)
+        queue.queue(task: task2)
 
-        queue.process()
+        _ = queue.process()
 
-        XCTAssertTrue(queue.state == .Processing)
+        XCTAssertTrue(queue.state == .processing)
         XCTAssertEqual(queue.tasks.count, 2)
-        XCTAssertTrue(task1.state == .Animating)
+        XCTAssertTrue(task1.state == .animating)
 
         // Simulate animation did finish
-        task1.state = .Finished
+        task1.state = .finished
 
-        XCTAssertTrue(queue.state == .Processing)
+        XCTAssertTrue(queue.state == .processing)
         XCTAssertEqual(queue.tasks.count, 1)
-        XCTAssertTrue(task2.state == .Animating)
+        XCTAssertTrue(task2.state == .animating)
 
-        task2.state = .Finished
+        task2.state = .finished
 
-        XCTAssertTrue(queue.state == .Finished)
+        XCTAssertTrue(queue.state == .finished)
         XCTAssertEqual(queue.tasks.count, 0)
     }
 
     func testQueueFinishesImmediatelyWithoutTasks() {
 
         let queue = ViewAnimationTaskQueue()
-        queue.process()
+        _ = queue.process()
 
-        XCTAssertTrue(queue.state == .Finished)
+        XCTAssertTrue(queue.state == .finished)
     }
 
     func testQueueOnlyProccessTasksOnce() {
@@ -94,12 +94,12 @@ class ViewAnimationTaskQueueTests: XCTestCase {
 
             var queueDidFinishProcessingHandler: (()-> Void)?
 
-            func queueDidFinishProcessing(queue: ViewAnimationTaskQueue) {
+            func queueDidFinishProcessing(_ queue: ViewAnimationTaskQueue) {
                 queueDidFinishProcessingHandler?()
             }
         }
 
-        let expectation = expectationWithDescription(#function)
+        let expectation = self.expectation(description: #function)
 
         let delegate = TestDelegate()
         delegate.queueDidFinishProcessingHandler = {
@@ -112,17 +112,17 @@ class ViewAnimationTaskQueueTests: XCTestCase {
 
         let queue = ViewAnimationTaskQueue()
         queue.delegate = delegate
-        queue.queue(task1)
-        queue.queue(task2)
+        queue.queue(task: task1)
+        queue.queue(task: task2)
 
-        queue.process()
+        _ = queue.process()
 
-        waitForExpectationsWithTimeout(1.0) { (_) in
+        waitForExpectations(timeout: 1.0) { (_) in
 
             XCTAssertEqual(queue.tasks.count, 0)
-            XCTAssertTrue(queue.state == .Finished)
-            XCTAssertTrue(task1.state == .Finished)
-            XCTAssertTrue(task2.state == .Finished)
+            XCTAssertTrue(queue.state == .finished)
+            XCTAssertTrue(task1.state == .finished)
+            XCTAssertTrue(task2.state == .finished)
         }
 
     }

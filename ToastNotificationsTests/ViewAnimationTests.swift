@@ -17,7 +17,7 @@ class ViewAnimationTests: XCTestCase {
 
         XCTAssertEqual(test.duration, 0)
         XCTAssertEqual(test.delay, 0)
-        XCTAssertTrue(test.options == .LayoutSubviews)
+        XCTAssertTrue(test.options == .layoutSubviews)
     }
 
     func testViewAnimationComposition() {
@@ -25,17 +25,17 @@ class ViewAnimationTests: XCTestCase {
         let test = ViewAnimation()
                     .duration(2)
                     .delay(1)
-                    .options([.LayoutSubviews, .AllowUserInteraction])
+                    .options([.layoutSubviews, .allowUserInteraction])
 
         XCTAssertEqual(test.duration, 2)
         XCTAssertEqual(test.delay, 1)
-        XCTAssertTrue(test.options == [.LayoutSubviews, .AllowUserInteraction])
+        XCTAssertTrue(test.options == [.layoutSubviews, .allowUserInteraction])
     }
 
     func testViewAnimationState() {
 
-        let initialAnimationExpectation = expectationWithDescription("InitialStateExpectation")
-        let finalAnimationExpectation = expectationWithDescription("FinalStateExpection")
+        let initialAnimationExpectation = expectation(description: "InitialStateExpectation")
+        let finalAnimationExpectation = expectation(description: "FinalStateExpection")
 
         let test = ViewAnimation()
                     .duration(2)
@@ -56,6 +56,6 @@ class ViewAnimationTests: XCTestCase {
         test.finalState(dummyView)
         XCTAssertEqual(dummyView.alpha, 1)
 
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
     }
 }

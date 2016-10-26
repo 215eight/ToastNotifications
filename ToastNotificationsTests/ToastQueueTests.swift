@@ -31,7 +31,7 @@ class ToastQueueTests: XCTestCase {
         let viewController = UIViewController()
         let queue = ToastQueue(presenter: viewController.view)
 
-        XCTAssertTrue(queue.status.state == .Idle)
+        XCTAssertTrue(queue.status.state == .idle)
     }
 
     func testQueueCanQueueToasts() {
@@ -41,7 +41,7 @@ class ToastQueueTests: XCTestCase {
         let queue = ToastQueue(presenter: viewController.view)
         queue.queue(Toast(text: "CanQueue"))
 
-        XCTAssertTrue(queue.status.state == .Processing, "Expected: Processing. Actual: \(queue.status.state)")
+        XCTAssertTrue(queue.status.state == .processing, "Expected: Processing. Actual: \(queue.status.state)")
     }
 
     func testQueueFIFOAutomaticToastProcessing() {
@@ -56,17 +56,17 @@ class ToastQueueTests: XCTestCase {
         queue.queue(toast2)
 
         XCTAssertEqual(queue.status.toastCount, 2)
-        XCTAssertTrue(queue.status.state == .Processing)
+        XCTAssertTrue(queue.status.state == .processing)
 
         toast1.hide()
 
         XCTAssertEqual(queue.status.toastCount, 1)
-        XCTAssertTrue(queue.status.state == .Processing)
+        XCTAssertTrue(queue.status.state == .processing)
 
         toast2.hide()
 
         XCTAssertEqual(queue.status.toastCount, 0)
-        XCTAssertTrue(queue.status.state == .Idle)
+        XCTAssertTrue(queue.status.state == .idle)
 
     }
 }

@@ -17,8 +17,8 @@ import Foundation
 
  */
 enum ToastQueueState {
-    case Idle
-    case Processing
+    case idle
+    case processing
 }
 
 /**
@@ -44,19 +44,19 @@ struct ToastQueueStatus {
  */
 @objc class ToastQueue: NSObject {
 
-    private var queue = [Toast]()
-    private var presenter: ToastPresenter
+    fileprivate var queue = [Toast]()
+    fileprivate var presenter: ToastPresenter
 
-    private var state: ToastQueueState = .Idle {
+    fileprivate var state: ToastQueueState = .idle {
 
         willSet(newState) {
             switch (state, newState) {
-            case (.Idle, .Processing) where shouldStartProcessing():
+            case (.idle, .processing) where shouldStartProcessing():
                 break
-            case (.Processing, .Idle):
+            case (.processing, .idle):
                 break
-            case (.Idle, _),
-                 (.Processing, _):
+            case (.idle, _),
+                 (.processing, _):
                 fatalError("Invalid state transition \(state) -> \(newState)")
             }
         }
@@ -71,13 +71,13 @@ struct ToastQueueStatus {
         self.presenter = presenter
     }
 
-    func queue(toast: Toast) {
+    func queue(_ toast: Toast) {
         toast.queue = self
         queue.append(toast)
         processFirstToastIfNeeded()
     }
 
-    func toastDidHide(toast: Toast) {
+    func toastDidHide(_ toast: Toast) {
         dequeueFirstToast()
         processFirstToastIfNeeded()
     }
@@ -86,13 +86,13 @@ struct ToastQueueStatus {
 private extension ToastQueue {
 
     func shouldStartProcessing() -> Bool {
-        return (state == .Idle && queue.count > 0)
+        return (state == .idle && queue.count > 0)
     }
 
     func processFirstToastIfNeeded() {
 
         if shouldStartProcessing(), let toast = queue.first {
-            state = .Processing
+            state = .processing
             toast.show(in: presenter)
         }
     }
@@ -100,6 +100,6 @@ private extension ToastQueue {
     func dequeueFirstToast() {
         let first = queue.removeFirst()
         first.queue = nil
-        state = .Idle
+        state = .idle
     }
 }

@@ -24,9 +24,9 @@ struct ToastPresentation {
 extension ToastPresentation {
 
     static func defaultPresentation() -> ToastPresentation {
-        let style = ToastStyle.Plain
-        let position = ToastPosition.Center
-        let size = ToastSize.Relative(xRatio: 0.9, yRatio: 0.1)
+        let style = ToastStyle.plain
+        let position = ToastPosition.center
+        let size = ToastSize.relative(xRatio: 0.9, yRatio: 0.1)
 
         return ToastPresentation(style: style,
                                  position: position,

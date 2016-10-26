@@ -9,11 +9,11 @@
 import Foundation
 
 enum AnimatableViewState {
-    case New
-    case Showing
-    case DidShow
-    case Hiding
-    case DidHide
+    case new
+    case showing
+    case didShow
+    case hiding
+    case didHide
 }
 
 protocol AnimatableViewDelegate: class {
@@ -45,26 +45,26 @@ protocol AnimatableView {
 extension AnimatableView {
 
     mutating func show() {
-        state = .Showing
+        state = .showing
         delegate?.willShow()
         queueShowAnimations()
-        showAnimationsQueue.process()
+        _ = showAnimationsQueue.process()
     }
 
     mutating func didShow() {
-        state = .DidShow
+        state = .didShow
         delegate?.didShow()
     }
 
     mutating func hide() {
-        state = .Hiding
+        state = .hiding
         delegate?.willHide()
         queueHideAnimations()
-        hideAnimationsQueue.process()
+        _ = hideAnimationsQueue.process()
     }
 
     mutating func didHide() {
-        state = .DidHide
+        state = .didHide
         delegate?.didHide()
     }
 }
@@ -73,13 +73,13 @@ private extension AnimatableView {
 
     func queueShowAnimations() {
         showAnimations.forEach {
-            showAnimationsQueue.queue($0)
+            showAnimationsQueue.queue(task: $0)
         }
     }
 
     func queueHideAnimations() {
         hideAnimations.forEach {
-            hideAnimationsQueue.queue($0)
+            hideAnimationsQueue.queue(task: $0)
         }
     }
 

@@ -26,10 +26,10 @@ import Foundation
  */
 
 internal enum ViewAnimationTaskQueueState {
-    case New
-    case Processing
-    case Idle
-    case Finished
+    case new
+    case processing
+    case idle
+    case finished
 }
 
 /**
@@ -41,7 +41,7 @@ internal protocol ViewAnimationTaskQueueDelegate: class {
     /**
      Called when a `ViewAnimationTaskQueue` finished processing all queued tasks
      */
-    func queueDidFinishProcessing(queue: ViewAnimationTaskQueue)
+    func queueDidFinishProcessing(_ queue: ViewAnimationTaskQueue)
 }
 
 /**
@@ -59,23 +59,23 @@ internal protocol ViewAnimationTaskQueueDelegate: class {
  */
 internal class ViewAnimationTaskQueue {
 
-    private var queue = [ViewAnimationTask]()
+    fileprivate var queue = [ViewAnimationTask]()
 
-    private (set) var state: ViewAnimationTaskQueueState = .New {
+    fileprivate (set) var state: ViewAnimationTaskQueueState = .new {
 
         willSet {
 
             switch (state, newValue) {
-            case (.New, .Processing),
-                 (.Idle, .Processing),
-                 (.Processing, .Idle),
-                 (.Idle, .Finished),
-                 (.New, .Finished):
+            case (.new, .processing),
+                 (.idle, .processing),
+                 (.processing, .idle),
+                 (.idle, .finished),
+                 (.new, .finished):
                 break
-            case (.New, _),
-                 (.Idle, _),
-                 (.Processing, _),
-                 (.Finished, _):
+            case (.new, _),
+                 (.idle, _),
+                 (.processing, _),
+                 (.finished, _):
                 let message = "Invalid state transition \(state) -> \(newValue)"
                 assertionFailure(message)
             }
@@ -84,9 +84,9 @@ internal class ViewAnimationTaskQueue {
         didSet {
 
             switch state {
-            case .Finished:
+            case .finished:
                 delegate?.queueDidFinishProcessing(self)
-            case .New, .Processing, .Idle:
+            case .new, .processing, .idle:
                 break
             }
         }
@@ -98,9 +98,9 @@ internal class ViewAnimationTaskQueue {
 
     weak var delegate: ViewAnimationTaskQueueDelegate?
 
-    func queue(animationTask: ViewAnimationTask) {
-        animationTask.queue = self
-        queue.append(animationTask)
+    func queue(task: ViewAnimationTask) {
+        task.queue = self
+        queue.append(task)
     }
 
     func process() -> Bool {
@@ -120,33 +120,33 @@ internal class ViewAnimationTaskQueue {
 private extension ViewAnimationTaskQueue {
 
     func canStart() -> Bool {
-        return state == .New
+        return state == .new
     }
 
     func canProcess() -> Bool {
-        return queue.count > 0 && (state == .New || state == .Idle)
+        return queue.count > 0 && (state == .new || state == .idle)
     }
 
     func didFinish() -> Bool {
-        return queue.count == 0 && (state == .New || state == .Idle)
+        return queue.count == 0 && (state == .new || state == .idle)
     }
 
     func processFirstAnimationIfNeeded() {
 
         if canProcess(), let viewAnimationTask = queue.first {
-            state = .Processing
+            state = .processing
             viewAnimationTask.animate()
         } else if didFinish() {
-            state = .Finished
+            state = .finished
         }
     }
 
-    func dequeueFirstAnimation(task: ViewAnimationTask) {
+    func dequeueFirstAnimation(_ task: ViewAnimationTask) {
 
-        if let _task = queue.first where _task === task {
+        if let _task = queue.first , _task === task {
             let dequeueTask = queue.removeFirst()
             dequeueTask.queue = nil
-            state = .Idle
+            state = .idle
         } else {
             assertionFailure("Trying to dequeue unrecognized task \(task)")
         }

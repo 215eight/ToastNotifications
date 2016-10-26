@@ -15,7 +15,7 @@ class ContentElementConverterTests: XCTestCase {
 
         let text = ContentElement(text: "ConvertText")
 
-        let view = convert(text)
+        let view = convert(element: text)
         XCTAssertTrue(view is UILabel)
         XCTAssertEqual(view.frame, CGRect.zero)
     }
@@ -24,7 +24,7 @@ class ContentElementConverterTests: XCTestCase {
 
         let image = ContentElement(imageName: "ConvertImage")
 
-        let view = convert(image)
+        let view = convert(element: image)
         XCTAssertTrue(view is UIImageView)
         XCTAssertEqual(view.frame, CGRect.zero)
     }

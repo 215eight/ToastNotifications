@@ -13,7 +13,7 @@ class MockViewAnimationTaskQueue: ViewAnimationTaskQueue {
     var animationDidFinishHandler: (() -> Void)?
 
     override func animationDidFinish(task: ViewAnimationTask) {
-        super.animationDidFinish(task)
+        super.animationDidFinish(task: task)
         animationDidFinishHandler?()
     }
 }
@@ -23,7 +23,7 @@ class ViewAnimationTaskTests: XCTestCase {
 
     func testViewAnimationTaskNotifiesAnimationFinished() {
 
-        let expectation = expectationWithDescription(#function)
+        let expectation = self.expectation(description: #function)
 
         let fakeQueue = MockViewAnimationTaskQueue()
         fakeQueue.animationDidFinishHandler = {
@@ -31,10 +31,10 @@ class ViewAnimationTaskTests: XCTestCase {
         }
 
         let task = ViewAnimationTask(view: UIView(), animation: ViewAnimation())
-        fakeQueue.queue(task)
-        fakeQueue.process()
+        fakeQueue.queue(task: task)
+        _ = fakeQueue.process()
 
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
 
     }
 

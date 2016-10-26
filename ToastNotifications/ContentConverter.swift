@@ -11,7 +11,7 @@ import UIKit
 
 typealias UIElements = (subviews: [UIView], constraints: [NSLayoutConstraint])
 
-func convert(content content: Content) -> UIView {
+func convert(content: Content) -> UIView {
     let subContentOrigin = ContentPoint(x: 0, y: 0)
     let container = UIView()
     let (subViews, constraints) = convert(content: content,
@@ -24,7 +24,7 @@ func convert(content content: Content) -> UIView {
     }
 
     container.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activateConstraints(constraints)
+    NSLayoutConstraint.activate(constraints)
 
     return container
 }
@@ -33,14 +33,14 @@ func convert(content content: Content) -> UIView {
  Converts content to a collection of UI elements contained by the
  specified container view
  */
-func convert(content content: Content,
+func convert(content: Content,
              subContent: Content,
              subContentOrigin: ContentPoint,
              container: UIView) -> UIElements {
 
     switch subContent {
-    case .Element(_, let element):
-        let subview = convert(element)
+    case .element(_, let element):
+        let subview = convert(element: element)
         let constraints = subContentConstraints(content: content,
                                                  subContent: subContent,
                                                  subContentOrigin: subContentOrigin,
@@ -48,7 +48,7 @@ func convert(content content: Content,
                                                  subview: subview)
         return ([subview], constraints)
 
-    case .Beside(let leftContent, let rightContent):
+    case .beside(let leftContent, let rightContent):
         let leftContentOrigin = subContentOrigin
         let leftContentUIElements = convert(content: content,
                                             subContent: leftContent,
@@ -66,7 +66,7 @@ func convert(content content: Content,
         let constraints = UIElements.flatMap { $0.constraints }
         return (subviews, constraints)
         
-    case .Stack(let topContent, let bottomContent):
+    case .stack(let topContent, let bottomContent):
 
         let topContentOrigin = subContentOrigin
         let topContentUIElements = convert(content: content,
@@ -87,7 +87,7 @@ func convert(content content: Content,
     }
 }
 
-func subContentConstraints(content content: Content,
+func subContentConstraints(content: Content,
                            subContent: Content,
                            subContentOrigin: ContentPoint,
                            container: UIView,
@@ -99,34 +99,34 @@ func subContentConstraints(content content: Content,
     let center = subContentOrigin + ratio
 
     let widthConstraint = NSLayoutConstraint(item: subview,
-                                             attribute: .Width,
-                                             relatedBy: .Equal,
+                                             attribute: .width,
+                                             relatedBy: .equal,
                                              toItem: container,
-                                             attribute: .Width,
+                                             attribute: .width,
                                              multiplier: CGFloat(ratio.width),
                                              constant: 0)
 
     let heightConstraint = NSLayoutConstraint(item: subview,
-                                              attribute: .Height,
-                                              relatedBy: .Equal,
+                                              attribute: .height,
+                                              relatedBy: .equal,
                                               toItem: container,
-                                              attribute: .Height,
+                                              attribute: .height,
                                               multiplier: CGFloat(ratio.height),
                                               constant: 0)
 
     let centerXConstraint = NSLayoutConstraint(item: subview,
-                                               attribute: .CenterX,
-                                               relatedBy: .Equal,
+                                               attribute: .centerX,
+                                               relatedBy: .equal,
                                                toItem: container,
-                                               attribute: .CenterX,
+                                               attribute: .centerX,
                                                multiplier: center.x == 0 ? 1 : CGFloat(center.x),
                                                constant: 0)
 
     let centerYConstraint = NSLayoutConstraint(item: subview,
-                                               attribute: .CenterY,
-                                               relatedBy: .Equal,
+                                               attribute: .centerY,
+                                               relatedBy: .equal,
                                                toItem: container,
-                                               attribute: .CenterY,
+                                               attribute: .centerY,
                                                multiplier: center.y == 0 ? 1 : CGFloat(center.y),
                                                constant: 0)
     return [widthConstraint,

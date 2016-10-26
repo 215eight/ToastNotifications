@@ -10,21 +10,21 @@ import Foundation
 import UIKit
 
 enum ToastStyle {
-    case Plain
-    case RoundedRect
+    case plain
+    case roundedRect
 
     func styleConfigurator() -> (UIView) -> Void {
         switch self {
-        case .Plain:
+        case .plain:
             return { (view) in
                 print("Plain Style - Nothing Yet")
-                view.backgroundColor = UIColor.orangeColor()
+                view.backgroundColor = UIColor.orange
             }
-        case .RoundedRect:
+        case .roundedRect:
             return { (view) in
                 view.layer.cornerRadius = 10
                 view.clipsToBounds = true
-                view.backgroundColor = UIColor.lightGrayColor()
+                view.backgroundColor = UIColor.lightGray
             }
         }
     }

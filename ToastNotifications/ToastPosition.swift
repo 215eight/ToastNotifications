@@ -9,9 +9,9 @@
 import UIKit
 
 enum ToastPosition {
-    case Top
-    case Bottom
-    case Center
+    case top
+    case bottom
+    case center
 
     func positionConfigurator() -> (UIView) -> Void {
 
@@ -22,10 +22,10 @@ enum ToastPosition {
             }
 
             let centerX = NSLayoutConstraint(item: view,
-                                             attribute: .CenterX,
-                                             relatedBy: .Equal,
+                                             attribute: .centerX,
+                                             relatedBy: .equal,
                                              toItem: superView,
-                                             attribute: .CenterX,
+                                             attribute: .centerX,
                                              multiplier: 1.0,
                                              constant: 0)
 
@@ -33,23 +33,23 @@ enum ToastPosition {
             let multiplier: CGFloat
 
             switch self {
-            case .Top:
+            case .top:
                 multiplier = -0.5
-            case .Center:
+            case .center:
                 multiplier = 1.0
-            case .Bottom:
+            case .bottom:
                 multiplier = 1.5
             }
 
             let centerY = NSLayoutConstraint(item: view,
-                                             attribute: .CenterY,
-                                             relatedBy: .Equal,
+                                             attribute: .centerY,
+                                             relatedBy: .equal,
                                              toItem: superView,
-                                             attribute: .CenterY,
+                                             attribute: .centerY,
                                              multiplier: multiplier,
                                              constant: 0)
 
-            NSLayoutConstraint.activateConstraints([centerX, centerY])
+            NSLayoutConstraint.activate([centerX, centerY])
 
         }
     }

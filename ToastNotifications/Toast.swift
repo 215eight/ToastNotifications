@@ -32,7 +32,7 @@ class Toast {
     let animation: ToastAnimation
 
     weak var queue: ToastQueue?
-    private weak var presenter: ToastPresenter?
+    fileprivate weak var presenter: ToastPresenter?
 
     convenience init(text: String)  {
         let content = Content(text: text)
@@ -52,11 +52,11 @@ class Toast {
 
     func show(in presenter: ToastPresenter) {
         self.presenter = presenter
-        presenter.show(self)
+        presenter.show(toast: self)
     }
 
     func hide() {
-        presenter?.hide(self)
+        presenter?.hide(toast: self)
     }
 }
 

@@ -20,8 +20,8 @@ typealias AnimationState = (UIView) -> Void
  */
 internal struct ViewAnimation {
 
-    let duration: NSTimeInterval
-    let delay: NSTimeInterval
+    let duration: TimeInterval
+    let delay: TimeInterval
     let options: UIViewAnimationOptions
     let initialState: AnimationState
     let finalState: AnimationState
@@ -29,16 +29,16 @@ internal struct ViewAnimation {
     init() {
         self.init(duration: 0,
                   delay: 0,
-                  options: .LayoutSubviews,
+                  options: .layoutSubviews,
                   initialState: { (_) in },
                   finalState: { (_) in })
     }
 
-    private init(duration: NSTimeInterval,
-                 delay: NSTimeInterval,
+    fileprivate init(duration: TimeInterval,
+                 delay: TimeInterval,
                  options: UIViewAnimationOptions,
-                 initialState: AnimationState,
-                 finalState: AnimationState) {
+                 initialState: @escaping AnimationState,
+                 finalState: @escaping AnimationState) {
         self.duration = duration
         self.delay = delay
         self.options = options
@@ -46,7 +46,7 @@ internal struct ViewAnimation {
         self.finalState = finalState
     }
 
-    func duration(duration: NSTimeInterval) -> ViewAnimation{
+    func duration(_ duration: TimeInterval) -> ViewAnimation{
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
@@ -54,7 +54,7 @@ internal struct ViewAnimation {
                               finalState: finalState)
     }
 
-    func delay(delay: NSTimeInterval) -> ViewAnimation {
+    func delay(_ delay: TimeInterval) -> ViewAnimation {
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
@@ -62,7 +62,7 @@ internal struct ViewAnimation {
                               finalState: finalState)
     }
 
-    func options(options: UIViewAnimationOptions) -> ViewAnimation {
+    func options(_ options: UIViewAnimationOptions) -> ViewAnimation {
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
@@ -70,7 +70,7 @@ internal struct ViewAnimation {
                               finalState: finalState)
     }
 
-    func initialState(initialState: AnimationState) -> ViewAnimation {
+    func initialState(_ initialState: @escaping AnimationState) -> ViewAnimation {
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,
@@ -78,7 +78,7 @@ internal struct ViewAnimation {
                               finalState: finalState)
     }
 
-    func finalState(finalState: AnimationState) -> ViewAnimation {
+    func finalState(_ finalState: @escaping AnimationState) -> ViewAnimation {
         return ViewAnimation(duration: duration,
                               delay: delay,
                               options: options,

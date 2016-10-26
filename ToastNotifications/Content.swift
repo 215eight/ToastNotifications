@@ -21,16 +21,16 @@ import Foundation
  */
 indirect enum Content {
 
-    case Element(ContentSize, ContentElement)
-    case Beside(Content, Content)
-    case Stack(Content, Content)
+    case element(ContentSize, ContentElement)
+    case beside(Content, Content)
+    case stack(Content, Content)
 
     /**
      Creates a text content element of size 1x1
      */
     init(text: String) {
         let size = ContentSize(width: 1, height: 1)
-        self = .Element(size, ContentElement(text: text))
+        self = .element(size, ContentElement(text: text))
     }
 
     /**
@@ -38,11 +38,11 @@ indirect enum Content {
      */
     init(imageName: String) {
         let size = ContentSize(width: 1, height: 1)
-        self = .Element(size, .Image(imageName))
+        self = .element(size, .image(imageName))
     }
 
     init(size: ContentSize, element: ContentElement) {
-        self = .Element(size, element)
+        self = .element(size, element)
     }
 
     /**
@@ -50,16 +50,16 @@ indirect enum Content {
      */
     var size: ContentSize {
         switch self {
-        case .Element(let size, _):
+        case .element(let size, _):
             return size
 
-        case .Beside(let lhs, let rhs):
+        case .beside(let lhs, let rhs):
             let width = lhs.size.width + rhs.size.width
             let height = max(lhs.size.height, rhs.size.height)
             let size = ContentSize(width: width, height: height)
             return size
 
-        case .Stack(let lhs, let rhs):
+        case .stack(let lhs, let rhs):
             let width = max(lhs.size.width, rhs.size.width)
             let height = lhs.size.height + rhs.size.height
             let size = ContentSize(width: width, height: height)
@@ -74,21 +74,21 @@ func ==(lhs: Content, rhs: Content) -> Bool {
 
     switch (lhs, rhs) {
 
-    case (.Element(let lhsSize, let lhsElement),
-          .Element(let rhsSize, let rhsElement)):
+    case (.element(let lhsSize, let lhsElement),
+          .element(let rhsSize, let rhsElement)):
         return lhsSize == rhsSize && lhsElement == rhsElement
 
-    case (.Beside(let lhsLeft, let lhsRight),
-          .Beside(let rhsLeft, let rhsRight)):
+    case (.beside(let lhsLeft, let lhsRight),
+          .beside(let rhsLeft, let rhsRight)):
         return lhsLeft == rhsLeft && lhsRight == rhsRight
 
-    case (.Stack(let lhsLeft, let lhsRight),
-        .Stack(let rhsLeft, let rhsRight)):
+    case (.stack(let lhsLeft, let lhsRight),
+        .stack(let rhsLeft, let rhsRight)):
         return lhsLeft == rhsLeft && lhsRight == rhsRight
 
-    case (.Element(_,_), _),
-         (.Beside(_,_), _),
-         (.Stack(_,_), _):
+    case (.element(_,_), _),
+         (.beside(_,_), _),
+         (.stack(_,_), _):
         return false
     }
 }
@@ -96,18 +96,18 @@ func ==(lhs: Content, rhs: Content) -> Bool {
 /**
  Returns a new `Content` with the content of lhs and rhs beside each other
  */
-infix operator ||| { associativity left }
+infix operator ||| : AdditionPrecedence
 
 func |||(lhs: Content, rhs: Content) -> Content {
-    return Content.Beside(lhs, rhs)
+    return Content.beside(lhs, rhs)
 }
 
 /**
  Returns a new `Content` with the content of top and bottom stack against
  each other
  */
-infix operator --- { associativity left }
+infix operator --- : AdditionPrecedence
 
 func ---(top: Content, bottom: Content) -> Content {
-    return Content.Stack(top, bottom)
+    return Content.stack(top, bottom)
 }

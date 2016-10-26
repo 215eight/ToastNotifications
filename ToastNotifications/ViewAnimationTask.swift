@@ -18,9 +18,9 @@ import UIKit
  + Finished: View animation task finished
  */
 internal enum ViewAnimationTaskState {
-    case Ready
-    case Animating
-    case Finished
+    case ready
+    case animating
+    case finished
 }
 
 /**
@@ -39,32 +39,32 @@ internal enum ViewAnimationTaskState {
  */
 internal class ViewAnimationTask {
 
-    private let view: UIView
-    private let animation: ViewAnimation
+    fileprivate let view: UIView
+    fileprivate let animation: ViewAnimation
 
     weak var queue: ViewAnimationTaskQueue?
 
     // TODO: Make this a private (set)
     // Make this a protocol and just make
-    var state: ViewAnimationTaskState = .Ready {
+    var state: ViewAnimationTaskState = .ready {
         willSet {
             switch (state, newValue) {
 
-            case (.Ready, .Animating),
-                 (.Animating, .Finished):
+            case (.ready, .animating),
+                 (.animating, .finished):
                 break
-            case (.Ready, _),
-                 (.Animating, _),
-                 (.Finished, _):
+            case (.ready, _),
+                 (.animating, _),
+                 (.finished, _):
                 assertionFailure("Invalid state transition \(state) -> \(newValue)")
             }
         }
 
         didSet {
             switch state {
-            case .Finished:
-                queue?.animationDidFinish(self)
-            case .Ready, .Animating:
+            case .finished:
+                queue?.animationDidFinish(task: self)
+            case .ready, .animating:
                 break
             }
         }
@@ -77,19 +77,19 @@ internal class ViewAnimationTask {
 
     func animate() {
 
-        dispatch_async(dispatch_get_main_queue()) {
-            self.state = .Animating
+        DispatchQueue.main.async {
+            self.state = .animating
 
-            self.view.hidden = false
+            self.view.isHidden = false
             self.animation.initialState(self.view)
             
-            UIView.animateWithDuration(self.animation.duration,
+            UIView.animate(withDuration: self.animation.duration,
                                        delay: self.animation.delay,
                                        options: self.animation.options,
                                        animations: { 
                                             self.animation.finalState(self.view)
                                        }) { (_) in
-                                            self.state = .Finished
+                                            self.state = .finished
                                        }
         }
     }

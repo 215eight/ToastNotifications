@@ -9,8 +9,8 @@
 import UIKit
 
 enum ToastSize {
-    case Absolute(width: CGFloat, height: CGFloat)
-    case Relative(xRatio: CGFloat, yRatio: CGFloat)
+    case absolute(width: CGFloat, height: CGFloat)
+    case relative(xRatio: CGFloat, yRatio: CGFloat)
 
     func sizeConfigurator() -> (UIView) -> Void {
         return { (view) in
@@ -22,62 +22,62 @@ enum ToastSize {
 
             let constraints: [NSLayoutConstraint]
             switch self {
-            case .Absolute(let width, let height):
+            case .absolute(let width, let height):
                 constraints = self.absoluteConstraints(view: view,
                                                        width: width,
                                                        height: height)
-            case .Relative(let xRatio, let yRatio):
+            case .relative(let xRatio, let yRatio):
                 constraints = self.relativeConstraints(view: view,
                                                        superView: superView,
                                                        xRatio: xRatio,
                                                        yRatio: yRatio)
             }
 
-            NSLayoutConstraint.activateConstraints(constraints)
+            NSLayoutConstraint.activate(constraints)
         }
     }
 }
 
 private extension ToastSize {
 
-    func absoluteConstraints(view view: UIView,
+    func absoluteConstraints(view: UIView,
                                   width: CGFloat,
                                   height: CGFloat) -> [NSLayoutConstraint] {
         let width = NSLayoutConstraint(item: view,
-                                       attribute: .Width,
-                                       relatedBy: .Equal,
+                                       attribute: .width,
+                                       relatedBy: .equal,
                                        toItem: nil,
-                                       attribute: .NotAnAttribute,
+                                       attribute: .notAnAttribute,
                                        multiplier: 0,
                                        constant: width)
 
         let height = NSLayoutConstraint(item: view,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
+                                        attribute: .height,
+                                        relatedBy: .equal,
                                         toItem: nil,
-                                        attribute: .NotAnAttribute,
+                                        attribute: .notAnAttribute,
                                         multiplier: 0,
                                         constant: height)
         return [width, height]
     }
 
-    func relativeConstraints(view view: UIView,
+    func relativeConstraints(view: UIView,
                                   superView: UIView,
                                   xRatio: CGFloat,
                                   yRatio: CGFloat) -> [NSLayoutConstraint] {
         let width = NSLayoutConstraint(item: view,
-                                       attribute: .Width,
-                                       relatedBy: .Equal,
+                                       attribute: .width,
+                                       relatedBy: .equal,
                                        toItem: superView,
-                                       attribute: .Width,
+                                       attribute: .width,
                                        multiplier: xRatio,
                                        constant: 0)
 
         let height = NSLayoutConstraint(item: view,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
+                                        attribute: .height,
+                                        relatedBy: .equal,
                                         toItem: superView,
-                                        attribute: .Height,
+                                        attribute: .height,
                                         multiplier: yRatio,
                                         constant: 0)
         return [width, height]

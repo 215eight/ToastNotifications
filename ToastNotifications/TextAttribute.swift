@@ -13,11 +13,11 @@ import UIKit
  List attributes for a text toast element
  */
 indirect enum TextAttribute {
-    case Font(UIFont)
-    case Alignment(NSTextAlignment)
-    case ForegroundColor(UIColor)
-    case BackgroundColor(UIColor)
-    case Compose(TextAttribute, TextAttribute)
+    case font(UIFont)
+    case alignment(NSTextAlignment)
+    case foregroundColor(UIColor)
+    case backgroundColor(UIColor)
+    case compose(TextAttribute, TextAttribute)
 
     init(fontName: String, size: CGFloat) {
 
@@ -26,33 +26,33 @@ indirect enum TextAttribute {
         if let _font = UIFont(name: fontName, size: size) {
             font = _font
         } else {
-            font = UIFont.systemFontOfSize(size)
+            font = UIFont.systemFont(ofSize: size)
         }
 
-        self = .Font(font)
+        self = .font(font)
     }
 
     init(alignment: NSTextAlignment) {
-        self = .Alignment(alignment)
+        self = .alignment(alignment)
     }
 
     init(color: UIColor) {
-        self = .ForegroundColor(color)
+        self = .foregroundColor(color)
     }
 
     init(backgroundColor: UIColor) {
-        self = .BackgroundColor(backgroundColor)
+        self = .backgroundColor(backgroundColor)
     }
 
-    func map(@noescape f: () -> TextAttribute) -> TextAttribute {
-        return .Compose(self, f())
+    func map(_ f: () -> TextAttribute) -> TextAttribute {
+        return .compose(self, f())
     }
 
     init() {
-       self = TextAttribute.Font(UIFont.systemFontOfSize(16))
-                           .map { .Alignment(.Center) }
-                           .map { .ForegroundColor(UIColor.blackColor()) }
-                           .map { .BackgroundColor(UIColor.clearColor()) }
+       self = TextAttribute.font(UIFont.systemFont(ofSize: 16))
+                           .map { .alignment(.center) }
+                           .map { .foregroundColor(UIColor.black) }
+                           .map { .backgroundColor(UIColor.clear) }
     }
 }
 
@@ -61,21 +61,21 @@ extension TextAttribute: Equatable { }
 func == (lhs: TextAttribute, rhs: TextAttribute) -> Bool {
 
     switch (lhs, rhs) {
-    case (.Font(let lhsFont), .Font(let rhsFont)):
+    case (.font(let lhsFont), .font(let rhsFont)):
         return lhsFont == rhsFont
-    case (.Alignment(let lhsAlignment), .Alignment(let rhsAlignment)):
+    case (.alignment(let lhsAlignment), .alignment(let rhsAlignment)):
         return lhsAlignment == rhsAlignment
-    case (.ForegroundColor(let lhsColor), .ForegroundColor(let rhsColor)):
+    case (.foregroundColor(let lhsColor), .foregroundColor(let rhsColor)):
         return lhsColor == rhsColor
-    case (.BackgroundColor(let lhsColor), .BackgroundColor(let rhsColor)):
+    case (.backgroundColor(let lhsColor), .backgroundColor(let rhsColor)):
         return lhsColor == rhsColor
-    case (.Compose(let lhsAttrribute), .Compose(let rhsAttribute)):
+    case (.compose(let lhsAttrribute), .compose(let rhsAttribute)):
         return lhsAttrribute == rhsAttribute
-    case (.Font(_), _),
-         (.Alignment(_), _),
-         (.ForegroundColor(_), _),
-         (.BackgroundColor(_), _),
-         (.Compose(_, _), _):
+    case (.font(_), _),
+         (.alignment(_), _),
+         (.foregroundColor(_), _),
+         (.backgroundColor(_), _),
+         (.compose(_, _), _):
         return false
     }
 }

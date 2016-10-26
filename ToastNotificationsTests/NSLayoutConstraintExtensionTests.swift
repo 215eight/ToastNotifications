@@ -19,18 +19,18 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
     func testEqualConstraints() {
 
         let constraint1 = NSLayoutConstraint(item: view1,
-                                           attribute: .Width,
-                                           relatedBy: .Equal,
+                                           attribute: .width,
+                                           relatedBy: .equal,
                                            toItem: view2,
-                                           attribute: .Width,
+                                           attribute: .width,
                                            multiplier: 1,
                                            constant: 0)
 
         let constraint2 = NSLayoutConstraint(item: view1,
-                                            attribute: .Width,
-                                            relatedBy: .Equal,
+                                            attribute: .width,
+                                            relatedBy: .equal,
                                             toItem: view2,
-                                            attribute: .Width,
+                                            attribute: .width,
                                             multiplier: 1,
                                             constant: 0)
 
@@ -40,18 +40,18 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
     func testNonEqualItemConstraints() {
 
         let constraint1 = NSLayoutConstraint(item: view1,
-                                           attribute: .Width,
-                                           relatedBy: .Equal,
+                                           attribute: .width,
+                                           relatedBy: .equal,
                                            toItem: view2,
-                                           attribute: .Width,
+                                           attribute: .width,
                                            multiplier: 1,
                                            constant: 0)
 
         let constraint2 = NSLayoutConstraint(item: view3,
-                                            attribute: .Width,
-                                            relatedBy: .Equal,
+                                            attribute: .width,
+                                            relatedBy: .equal,
                                             toItem: view2,
-                                            attribute: .Width,
+                                            attribute: .width,
                                             multiplier: 1,
                                             constant: 0)
 
@@ -61,18 +61,18 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
     func testNonEqualAttributeConstraints() {
 
         let constraint1 = NSLayoutConstraint(item: view1,
-                                           attribute: .Height,
-                                           relatedBy: .Equal,
+                                           attribute: .height,
+                                           relatedBy: .equal,
                                            toItem: view2,
-                                           attribute: .Width,
+                                           attribute: .width,
                                            multiplier: 1,
                                            constant: 0)
 
         let constraint2 = NSLayoutConstraint(item: view2,
-                                            attribute: .Width,
-                                            relatedBy: .Equal,
+                                            attribute: .width,
+                                            relatedBy: .equal,
                                             toItem: view2,
-                                            attribute: .Width,
+                                            attribute: .width,
                                             multiplier: 1,
                                             constant: 0)
 
@@ -82,18 +82,18 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
     func testNonEqualRelatedByConstraints() {
 
         let constraint1 = NSLayoutConstraint(item: view1,
-                                           attribute: .Width,
-                                           relatedBy: .GreaterThanOrEqual,
+                                           attribute: .width,
+                                           relatedBy: .greaterThanOrEqual,
                                            toItem: view2,
-                                           attribute: .Width,
+                                           attribute: .width,
                                            multiplier: 1,
                                            constant: 0)
 
         let constraint2 = NSLayoutConstraint(item: view2,
-                                            attribute: .Width,
-                                            relatedBy: .Equal,
+                                            attribute: .width,
+                                            relatedBy: .equal,
                                             toItem: view2,
-                                            attribute: .Width,
+                                            attribute: .width,
                                             multiplier: 1,
                                             constant: 0)
 
@@ -103,18 +103,18 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
     func testNonEqualMultiplyConstraints() {
 
         let constraint1 = NSLayoutConstraint(item: view1,
-                                           attribute: .Width,
-                                           relatedBy: .Equal,
+                                           attribute: .width,
+                                           relatedBy: .equal,
                                            toItem: view2,
-                                           attribute: .Width,
+                                           attribute: .width,
                                            multiplier: 1.5,
                                            constant: 0)
 
         let constraint2 = NSLayoutConstraint(item: view2,
-                                            attribute: .Width,
-                                            relatedBy: .Equal,
+                                            attribute: .width,
+                                            relatedBy: .equal,
                                             toItem: view2,
-                                            attribute: .Width,
+                                            attribute: .width,
                                             multiplier: 1,
                                             constant: 0)
 
@@ -124,18 +124,18 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
     func testNonEqualConstantConstraints() {
 
         let constraint1 = NSLayoutConstraint(item: view1,
-                                           attribute: .Width,
-                                           relatedBy: .Equal,
+                                           attribute: .width,
+                                           relatedBy: .equal,
                                            toItem: view2,
-                                           attribute: .Width,
+                                           attribute: .width,
                                            multiplier: 1,
                                            constant: 10)
 
         let constraint2 = NSLayoutConstraint(item: view2,
-                                            attribute: .Width,
-                                            relatedBy: .Equal,
+                                            attribute: .width,
+                                            relatedBy: .equal,
                                             toItem: view2,
-                                            attribute: .Width,
+                                            attribute: .width,
                                             multiplier: 1,
                                             constant: 0)
 
@@ -145,26 +145,26 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
     func testFindEqualConstraintInArray() {
 
         let expectedConstraint = NSLayoutConstraint(item: view1,
-                                                    attribute: .Width,
-                                                    relatedBy: .Equal,
+                                                    attribute: .width,
+                                                    relatedBy: .equal,
                                                     toItem: view2,
-                                                    attribute: .Width,
+                                                    attribute: .width,
                                                     multiplier: 1,
                                                     constant: 0)
 
         let constraint1 = NSLayoutConstraint(item: view1,
-                                             attribute: .Width,
-                                             relatedBy: .Equal,
+                                             attribute: .width,
+                                             relatedBy: .equal,
                                              toItem: view2,
-                                             attribute: .Width,
+                                             attribute: .width,
                                              multiplier: 1,
                                              constant: 0)
 
         let constraint2 = NSLayoutConstraint(item: view1,
-                                             attribute: .Bottom,
-                                             relatedBy: .Equal,
+                                             attribute: .bottom,
+                                             relatedBy: .equal,
                                              toItem: view3,
-                                             attribute: .Top,
+                                             attribute: .top,
                                              multiplier: 1,
                                              constant: 0)
 

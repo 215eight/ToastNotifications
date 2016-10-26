@@ -14,7 +14,7 @@ class ContentTests: XCTestCase {
     func testTextContent() {
 
         let size = ContentSize(width: 1, height: 1)
-        let expected = Content.Element(size,
+        let expected = Content.element(size,
                                             ContentElement(text: "Test"))
         let toast = Content(text: "Test")
 
@@ -25,7 +25,7 @@ class ContentTests: XCTestCase {
     func testImageContent() {
 
         let size = ContentSize(width: 1, height: 1)
-        let expected = Content.Element(size, .Image("icon"))
+        let expected = Content.element(size, .image("icon"))
         let toast = Content(imageName: "icon")
 
         XCTAssertEqual(expected, toast)
@@ -37,28 +37,28 @@ class ContentTests: XCTestCase {
         let leftToast = Content(text: "Testy")
         let rightToast = Content(text: "Toasty")
 
-        let besideToasts = Content.Beside(leftToast, rightToast)
+        let besideToasts = Content.beside(leftToast, rightToast)
 
         XCTAssertEqual(besideToasts.size, ContentSize(width: 2, height: 1))
     }
 
     func testBesideElementsWithCustomSize() {
 
-        let leftToast = Content.Element(ContentSize(width: 2, height: 1),
+        let leftToast = Content.element(ContentSize(width: 2, height: 1),
                                              ContentElement(text: "Testy"))
-        let rightToast = Content.Element(ContentSize(width: 2, height: 1),
+        let rightToast = Content.element(ContentSize(width: 2, height: 1),
                                               ContentElement(text: "Testy"))
 
-        let besideToasts = Content.Beside(leftToast, rightToast)
+        let besideToasts = Content.beside(leftToast, rightToast)
 
         XCTAssertEqual(besideToasts.size, ContentSize(width: 4, height: 1))
     }
 
     func testBesideOpertor() {
 
-        let leftToast = Content.Element(ContentSize(width: 2, height: 1),
+        let leftToast = Content.element(ContentSize(width: 2, height: 1),
                                              ContentElement(text: "Testy"))
-        let rightToast = Content.Element(ContentSize(width: 2, height: 1),
+        let rightToast = Content.element(ContentSize(width: 2, height: 1),
                                               ContentElement(text: "Testy"))
 
         let besideToasts = leftToast ||| rightToast

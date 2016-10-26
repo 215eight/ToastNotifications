@@ -11,7 +11,7 @@ import XCTest
 
 class FakeViewAnimationTaskQueue: ViewAnimationTaskQueue {
 
-    override func queue(animationTask: ViewAnimationTask) {
+    override func queue(task: ViewAnimationTask) {
     }
 
     override func process() -> Bool {
@@ -40,25 +40,25 @@ class ToastViewTests: XCTestCase {
 
     func testToastViewInitializedWithNewState() {
         let toastView = ToastView(toast: toast)
-        XCTAssertTrue(toastView.state == .New)
+        XCTAssertTrue(toastView.state == .new)
     }
 
     func testToastViewTranstionNewToShowing() {
         toastView.show()
-        XCTAssertTrue(toastView.state == .Showing)
+        XCTAssertTrue(toastView.state == .showing)
     }
 
     func testToastViewTransitionShowingToShown() {
         toastView.show()
         toastView.didShow()
-        XCTAssertTrue(toastView.state == .DidShow)
+        XCTAssertTrue(toastView.state == .didShow)
     }
 
     func testToastViewTransitionShownToHiding() {
         toastView.show()
         toastView.didShow()
         toastView.hide()
-        XCTAssertTrue(toastView.state == .Hiding)
+        XCTAssertTrue(toastView.state == .hiding)
     }
 
     func testToastViewTransitionHidingToDidHide() {
@@ -66,6 +66,6 @@ class ToastViewTests: XCTestCase {
         toastView.didShow()
         toastView.hide()
         toastView.didHide()
-        XCTAssertTrue(toastView.state == .DidHide)
+        XCTAssertTrue(toastView.state == .didHide)
     }
 }

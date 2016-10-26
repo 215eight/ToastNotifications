@@ -16,19 +16,19 @@ import Foundation
  */
 
 indirect enum ContentElement {
-    case Text(String, TextAttribute)
-    case Image(String)
+    case text(String, TextAttribute)
+    case image(String)
 
     init(text: String) {
-        self = .Text(text, TextAttribute())
+        self = .text(text, TextAttribute())
     }
 
     init(imageName: String) {
-        self = .Image(imageName)
+        self = .image(imageName)
     }
 
     init(text: String , attribute: TextAttribute) {
-        self = .Text(text, attribute)
+        self = .text(text, attribute)
     }
 }
 
@@ -36,12 +36,12 @@ extension ContentElement: Equatable { }
 
 func == (lhs: ContentElement, rhs: ContentElement) -> Bool {
     switch (lhs, rhs) {
-    case (.Text(let lhsText, let lhsAttribute), .Text(let rhsText, let rhsAttribute)):
+    case (.text(let lhsText, let lhsAttribute), .text(let rhsText, let rhsAttribute)):
         return lhsText == rhsText && lhsAttribute == rhsAttribute
-    case (.Image(let lhsName), .Image(let rhsName)):
+    case (.image(let lhsName), .image(let rhsName)):
         return lhsName == rhsName
-    case (.Text(_, _), _),
-         (.Image(_), _):
+    case (.text(_, _), _),
+         (.image(_), _):
         return false
     }
 }

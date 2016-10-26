@@ -22,27 +22,27 @@ func convert(attribute: TextAttribute) -> UITextAttribute {
     return convert(attribute, attributes: UITextAttribute())
 }
 
-private func convert(attribute: TextAttribute, attributes: UITextAttribute) -> UITextAttribute {
+private func convert(_ attribute: TextAttribute, attributes: UITextAttribute) -> UITextAttribute {
 
 
     var newAttributes = attributes
 
     switch attribute {
-    case .Font(let font):
+    case .font(let font):
         newAttributes[NSFontAttributeName] = font
 
-    case .Alignment(let alignment):
+    case .alignment(let alignment):
         let paragraphAlignment = NSMutableParagraphStyle()
         paragraphAlignment.alignment = alignment
         newAttributes[NSParagraphStyleAttributeName]  = paragraphAlignment
 
-    case .ForegroundColor(let color):
+    case .foregroundColor(let color):
         newAttributes[NSForegroundColorAttributeName] = color
 
-    case .BackgroundColor(let color):
+    case .backgroundColor(let color):
         newAttributes[NSBackgroundColorAttributeName] = color
 
-    case .Compose(let lhs, let rhs):
+    case .compose(let lhs, let rhs):
         let lhsAttributes = convert(lhs, attributes: newAttributes)
         let rhsAttributes = convert(rhs, attributes: lhsAttributes)
         newAttributes = rhsAttributes

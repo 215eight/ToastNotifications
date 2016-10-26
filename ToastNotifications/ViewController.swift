@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         return ToastQueue(presenter: self.view)
     }()
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         let firstToast = Toast(text: "First Toast")

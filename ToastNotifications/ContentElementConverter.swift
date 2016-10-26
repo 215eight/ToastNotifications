@@ -16,8 +16,8 @@ func convert(element: ContentElement) -> UIView {
 
     switch element {
 
-    case .Text(let text, let attribute):
-        let attributes = convert(attribute)
+    case .text(let text, let attribute):
+        let attributes = convert(attribute: attribute)
         let attributedText = NSAttributedString(string: text,
                                                 attributes: attributes)
         let label = UILabel(frame: CGRect.zero)
@@ -28,8 +28,8 @@ func convert(element: ContentElement) -> UIView {
         }
         return label
 
-    case .Image(let name):
-        let image = UIImage.nonNullImage(name)
+    case .image(let name):
+        let image = UIImage.nonNullImage(name: name)
         let imageView = UIImageView(frame: CGRect.zero)
         imageView.image = image
         return imageView

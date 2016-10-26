@@ -15,33 +15,33 @@ import UIKit
  */
 class ToastView: UIView {
 
-    private var _state: AnimatableViewState = .New {
+    fileprivate var _state: AnimatableViewState = .new {
         willSet(newState) {
             switch (state, newState) {
-            case (.New, .Showing),
-                 (.Showing, .DidShow),
-                 (.DidShow, .Hiding),
-                 (.Hiding, .DidHide):
+            case (.new, .showing),
+                 (.showing, .didShow),
+                 (.didShow, .hiding),
+                 (.hiding, .didHide):
                 break
-            case (.New, _),
-                 (.Showing, _),
-                 (.DidShow, _),
-                 (.Hiding, _),
-                 (.DidHide, _):
+            case (.new, _),
+                 (.showing, _),
+                 (.didShow, _),
+                 (.hiding, _),
+                 (.didHide, _):
                 let message = "Invalid state transition \(state) -> \(newState)"
                 assertionFailure(message)
             }
         }
     }
-    private weak var _delegate: AnimatableViewDelegate?
+    fileprivate weak var _delegate: AnimatableViewDelegate?
 
-    private let toast: Toast
+    fileprivate let toast: Toast
 
-    private let _showAnimationsQueue: ViewAnimationTaskQueue
-    private let _hideAnimationsQueue: ViewAnimationTaskQueue
+    fileprivate let _showAnimationsQueue: ViewAnimationTaskQueue
+    fileprivate let _hideAnimationsQueue: ViewAnimationTaskQueue
 
-    private var _showAnimations = [ViewAnimationTask]()
-    private var _hideAnimations = [ViewAnimationTask]()
+    fileprivate var _showAnimations = [ViewAnimationTask]()
+    fileprivate var _hideAnimations = [ViewAnimationTask]()
 
     init(toast: Toast,
          showAnimationsQueue: ViewAnimationTaskQueue = ViewAnimationTaskQueue(),
@@ -79,38 +79,38 @@ private extension ToastView {
         translatesAutoresizingMaskIntoConstraints = false
 
         let width = NSLayoutConstraint(item: contentView,
-                           attribute: .Width,
-                           relatedBy: .Equal,
+                           attribute: .width,
+                           relatedBy: .equal,
                            toItem: self,
-                           attribute: .Width,
+                           attribute: .width,
                            multiplier: 1.0,
                            constant: 0)
 
         let height = NSLayoutConstraint(item: contentView,
-                           attribute: .Height,
-                           relatedBy: .Equal,
+                           attribute: .height,
+                           relatedBy: .equal,
                            toItem: self,
-                           attribute: .Height,
+                           attribute: .height,
                            multiplier: 1.0,
                            constant: 0.0)
 
         let centerX = NSLayoutConstraint(item: contentView,
-                           attribute: .CenterX,
-                           relatedBy: .Equal,
+                           attribute: .centerX,
+                           relatedBy: .equal,
                            toItem: self,
-                           attribute: .CenterX,
+                           attribute: .centerX,
                            multiplier: 1.0,
                            constant: 0.0)
 
         let centerY = NSLayoutConstraint(item: contentView,
-                           attribute: .CenterY,
-                           relatedBy: .Equal,
+                           attribute: .centerY,
+                           relatedBy: .equal,
                            toItem: self,
-                           attribute: .CenterY,
+                           attribute: .centerY,
                            multiplier: 1.0,
                            constant: 0.0)
 
-        NSLayoutConstraint.activateConstraints([width,height,centerX,centerY])
+        NSLayoutConstraint.activate([width,height,centerX,centerY])
     }
 
     func buildViewAnimations() {
@@ -131,9 +131,9 @@ private extension ToastView {
     }
 
     func buildStyle(with view: UIView) {
-        hidden = true
+        isHidden = true
         view.addSubview(self)
-        view.bringSubviewToFront(self)
+        view.bringSubview(toFront: self)
         toast.presentation.configure(with: self)
     }
 }
@@ -177,11 +177,11 @@ extension ToastView: AnimatableView {
 
 extension ToastView: ViewAnimationTaskQueueDelegate {
 
-    func queueDidFinishProcessing(queue: ViewAnimationTaskQueue) {
+    func queueDidFinishProcessing(_ queue: ViewAnimationTaskQueue) {
         var mutableSelf = self
         if queue === showAnimationsQueue {
             mutableSelf.didShow()
-            if case .AutoDismiss = toast.animation.style {
+            if case .autoDismiss = toast.animation.style {
                 mutableSelf.hide()
             }
         } else if queue === hideAnimationsQueue {

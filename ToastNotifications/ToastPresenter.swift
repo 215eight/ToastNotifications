@@ -35,14 +35,14 @@ extension UIView: ToastPresenter {
         let toastView = ToastView(toast: toast)
         toastView.configure(with: self)
         toastView.delegate = toast
-        show(toastView)
+        show(view: toastView)
     }
 
     // TODO: Remove the toast param
     func hide(toast: Toast) {
         for subview in subviews {
             if let animatableView = subview as? AnimatableView {
-                hide(animatableView)
+                hide(view: animatableView)
             }
         }
     }

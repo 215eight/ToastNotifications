@@ -34,7 +34,7 @@ internal struct ViewAnimation {
                   finalState: { (_) in })
     }
 
-    fileprivate init(duration: TimeInterval,
+    init(duration: TimeInterval,
                  delay: TimeInterval,
                  options: UIViewAnimationOptions,
                  initialState: @escaping AnimationState,

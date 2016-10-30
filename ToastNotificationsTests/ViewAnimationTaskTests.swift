@@ -77,7 +77,7 @@ class ViewAnimationTaskTests: XCTestCase {
 
         let task = ViewAnimationTask(view: UIView(), animation: ViewAnimation())
         fakeQueue.queue(task: task)
-        _ = fakeQueue.process()
+        fakeQueue.process()
 
         waitForExpectations(timeout: 2.0, handler: nil)
     }

@@ -14,8 +14,8 @@ class FakeViewAnimationTaskQueue: ViewAnimationTaskQueue {
     override func queue(task: ViewAnimationTask) {
     }
 
-    override func process() -> Bool {
-        return true
+    override func process() {
+
     }
 
     override func animationDidFinish(task: ViewAnimationTask) {

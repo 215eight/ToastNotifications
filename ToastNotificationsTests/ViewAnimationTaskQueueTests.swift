@@ -53,7 +53,7 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         queue.queue(task: task1)
         queue.queue(task: task2)
 
-        _ = queue.process()
+        queue.process()
 
         XCTAssertTrue(queue.state == .processing)
         XCTAssertEqual(queue.tasks.count, 2)
@@ -75,16 +75,9 @@ class ViewAnimationTaskQueueTests: XCTestCase {
     func testQueueFinishesImmediatelyWithoutTasks() {
 
         let queue = ViewAnimationTaskQueue()
-        _ = queue.process()
+        queue.process()
 
         XCTAssertTrue(queue.state == .finished)
-    }
-
-    func testQueueOnlyProccessTasksOnce() {
-
-        let queue = ViewAnimationTaskQueue()
-        XCTAssertTrue(queue.process())
-        XCTAssertFalse(queue.process())
     }
 
     func testQueueCancelProcessing() {
@@ -96,7 +89,7 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         queue.queue(task: task1)
         queue.queue(task: task2)
 
-        _ = queue.process()
+        queue.process()
         queue.cancel()
 
         XCTAssertEqual(queue.state, .finished)
@@ -132,7 +125,7 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         queue.queue(task: task1)
         queue.queue(task: task2)
 
-        _ = queue.process()
+        queue.process()
 
         waitForExpectations(timeout: 1.0) { (_) in
 

@@ -18,9 +18,6 @@ import Foundation
  + Processing: Queue started processing tasks. Queueing more tasks is not
  allowed
 
- + Idle: Queue just processed a task. Waiting to process additional
- tasks if exist or to finish execution
-
  + Finished: Queue processed all tasks in the queue.
 
  */
@@ -28,7 +25,6 @@ import Foundation
 internal enum ViewAnimationTaskQueueState {
     case new
     case processing
-    case idle
     case finished
 }
 
@@ -66,52 +62,31 @@ internal class ViewAnimationTaskQueue {
             switch (state, newValue) {
 
             case (.new, .new):
-                break
+                invalidTransition(from: .new, to: .new)
 
             case (.new, .processing):
-                break
-
-            case (.new, .idle):
-                break
+                processTasks()
 
             case (.new, .finished):
-                break
+                cancelAllTasks()
 
             case (.processing, .new):
-                break
+                invalidTransition(from: .processing, to: .new)
 
             case (.processing, .processing):
-                break
-
-            case (.processing, .idle):
-                break
+                invalidTransition(from: .processing, to: .processing)
 
             case (.processing, .finished):
-                break
-
-            case (.idle, .new):
-                break
-
-            case (.idle, .processing):
-                break
-
-            case (.idle, .idle):
-                break
-
-            case (.idle, .finished):
-                break
+                cancelAllTasks()
 
              case (.finished, .new):
-                break
+                invalidTransition(from: .finished, to: .new)
 
             case (.finished, .processing):
-                break
-
-            case (.finished, .idle):
-                break
+                invalidTransition(from: .finished, to: .processing)
 
             case (.finished, .finished):
-                break
+                invalidTransition(from: .processing, to: .processing)
             }
         }
 
@@ -120,7 +95,7 @@ internal class ViewAnimationTaskQueue {
             switch state {
             case .finished:
                 delegate?.queueDidFinishProcessing(self)
-            case .new, .processing, .idle:
+            case .new, .processing:
                 break
             }
         }
@@ -141,50 +116,39 @@ internal class ViewAnimationTaskQueue {
         queue.append(task)
     }
 
-    func process() -> Bool {
-        if canStart() {
-            processFirstAnimationIfNeeded()
-            return true
+    func process() {
+        if queue.isEmpty {
+            state = .finished
+        } else {
+            state = .processing
         }
-        return false
     }
 
     func cancel() {
-        queue.forEach {
-            $0.cancel()
-        }
-        queue.removeAll()
         state = .finished
     }
 
     func animationDidFinish(task: ViewAnimationTask) {
         dequeueFirstAnimation(task)
-        processFirstAnimationIfNeeded()
+        processTasks()
     }
 }
 
 private extension ViewAnimationTaskQueue {
 
-    func canStart() -> Bool {
-        return state == .new
-    }
-
-    func canProcess() -> Bool {
-        return queue.count > 0 && (state == .new || state == .idle)
-    }
-
-    func didFinish() -> Bool {
-        return queue.count == 0 && (state == .new || state == .idle)
-    }
-
-    func processFirstAnimationIfNeeded() {
-
-        if canProcess(), let viewAnimationTask = queue.first {
-            state = .processing
-            viewAnimationTask.animate()
-        } else if didFinish() {
+    func processTasks() {
+        if let firstTask = tasks.first {
+            firstTask.animate()
+        } else {
             state = .finished
         }
+    }
+
+    func cancelAllTasks() {
+        queue.forEach {
+            $0.cancel()
+        }
+        queue.removeAll()
     }
 
     func dequeueFirstAnimation(_ task: ViewAnimationTask) {
@@ -192,9 +156,12 @@ private extension ViewAnimationTaskQueue {
         if let _task = queue.first , _task === task {
             let dequeueTask = queue.removeFirst()
             dequeueTask.queue = nil
-            state = .idle
         } else {
-//            assertionFailure("Trying to dequeue unrecognized task \(task)")
+            assertionFailure("Trying to dequeue unrecognized task \(task)")
         }
+    }
+
+    func invalidTransition(from: ViewAnimationTaskQueueState, to: ViewAnimationTaskQueueState) {
+        assertionFailure("Invalid state transition \(from) -> \(to)")
     }
 }

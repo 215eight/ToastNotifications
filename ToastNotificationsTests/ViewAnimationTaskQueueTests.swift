@@ -26,7 +26,7 @@ class ViewAnimationTaskQueueTests: XCTestCase {
 
         let queue = ViewAnimationTaskQueue()
 
-        XCTAssertTrue(queue.state == .new)
+        XCTAssertEqual(queue.state, .new)
         XCTAssertEqual(queue.tasks.count, 0)
     }
 
@@ -40,7 +40,7 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         queue.queue(task: task1)
         queue.queue(task: task2)
 
-        XCTAssertTrue(queue.state == .new)
+        XCTAssertEqual(queue.state, .new)
         XCTAssertEqual(queue.tasks.count, 2)
     }
 
@@ -62,13 +62,13 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         // Simulate animation did finish
         task1.state = .finished
 
-        XCTAssertTrue(queue.state == .processing)
+        XCTAssertEqual(queue.state, .processing)
         XCTAssertEqual(queue.tasks.count, 1)
         XCTAssertTrue(task2.state == .animating)
 
         task2.state = .finished
 
-        XCTAssertTrue(queue.state == .finished)
+        XCTAssertEqual(queue.state, .finished)
         XCTAssertEqual(queue.tasks.count, 0)
     }
 
@@ -76,8 +76,7 @@ class ViewAnimationTaskQueueTests: XCTestCase {
 
         let queue = ViewAnimationTaskQueue()
         queue.process()
-
-        XCTAssertTrue(queue.state == .finished)
+        XCTAssertEqual(queue.state, .finished)
     }
 
     func testQueueCancelProcessing() {
@@ -90,6 +89,23 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         queue.queue(task: task2)
 
         queue.process()
+        queue.cancel()
+
+        XCTAssertEqual(queue.state, .finished)
+        XCTAssertTrue(queue.tasks.isEmpty)
+        XCTAssertEqual(task1.state, .finished)
+        XCTAssertEqual(task2.state, .finished)
+    }
+
+    func testQueueCanCancelBeforeStartProcessing() {
+
+        let task1 = FakeViewAnimationTask()
+        let task2 = FakeViewAnimationTask()
+
+        let queue = ViewAnimationTaskQueue()
+        queue.queue(task: task1)
+        queue.queue(task: task2)
+
         queue.cancel()
 
         XCTAssertEqual(queue.state, .finished)
@@ -130,9 +146,9 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         waitForExpectations(timeout: 1.0) { (_) in
 
             XCTAssertEqual(queue.tasks.count, 0)
-            XCTAssertTrue(queue.state == .finished)
-            XCTAssertTrue(task1.state == .finished)
-            XCTAssertTrue(task2.state == .finished)
+            XCTAssertEqual(queue.state, .finished)
+            XCTAssertEqual(task1.state, .finished)
+            XCTAssertEqual(task2.state, .finished)
         }
 
     }

@@ -46,17 +46,36 @@ internal class ViewAnimationTask {
 
     // TODO: Make this a private (set)
     // Make this a protocol and just make
-    var state: ViewAnimationTaskState = .ready {
+    var state: ViewAnimationTaskState {
         willSet {
             switch (state, newValue) {
 
-            case (.ready, .animating),
-                 (.animating, .finished):
+            case (.ready, .ready):
                 break
-            case (.ready, _),
-                 (.animating, _),
-                 (.finished, _):
-                assertionFailure("Invalid state transition \(state) -> \(newValue)")
+
+            case (.ready, .animating):
+                triggerAnimation()
+
+            case (.ready, .finished):
+                break
+
+            case (.animating, .ready):
+                invalidTransition(from: newValue, to: state)
+
+            case (.animating, .animating):
+                break
+
+            case (.animating, .finished):
+                cancelAnimation()
+
+            case (.finished, .ready):
+                invalidTransition(from: newValue, to: state)
+
+            case (.finished, .animating):
+                invalidTransition(from: newValue, to: state)
+
+            case (.finished, .finished):
+                break
             }
         }
 
@@ -71,15 +90,24 @@ internal class ViewAnimationTask {
     }
 
     init(view: UIView, animation: ViewAnimation) {
+        state = .ready
         self.view = view
         self.animation = animation
     }
 
     func animate() {
+        self.state = .animating
+    }
 
+    func cancel() {
+        state = .finished
+    }
+}
+
+private extension ViewAnimationTask {
+
+    func triggerAnimation() {
         DispatchQueue.main.async {
-            self.state = .animating
-
             self.view.isHidden = false
             self.animation.initialState(self.view)
             
@@ -94,4 +122,11 @@ internal class ViewAnimationTask {
         }
     }
 
+    func cancelAnimation() {
+        view.layer.removeAllAnimations()
+    }
+
+    func invalidTransition(from: ViewAnimationTaskState, to:ViewAnimationTaskState) {
+        assertionFailure("Invalid state transition \(from) -> \(to)")
+    }
 }

@@ -61,23 +61,57 @@ internal class ViewAnimationTaskQueue {
 
     fileprivate var queue = [ViewAnimationTask]()
 
-    fileprivate (set) var state: ViewAnimationTaskQueueState = .new {
-
+    fileprivate (set) var state: ViewAnimationTaskQueueState {
         willSet {
-
             switch (state, newValue) {
-            case (.new, .processing),
-                 (.idle, .processing),
-                 (.processing, .idle),
-                 (.idle, .finished),
-                 (.new, .finished):
+
+            case (.new, .new):
                 break
-            case (.new, _),
-                 (.idle, _),
-                 (.processing, _),
-                 (.finished, _):
-                let message = "Invalid state transition \(state) -> \(newValue)"
-                assertionFailure(message)
+
+            case (.new, .processing):
+                break
+
+            case (.new, .idle):
+                break
+
+            case (.new, .finished):
+                break
+
+            case (.processing, .new):
+                break
+
+            case (.processing, .processing):
+                break
+
+            case (.processing, .idle):
+                break
+
+            case (.processing, .finished):
+                break
+
+            case (.idle, .new):
+                break
+
+            case (.idle, .processing):
+                break
+
+            case (.idle, .idle):
+                break
+
+            case (.idle, .finished):
+                break
+
+             case (.finished, .new):
+                break
+
+            case (.finished, .processing):
+                break
+
+            case (.finished, .idle):
+                break
+
+            case (.finished, .finished):
+                break
             }
         }
 
@@ -98,6 +132,10 @@ internal class ViewAnimationTaskQueue {
 
     weak var delegate: ViewAnimationTaskQueueDelegate?
 
+    init() {
+        state = .new
+    }
+
     func queue(task: ViewAnimationTask) {
         task.queue = self
         queue.append(task)
@@ -109,6 +147,14 @@ internal class ViewAnimationTaskQueue {
             return true
         }
         return false
+    }
+
+    func cancel() {
+        queue.forEach {
+            $0.cancel()
+        }
+        queue.removeAll()
+        state = .finished
     }
 
     func animationDidFinish(task: ViewAnimationTask) {
@@ -148,7 +194,7 @@ private extension ViewAnimationTaskQueue {
             dequeueTask.queue = nil
             state = .idle
         } else {
-            assertionFailure("Trying to dequeue unrecognized task \(task)")
+//            assertionFailure("Trying to dequeue unrecognized task \(task)")
         }
     }
 }

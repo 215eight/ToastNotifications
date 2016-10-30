@@ -85,7 +85,24 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         let queue = ViewAnimationTaskQueue()
         XCTAssertTrue(queue.process())
         XCTAssertFalse(queue.process())
-        XCTAssertFalse(queue.process())
+    }
+
+    func testQueueCancelProcessing() {
+
+        let task1 = FakeViewAnimationTask()
+        let task2 = FakeViewAnimationTask()
+
+        let queue = ViewAnimationTaskQueue()
+        queue.queue(task: task1)
+        queue.queue(task: task2)
+
+        _ = queue.process()
+        queue.cancel()
+
+        XCTAssertEqual(queue.state, .finished)
+        XCTAssertTrue(queue.tasks.isEmpty)
+        XCTAssertEqual(task1.state, .finished)
+        XCTAssertEqual(task2.state, .finished)
     }
 
     func testQueueNotifiesDelegateDidFinishProcessing() {

@@ -79,7 +79,7 @@ internal class ViewAnimationTaskQueue {
             case (.processing, .finished):
                 cancelAllTasks()
 
-             case (.finished, .new):
+            case (.finished, .new):
                 invalidTransition(from: .finished, to: .new)
 
             case (.finished, .processing):
@@ -92,11 +92,36 @@ internal class ViewAnimationTaskQueue {
 
         didSet {
 
-            switch state {
-            case .finished:
-                delegate?.queueDidFinishProcessing(self)
-            case .new, .processing:
+            switch (oldValue, state) {
+
+            case (.new, .new):
+                invalidTransition(from: .new, to: .new)
+
+            case (.new, .processing):
                 break
+
+            case (.new, .finished):
+                break
+
+            case (.processing, .new):
+                invalidTransition(from: .processing, to: .new)
+
+            case (.processing, .processing):
+                invalidTransition(from: .processing, to: .processing)
+
+            case (.processing, .finished):
+                if queue.isEmpty {
+                    delegate?.queueDidFinishProcessing(self)
+                }
+
+            case (.finished, .new):
+                invalidTransition(from: .finished, to: .new)
+
+            case (.finished, .processing):
+                invalidTransition(from: .finished, to: .new)
+
+            case (.finished, .finished):
+                invalidTransition(from: .finished, to: .new)
             }
         }
     }
@@ -118,6 +143,7 @@ internal class ViewAnimationTaskQueue {
 
     func process() {
         if queue.isEmpty {
+            print("WARNING: ViewAnimationTaskQueue processing but queue is empty")
             state = .finished
         } else {
             state = .processing

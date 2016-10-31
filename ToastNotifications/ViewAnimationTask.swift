@@ -139,8 +139,10 @@ private extension ViewAnimationTask {
                                        options: self.animation.options,
                                        animations: { 
                                             self.animation.finalState(self.view)
-                                       }) { (_) in
-                                            self.state = .finished
+                                       }) { (finished) in
+                                            if finished {
+                                                self.state = .finished
+                                            }
                                        }
         }
     }

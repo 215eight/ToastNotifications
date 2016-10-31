@@ -51,7 +51,7 @@ internal class ViewAnimationTask {
             switch (state, newValue) {
 
             case (.ready, .ready):
-                break
+                invalidTransition(from: state, to: newValue)
 
             case (.ready, .animating):
                 triggerAnimation()
@@ -60,7 +60,7 @@ internal class ViewAnimationTask {
                 break
 
             case (.animating, .ready):
-                invalidTransition(from: newValue, to: state)
+                invalidTransition(from: state, to: newValue)
 
             case (.animating, .animating):
                 break
@@ -69,10 +69,10 @@ internal class ViewAnimationTask {
                 cancelAnimation()
 
             case (.finished, .ready):
-                invalidTransition(from: newValue, to: state)
+                invalidTransition(from: state, to: newValue)
 
             case (.finished, .animating):
-                invalidTransition(from: newValue, to: state)
+                invalidTransition(from: state, to: newValue)
 
             case (.finished, .finished):
                 break
@@ -80,10 +80,33 @@ internal class ViewAnimationTask {
         }
 
         didSet {
-            switch state {
-            case .finished:
+            switch (oldValue, state) {
+
+            case (.ready, .ready):
+                invalidTransition(from: oldValue, to: state)
+
+            case (.ready, .animating):
+                break
+
+            case (.ready, .finished):
+                break
+
+            case (.animating, .ready):
+                invalidTransition(from: oldValue, to: state)
+
+            case (.animating, .animating):
+                invalidTransition(from: oldValue, to: state)
+
+            case (.animating, .finished):
                 queue?.animationDidFinish(task: self)
-            case .ready, .animating:
+
+            case (.finished, .ready):
+                invalidTransition(from: oldValue, to: state)
+
+            case (.finished, .animating):
+                invalidTransition(from: oldValue, to: state)
+
+            case (.finished, .finished):
                 break
             }
         }

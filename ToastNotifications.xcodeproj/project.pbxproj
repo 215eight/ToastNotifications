@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3305A11B1DC6B2CE0095FCF5 /* AnimatableViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3305A11A1DC6B2CE0095FCF5 /* AnimatableViewTests.swift */; };
 		533A97D51D0E2FD4008AF0BF /* ContentElementConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533A97D41D0E2FD4008AF0BF /* ContentElementConverterTests.swift */; };
 		534AC30F1D2B7DDA00C79947 /* ContentPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534AC30E1D2B7DDA00C79947 /* ContentPoint.swift */; };
 		5368DF1A1D599DAB00468CCB /* AnimatableViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5368DF191D599DAB00468CCB /* AnimatableViewPresenter.swift */; };
@@ -33,7 +34,6 @@
 		A72F56FE1D064326007B3542 /* ToastAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F56FD1D064326007B3542 /* ToastAnimation.swift */; };
 		A72F57001D069289007B3542 /* ViewAnimationTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F56FF1D069289007B3542 /* ViewAnimationTaskTests.swift */; };
 		A72F57021D072747007B3542 /* ViewAnimationTaskQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F57011D072747007B3542 /* ViewAnimationTaskQueueTests.swift */; };
-		A77248BE1D079C3400D5B425 /* ToastViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77248BD1D079C3400D5B425 /* ToastViewTests.swift */; };
 		A77BAFA41D26EDE20059A273 /* NSLayoutConstraintExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAFA31D26EDE20059A273 /* NSLayoutConstraintExtensionTests.swift */; };
 		A77BAFA61D26EF350059A273 /* NSLayouConstraintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAFA51D26EF350059A273 /* NSLayouConstraintExtension.swift */; };
 		A7A9CF4F1CFF7EFE0055A3F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9CF4E1CFF7EFE0055A3F6 /* AppDelegate.swift */; };
@@ -60,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3305A11A1DC6B2CE0095FCF5 /* AnimatableViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatableViewTests.swift; sourceTree = "<group>"; };
 		533A97D41D0E2FD4008AF0BF /* ContentElementConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentElementConverterTests.swift; sourceTree = "<group>"; };
 		534AC30E1D2B7DDA00C79947 /* ContentPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentPoint.swift; sourceTree = "<group>"; };
 		5368DF191D599DAB00468CCB /* AnimatableViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatableViewPresenter.swift; sourceTree = "<group>"; };
@@ -86,7 +87,6 @@
 		A72F56FD1D064326007B3542 /* ToastAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastAnimation.swift; sourceTree = "<group>"; };
 		A72F56FF1D069289007B3542 /* ViewAnimationTaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewAnimationTaskTests.swift; sourceTree = "<group>"; };
 		A72F57011D072747007B3542 /* ViewAnimationTaskQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewAnimationTaskQueueTests.swift; sourceTree = "<group>"; };
-		A77248BD1D079C3400D5B425 /* ToastViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastViewTests.swift; sourceTree = "<group>"; };
 		A77BAFA31D26EDE20059A273 /* NSLayoutConstraintExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraintExtensionTests.swift; sourceTree = "<group>"; };
 		A77BAFA51D26EF350059A273 /* NSLayouConstraintExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayouConstraintExtension.swift; sourceTree = "<group>"; };
 		A7A9CF4B1CFF7EFE0055A3F6 /* ToastNotifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToastNotifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,11 +231,11 @@
 				A726727E1D0620E000B08EBF /* ViewAnimationTests.swift */,
 				A72F56FF1D069289007B3542 /* ViewAnimationTaskTests.swift */,
 				A72F57011D072747007B3542 /* ViewAnimationTaskQueueTests.swift */,
-				A77248BD1D079C3400D5B425 /* ToastViewTests.swift */,
 				53BE04EC1D0E102D00958E63 /* TextAttributeConverterTests.swift */,
 				533A97D41D0E2FD4008AF0BF /* ContentElementConverterTests.swift */,
 				53BE04E01D0D131100958E63 /* ContentConverterTests.swift */,
 				A77BAFA31D26EDE20059A273 /* NSLayoutConstraintExtensionTests.swift */,
+				3305A11A1DC6B2CE0095FCF5 /* AnimatableViewTests.swift */,
 			);
 			path = ToastNotificationsTests;
 			sourceTree = "<group>";
@@ -378,12 +378,12 @@
 			files = (
 				53BE04ED1D0E102D00958E63 /* TextAttributeConverterTests.swift in Sources */,
 				A77BAFA41D26EDE20059A273 /* NSLayoutConstraintExtensionTests.swift in Sources */,
-				A77248BE1D079C3400D5B425 /* ToastViewTests.swift in Sources */,
 				A72F57021D072747007B3542 /* ViewAnimationTaskQueueTests.swift in Sources */,
 				533A97D51D0E2FD4008AF0BF /* ContentElementConverterTests.swift in Sources */,
 				A7A9CF701CFF7F400055A3F6 /* ToastQueueTests.swift in Sources */,
 				A726727F1D0620E000B08EBF /* ViewAnimationTests.swift in Sources */,
 				A7ED30BA1D01E96F006494F2 /* ToastContentTests.swift in Sources */,
+				3305A11B1DC6B2CE0095FCF5 /* AnimatableViewTests.swift in Sources */,
 				A72F57001D069289007B3542 /* ViewAnimationTaskTests.swift in Sources */,
 				53BE04E11D0D131100958E63 /* ContentConverterTests.swift in Sources */,
 				A7DC1AC61D074862006D8E4B /* ToastTests.swift in Sources */,

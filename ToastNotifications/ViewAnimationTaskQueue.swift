@@ -151,7 +151,7 @@ internal class ViewAnimationTaskQueue {
     }
 
     func cancel() {
-        state = .finished
+        cancelAllTasks()
     }
 
     func animationDidFinish(task: ViewAnimationTask) {

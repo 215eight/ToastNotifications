@@ -77,6 +77,14 @@ struct ToastQueueStatus {
         processFirstToastIfNeeded()
     }
 
+    func cancel() {
+        print("Cancelling...")
+        if let currentToast = queue.first {
+            currentToast.hide()
+        }
+        queue.removeAll()
+    }
+
     func toastDidHide(_ toast: Toast) {
         dequeueFirstToast()
         processFirstToastIfNeeded()

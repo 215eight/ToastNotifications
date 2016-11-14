@@ -122,7 +122,9 @@ private extension AnimatableView {
             break
 
         case (.showing, .hiding):
+            cancelShowAnimations()
             cancelHideAnimations()
+            removeFromHierarchy()
             state = .didHide
 
         case (.showing, .didHide):
@@ -150,10 +152,12 @@ private extension AnimatableView {
             invalidTransition(from: oldState, to: newState)
 
         case (.hiding, .didShow):
-            invalidTransition(from: oldState, to: newState)
+            cancelHideAnimations()
 
         case (.hiding, .hiding):
-            invalidTransition(from: oldState, to: newState)
+            cancelHideAnimations()
+            removeFromHierarchy()
+            state = .didHide
 
         case (.hiding, .didHide):
             break

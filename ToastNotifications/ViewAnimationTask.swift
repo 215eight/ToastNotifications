@@ -123,7 +123,7 @@ internal class ViewAnimationTask {
     }
 
     func cancel() {
-        state = .finished
+        cancelAnimation()
     }
 }
 

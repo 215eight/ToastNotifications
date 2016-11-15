@@ -27,16 +27,16 @@ internal enum ViewAnimationTaskState {
  The `ViewAnimationTask` encapsulates the code and data associated with a view
  animation task.
 
- A `ViewAnimationTask` object is a single-shot object than can only be executed
- once.
+ A `ViewAnimationTask` object is a single-shot object that will animate its view
+ with its animation.
 
- A `ViewAnimationTask` is executed by calling it `animate()` method or by adding
- it to a `ViewAnimationTaskQueue`. The queue will process it serially in a FIFO
- order.
+ The animation is triggered by calling its `animate` method. When added to a
+ `ViewAnimationTaskQueue`, it will be processed serially in a FIFO order.
 
- A `ViewAnimationTask` maintain state information via internally to notify the
- queue is contained by when the task finished execution.
+ If the `ViewAnimationTask` finished its animation it will call its queue
+ callback to notifiy. If the animation is cut short the queue is not notified
  */
+
 internal class ViewAnimationTask {
 
     fileprivate let view: UIView
@@ -44,73 +44,7 @@ internal class ViewAnimationTask {
 
     weak var queue: ViewAnimationTaskQueue?
 
-    // TODO: Make this a private (set)
-    // Make this a protocol and just make
-    var state: ViewAnimationTaskState {
-        willSet {
-            switch (state, newValue) {
-
-            case (.ready, .ready):
-                invalidTransition(from: state, to: newValue)
-
-            case (.ready, .animating):
-                triggerAnimation()
-
-            case (.ready, .finished):
-                break
-
-            case (.animating, .ready):
-                invalidTransition(from: state, to: newValue)
-
-            case (.animating, .animating):
-                break
-
-            case (.animating, .finished):
-                cancelAnimation()
-
-            case (.finished, .ready):
-                invalidTransition(from: state, to: newValue)
-
-            case (.finished, .animating):
-                invalidTransition(from: state, to: newValue)
-
-            case (.finished, .finished):
-                break
-            }
-        }
-
-        didSet {
-            switch (oldValue, state) {
-
-            case (.ready, .ready):
-                invalidTransition(from: oldValue, to: state)
-
-            case (.ready, .animating):
-                break
-
-            case (.ready, .finished):
-                break
-
-            case (.animating, .ready):
-                invalidTransition(from: oldValue, to: state)
-
-            case (.animating, .animating):
-                invalidTransition(from: oldValue, to: state)
-
-            case (.animating, .finished):
-                queue?.animationDidFinish(task: self)
-
-            case (.finished, .ready):
-                invalidTransition(from: oldValue, to: state)
-
-            case (.finished, .animating):
-                invalidTransition(from: oldValue, to: state)
-
-            case (.finished, .finished):
-                break
-            }
-        }
-    }
+    fileprivate(set) var state: ViewAnimationTaskState
 
     init(view: UIView, animation: ViewAnimation) {
         state = .ready
@@ -119,11 +53,24 @@ internal class ViewAnimationTask {
     }
 
     func animate() {
-        self.state = .animating
+
+        switch state {
+
+        case .ready:
+            state = .animating
+            triggerAnimation()
+
+        case .animating:
+            assertionFailure("Task is already animating. Call is dismissed")
+
+        case .finished:
+            assertionFailure("Task already finished animating, can't animate again.")
+        }
     }
 
     func cancel() {
-        cancelAnimation()
+        view.layer.removeAllAnimations()
+        state = .finished
     }
 }
 
@@ -141,17 +88,14 @@ private extension ViewAnimationTask {
                                             self.animation.finalState(self.view)
                                        }) { (finished) in
                                             if finished {
-                                                self.state = .finished
+                                                self.notifiyQueueAnimationDidFinish()
                                             }
                                        }
         }
     }
 
-    func cancelAnimation() {
-        view.layer.removeAllAnimations()
-    }
-
-    func invalidTransition(from: ViewAnimationTaskState, to:ViewAnimationTaskState) {
-        assertionFailure("Invalid state transition \(from) -> \(to)")
+    func notifiyQueueAnimationDidFinish() {
+        state = .finished
+        queue?.animationDidFinish(task: self)
     }
 }

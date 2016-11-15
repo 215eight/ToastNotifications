@@ -9,14 +9,11 @@
 @testable import ToastNotifications
 import XCTest
 
-class FakeViewAnimationTask: ViewAnimationTask {
+fileprivate extension ViewAnimationTask {
 
-    init() {
-        super.init(view: UIView(), animation: ViewAnimation())
-    }
-
-    override func animate() {
-        state = .animating
+    convenience init() {
+        self.init(view: UIView(),
+                  animation: ViewAnimation())
     }
 }
 
@@ -46,8 +43,8 @@ class ViewAnimationTaskQueueTests: XCTestCase {
 
     func testQueueCanProcess() {
 
-        let task1 = FakeViewAnimationTask()
-        let task2 = FakeViewAnimationTask()
+        let task1 = ViewAnimationTask()
+        let task2 = ViewAnimationTask()
 
         let queue = ViewAnimationTaskQueue()
         queue.queue(task: task1)
@@ -60,13 +57,14 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         XCTAssertTrue(task1.state == .animating)
 
         // Simulate animation did finish
-        task1.state = .finished
+        queue.animationDidFinish(task: task1)
 
         XCTAssertEqual(queue.state, .processing)
         XCTAssertEqual(queue.tasks.count, 1)
         XCTAssertTrue(task2.state == .animating)
 
-        task2.state = .finished
+        // Simulate animation did finish
+        queue.animationDidFinish(task: task2)
 
         XCTAssertEqual(queue.state, .finished)
         XCTAssertEqual(queue.tasks.count, 0)
@@ -79,10 +77,10 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         XCTAssertEqual(queue.state, .finished)
     }
 
-    func testQueueCancelProcessing() {
+    func testQueueCancelWhileProcessing() {
 
-        let task1 = FakeViewAnimationTask()
-        let task2 = FakeViewAnimationTask()
+        let task1 = ViewAnimationTask()
+        let task2 = ViewAnimationTask()
 
         let queue = ViewAnimationTaskQueue()
         queue.queue(task: task1)
@@ -99,8 +97,8 @@ class ViewAnimationTaskQueueTests: XCTestCase {
 
     func testQueueCanCancelBeforeStartProcessing() {
 
-        let task1 = FakeViewAnimationTask()
-        let task2 = FakeViewAnimationTask()
+        let task1 = ViewAnimationTask()
+        let task2 = ViewAnimationTask()
 
         let queue = ViewAnimationTaskQueue()
         queue.queue(task: task1)
@@ -132,9 +130,8 @@ class ViewAnimationTaskQueueTests: XCTestCase {
             expectation.fulfill()
         }
 
-        let view = UIView()
-        let task1 = ViewAnimationTask(view: view, animation: ViewAnimation())
-        let task2 = ViewAnimationTask(view: view, animation: ViewAnimation())
+        let task1 = ViewAnimationTask()
+        let task2 = ViewAnimationTask()
 
         let queue = ViewAnimationTaskQueue()
         queue.delegate = delegate

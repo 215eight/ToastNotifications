@@ -17,10 +17,35 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let firstToast = Toast(text: "First Toast")
-        let secondToast = Toast(text: "Second Toast")
+        let content = Content(text: "Waiting....")
+        let presentation = ToastPresentation.defaultPresentation()
+        let showAnimation = ViewAnimation(duration: 1.0,
+                                          delay: 0.0,
+                                          options: .allowAnimatedContent,
+                                          initialState: { view in
+                                             view.alpha = 0
+                                          }, finalState: { view in
+                                             view.alpha = 1
+                                          })
+        let hideAnimation = ViewAnimation(duration: 1.0,
+                                          delay: 0.0,
+                                          options: .allowAnimatedContent,
+                                          initialState: { view in
+                                             //empty
+                                          }, finalState: { view in
+                                             //empty
+                                             view.alpha = 0
+                                          })
 
-        toastQueue.queue(firstToast)
-        toastQueue.queue(secondToast)
+        let animation = ToastAnimation(style: .autoDismiss,
+                                       showAnimations: [showAnimation],
+                                       hideAnimations: [hideAnimation])
+
+        let waitToast = Toast(content: content, presentation: presentation, animation: animation)
+        view.show(toast: waitToast)
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.0) {
+            self.view.hide(toast: waitToast)
+        }
     }
 }

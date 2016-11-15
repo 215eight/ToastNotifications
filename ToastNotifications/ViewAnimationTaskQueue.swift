@@ -57,74 +57,7 @@ internal class ViewAnimationTaskQueue {
 
     fileprivate var queue = [ViewAnimationTask]()
 
-    fileprivate (set) var state: ViewAnimationTaskQueueState {
-        willSet {
-            switch (state, newValue) {
-
-            case (.new, .new):
-                invalidTransition(from: .new, to: .new)
-
-            case (.new, .processing):
-                processTasks()
-
-            case (.new, .finished):
-                cancelAllTasks()
-
-            case (.processing, .new):
-                invalidTransition(from: .processing, to: .new)
-
-            case (.processing, .processing):
-                invalidTransition(from: .processing, to: .processing)
-
-            case (.processing, .finished):
-                cancelAllTasks()
-
-            case (.finished, .new):
-                invalidTransition(from: .finished, to: .new)
-
-            case (.finished, .processing):
-                invalidTransition(from: .finished, to: .processing)
-
-            case (.finished, .finished):
-                invalidTransition(from: .processing, to: .processing)
-            }
-        }
-
-        didSet {
-
-            switch (oldValue, state) {
-
-            case (.new, .new):
-                invalidTransition(from: .new, to: .new)
-
-            case (.new, .processing):
-                break
-
-            case (.new, .finished):
-                break
-
-            case (.processing, .new):
-                invalidTransition(from: .processing, to: .new)
-
-            case (.processing, .processing):
-                invalidTransition(from: .processing, to: .processing)
-
-            case (.processing, .finished):
-                if queue.isEmpty {
-                    delegate?.queueDidFinishProcessing(self)
-                }
-
-            case (.finished, .new):
-                invalidTransition(from: .finished, to: .new)
-
-            case (.finished, .processing):
-                invalidTransition(from: .finished, to: .new)
-
-            case (.finished, .finished):
-                invalidTransition(from: .finished, to: .new)
-            }
-        }
-    }
+    fileprivate(set) var state: ViewAnimationTaskQueueState
 
     var tasks: [ViewAnimationTask] {
         return queue
@@ -142,52 +75,71 @@ internal class ViewAnimationTaskQueue {
     }
 
     func process() {
-        if queue.isEmpty {
-            print("WARNING: ViewAnimationTaskQueue processing but queue is empty")
-            state = .finished
-        } else {
+        switch state {
+        case .new:
             state = .processing
+            processTask()
+
+        case .processing:
+            assertionFailure("ViewAnimationTaskQueue is processing already.")
+
+        case .finished:
+            assertionFailure("ViewAnimationTaskQueue is done processing.")
         }
     }
 
     func cancel() {
-        cancelAllTasks()
+        switch state {
+        case .new, .processing:
+            cancelAllTasks()
+            state = .finished
+
+        case .finished:
+            assertionFailure("ViewAnimationTaskQueue is done processing.")
+        }
     }
 
     func animationDidFinish(task: ViewAnimationTask) {
-        dequeueFirstAnimation(task)
-        processTasks()
+        switch state {
+        case .processing:
+            dequeueTask(task)
+            processTask()
+        case .new:
+            assertionFailure("ViewAnimationTaskQueue should be processing")
+
+        case .finished:
+            assertionFailure("ViewAnimationTaskQueue can't process task after finishing.")
+        }
+
     }
 }
 
 private extension ViewAnimationTaskQueue {
 
-    func processTasks() {
-        if let firstTask = tasks.first {
+    func processTask() {
+        if let firstTask = queue.first {
             firstTask.animate()
         } else {
             state = .finished
+            delegate?.queueDidFinishProcessing(self)
         }
+
     }
 
     func cancelAllTasks() {
         queue.forEach {
             $0.cancel()
+            $0.queue = nil
         }
         queue.removeAll()
     }
 
-    func dequeueFirstAnimation(_ task: ViewAnimationTask) {
-
+    func dequeueTask(_ task: ViewAnimationTask) {
         if let _task = queue.first , _task === task {
             let dequeueTask = queue.removeFirst()
             dequeueTask.queue = nil
         } else {
             assertionFailure("Trying to dequeue unrecognized task \(task)")
         }
-    }
-
-    func invalidTransition(from: ViewAnimationTaskQueueState, to: ViewAnimationTaskQueueState) {
-        assertionFailure("Invalid state transition \(from) -> \(to)")
     }
 }

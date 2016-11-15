@@ -48,14 +48,13 @@ class AnimatableViewTests: XCTestCase {
 
     func testAnimatableViewCanShow() {
         animatableView.show()
-        XCTAssertEqual(animatableView.state, .showing)
+        XCTAssertEqual(animatableView.state, .didShow)
     }
 
     func testAnimatableViewCanAutoDismiss() {
+        animatableView.style = .autoDismiss
         animatableView.show()
-        animatableView.state = .didShow
-        animatableView.hide()
-        XCTAssertEqual(animatableView.state, .hiding)
+        XCTAssertEqual(animatableView.state, .didHide)
     }
 
     func testAnimatableViewCanHideBeforeShowing() {

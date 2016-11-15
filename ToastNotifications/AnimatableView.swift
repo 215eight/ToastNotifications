@@ -36,11 +36,7 @@ protocol AnimatableView: ViewAnimationTaskQueueDelegate  {
 
     func show()
 
-    func didShow()
-
     func hide()
-
-    func didHide()
 
     func removeFromHierarchy()
 }
@@ -48,21 +44,96 @@ protocol AnimatableView: ViewAnimationTaskQueueDelegate  {
 extension AnimatableView {
 
     func show() {
-        set(state: .showing)
+        switch state {
+        case .new:
+            state = .showing
+            triggerShowAnimations()
+
+        case .showing:
+            assertionFailure("View is already showing")
+
+        case .didShow:
+            assertionFailure("View did show, can't show again")
+
+        case .hiding:
+            assertionFailure("View is hiding, can't show again")
+
+        case .didHide:
+            assertionFailure("View did hide, can't show again")
+        }
     }
 
     func didShow() {
-        set(state: .didShow)
-        delegate?.didShow()
+        switch state {
+        case .new:
+            assertionFailure("View should be in showing state")
+
+        case .showing :
+            state = .didShow
+            delegate?.didShow()
+            if case .autoDismiss = style { hide() }
+
+        case .didShow:
+            assertionFailure("View can only show once")
+        
+        case .hiding:
+            assertionFailure("View must show first to start hiding")
+
+        case .didHide:
+            assertionFailure("View must show first to start hiding")
+        }
     }
 
     func hide() {
-        set(state: .hiding)
+        switch state {
+        case .new:
+            state = .didHide
+            cancelShowAnimations()
+            cancelHideAnimations()
+            removeFromHierarchy()
+            delegate?.didHide()
+
+        case .showing:
+            state = .didHide
+            cancelShowAnimations()
+            cancelHideAnimations()
+            removeFromHierarchy()
+            delegate?.didHide()
+
+        case .didShow:
+            state = .hiding
+            triggerHideAnimations()
+
+        case .hiding:
+            state = .didHide
+            cancelHideAnimations()
+            removeFromHierarchy()
+            delegate?.didHide()
+
+        case .didHide:
+            assertionFailure("View did hide already")
+        }
     }
 
     func didHide() {
-        set(state: .didHide)
-        delegate?.didHide()
+        switch state {
+        case .new:
+            assertionFailure("View can't hide without showing")
+
+        case .showing:
+            assertionFailure("View can't hide without showing")
+
+        case .didShow:
+            assertionFailure("View can't hide without showing")
+
+        case .hiding:
+            state = .didHide
+            removeFromHierarchy()
+            delegate?.didHide()
+
+        case .didHide:
+            assertionFailure("View did hide already")
+        }
     }
 }
 
@@ -72,12 +143,8 @@ extension AnimatableView {
     func queueDidFinishProcessing(_ queue: ViewAnimationTaskQueue) {
         if queue === showAnimationsQueue {
             didShow()
-            if case .autoDismiss = style {
-                hide()
-            }
         } else if queue === hideAnimationsQueue {
             didHide()
-            removeFromHierarchy()
         } else {
             assertionFailure("Unknown queue passed in as parameter")
         }
@@ -85,103 +152,6 @@ extension AnimatableView {
 }
 
 private extension AnimatableView {
-
-    func set(state: AnimatableViewState) {
-        let oldState = self.state
-        self.state = state
-        validateTransition(from: oldState, to: state)
-    }
-
-    func validateTransition(from oldState: AnimatableViewState, to newState: AnimatableViewState) {
-        switch (oldState, newState) {
-
-        case (.new, .new):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.new, .showing):
-            triggerShowAnimations()
-
-        case (.new, .didShow):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.new, .hiding):
-            cancelShowAnimations()
-            cancelHideAnimations()
-            state = .didHide
-
-        case (.new, .didHide):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.showing, .new):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.showing, .showing):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.showing, .didShow):
-            break
-
-        case (.showing, .hiding):
-            cancelShowAnimations()
-            cancelHideAnimations()
-            removeFromHierarchy()
-            state = .didHide
-
-        case (.showing, .didHide):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.didShow, .new):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.didShow, .showing):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.didShow, .didShow):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.didShow, .hiding):
-            triggerHideAnimations()
-
-        case (.didShow, .didHide):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.hiding, .new):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.hiding, .showing):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.hiding, .didShow):
-            cancelHideAnimations()
-
-        case (.hiding, .hiding):
-            cancelHideAnimations()
-            removeFromHierarchy()
-            state = .didHide
-
-        case (.hiding, .didHide):
-            break
-
-        case (.didHide, .new):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.didHide, .showing):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.didHide, .didShow):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.didHide, .hiding):
-            invalidTransition(from: oldState, to: newState)
-
-        case (.didHide, .didHide):
-            invalidTransition(from: oldState, to: newState)
-        }
-    }
-
-    func invalidTransition(from: AnimatableViewState, to: AnimatableViewState) {
-        assertionFailure("Invalid state transition: \(from) -> \(to)")
-    }
 
     func triggerShowAnimations() {
         delegate?.willShow()
@@ -195,11 +165,6 @@ private extension AnimatableView {
         }
     }
 
-    func cancelShowAnimations() {
-        showAnimationsQueue.cancel()
-    }
-
-
     func triggerHideAnimations() {
         delegate?.willHide()
         queueHideAnimations()
@@ -210,6 +175,10 @@ private extension AnimatableView {
         hideAnimations.forEach {
             hideAnimationsQueue.queue(task: $0)
         }
+    }
+
+    func cancelShowAnimations() {
+        showAnimationsQueue.cancel()
     }
 
     func cancelHideAnimations() {

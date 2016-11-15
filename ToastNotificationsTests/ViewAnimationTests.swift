@@ -17,19 +17,18 @@ class ViewAnimationTests: XCTestCase {
 
         XCTAssertEqual(test.duration, 0)
         XCTAssertEqual(test.delay, 0)
-        XCTAssertTrue(test.options == .layoutSubviews)
+        XCTAssertTrue(test.options == .beginFromCurrentState)
     }
 
     func testViewAnimationComposition() {
 
-        let test = ViewAnimation()
-                    .duration(2)
-                    .delay(1)
-                    .options([.layoutSubviews, .allowUserInteraction])
+        let test = ViewAnimation().duration(2)
+                                  .delay(1)
+                                  .options([.beginFromCurrentState])
 
         XCTAssertEqual(test.duration, 2)
         XCTAssertEqual(test.delay, 1)
-        XCTAssertTrue(test.options == [.layoutSubviews, .allowUserInteraction])
+        XCTAssertTrue(test.options == [.beginFromCurrentState])
     }
 
     func testViewAnimationState() {
@@ -37,16 +36,15 @@ class ViewAnimationTests: XCTestCase {
         let initialAnimationExpectation = expectation(description: "InitialStateExpectation")
         let finalAnimationExpectation = expectation(description: "FinalStateExpection")
 
-        let test = ViewAnimation()
-                    .duration(2)
-                    .initialState { (view) in
-                        view.alpha = 0
-                        initialAnimationExpectation.fulfill()
-                    }
-                    .finalState { (view) in
-                        view.alpha = 1
-                        finalAnimationExpectation.fulfill()
-                    }
+        let test = ViewAnimation().duration(2)
+                                  .initialState { (view) in
+                                    view.alpha = 0
+                                    initialAnimationExpectation.fulfill()
+                                  }
+                                  .finalState { (view) in
+                                    view.alpha = 1
+                                    finalAnimationExpectation.fulfill()
+                                  }
 
         let dummyView = UIView()
 

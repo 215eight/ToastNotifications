@@ -18,8 +18,8 @@ class ToastTests: XCTestCase {
         let animation = ToastAnimation.defaultAnimations()
 
         let _ = Toast(content: content,
-                          presentation: presentation,
-                          animation: animation)
+                      presentation: presentation,
+                      animation: animation)
     }
 
     func testToastCanShow() {

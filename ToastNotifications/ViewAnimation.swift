@@ -11,7 +11,7 @@ import UIKit
 
 
 /**
- A block that receives a view and contains whatever state changes to animate
+ A block that receives a view which properties will be updated during animation
  */
 typealias AnimationState = (UIView) -> Void
 
@@ -29,7 +29,7 @@ internal struct ViewAnimation {
     init() {
         self.init(duration: 0,
                   delay: 0,
-                  options: .layoutSubviews,
+                  options: .beginFromCurrentState,
                   initialState: { (_) in },
                   finalState: { (_) in })
     }

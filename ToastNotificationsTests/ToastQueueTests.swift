@@ -9,18 +9,18 @@
 @testable import ToastNotifications
 import XCTest
 
-class StubToastPresenter: ToastPresenter {
+final class StubToastPresenter: ToastPresenter {
 
     func show(toast: Toast) {
         // Do nothing
     }
 
-    func hide(toast: Toast) {
+    func hideToasts() {
         // Do nothing
     }
 }
 
-class ToastQueueTests: XCTestCase {
+final class ToastQueueTests: XCTestCase {
 
     func testQueueCreation() {
 
@@ -54,21 +54,18 @@ class ToastQueueTests: XCTestCase {
         XCTAssertEqual(queue.status.toastCount, 2)
         XCTAssertTrue(queue.status.state == .processing)
 
-        toast1.willShow()
         toast1.didShow()
-        toast1.willHide()
+        toast1.hide()
         toast1.didHide()
 
         XCTAssertEqual(queue.status.toastCount, 1)
         XCTAssertTrue(queue.status.state == .processing)
 
-        toast2.willShow()
         toast2.didShow()
-        toast2.willHide()
+        toast2.hide()
         toast2.didHide()
 
         XCTAssertEqual(queue.status.toastCount, 0)
         XCTAssertTrue(queue.status.state == .idle)
-
     }
 }

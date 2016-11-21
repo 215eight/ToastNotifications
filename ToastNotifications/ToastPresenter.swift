@@ -12,21 +12,18 @@ import UIKit
 protocol ToastPresenter: class {
 
     func show(toast: Toast)
-    func hide(toast: Toast)
+    func hideToasts()
 }
 
-extension UIView: AnimatableViewPresenter {
+extension ToastPresenter where Self: UIView {
 
-    func show(view: AnimatableView) {
-        var view = view
+    func show(view: ToastView) {
         view.show()
     }
 
-    func hide(view: AnimatableView) {
-        var view = view
+    func hide(view: ToastView) {
         view.hide()
     }
-
 }
 
 extension UIView: ToastPresenter {
@@ -34,16 +31,11 @@ extension UIView: ToastPresenter {
     func show(toast: Toast) {
         let toastView = ToastView(toast: toast)
         toastView.configure(with: self)
-        toastView.delegate = toast
         show(view: toastView)
     }
 
-    // TODO: Remove the toast param
-    func hide(toast: Toast) {
-        for subview in subviews {
-            if let animatableView = subview as? AnimatableView {
-                hide(view: animatableView)
-            }
-        }
+    func hideToasts() {
+        subviews.flatMap { $0 as? ToastView }
+                .forEach { hide(view: $0) }
     }
 }

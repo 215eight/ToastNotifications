@@ -27,7 +27,7 @@ import Foundation
 
 class Toast {
 
-    let content: Content
+    let content: ToastContent
     let presentation: ToastPresentation
     let animation: ToastAnimation
 
@@ -35,14 +35,14 @@ class Toast {
     fileprivate weak var presenter: ToastPresenter?
 
     convenience init(text: String)  {
-        let content = Content(text: text)
+        let content = ToastContent(text: text)
 
         self.init(content: content,
                   presentation: ToastPresentation.defaultPresentation(),
                   animation: ToastAnimation.defaultAnimations())
     }
 
-    init(content: Content,
+    init(content: ToastContent,
          presentation: ToastPresentation,
          animation: ToastAnimation) {
         self.content = content
@@ -55,27 +55,15 @@ class Toast {
         presenter.show(toast: self)
     }
 
-    func hide() {
-        presenter?.hide(toast: self)
-    }
-}
-
-extension Toast: AnimatableViewDelegate {
-
-    func willShow() {
-        print("\(self) Toast Showing")
-    }
-
     func didShow() {
-        print("\(self) Toast Did Show")
+        // Override to add more functionality
     }
 
-    func willHide() {
-        print("\(self) Toast Hiding")
+    func hide() {
+        presenter?.hideToasts()
     }
 
     func didHide() {
-        print("\(self) Toast Did Hide")
-        queue?.toastDidHide(self)
+        queue?.dequeue(self)
     }
 }

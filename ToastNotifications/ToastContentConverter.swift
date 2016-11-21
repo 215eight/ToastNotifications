@@ -1,5 +1,5 @@
 //
-//  ContentConverter.swift
+//  ToastContentConverter.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/12/16.
@@ -11,7 +11,7 @@ import UIKit
 
 typealias UIElements = (subviews: [UIView], constraints: [NSLayoutConstraint])
 
-func convert(content: Content) -> UIView {
+func convert(content: ToastContent) -> UIView {
     let subContentOrigin = ContentPoint(x: 0, y: 0)
     let container = UIView()
     let (subViews, constraints) = convert(content: content,
@@ -33,8 +33,8 @@ func convert(content: Content) -> UIView {
  Converts content to a collection of UI elements contained by the
  specified container view
  */
-func convert(content: Content,
-             subContent: Content,
+func convert(content: ToastContent,
+             subContent: ToastContent,
              subContentOrigin: ContentPoint,
              container: UIView) -> UIElements {
 
@@ -87,8 +87,8 @@ func convert(content: Content,
     }
 }
 
-func subContentConstraints(content: Content,
-                           subContent: Content,
+func subContentConstraints(content: ToastContent,
+                           subContent: ToastContent,
                            subContentOrigin: ContentPoint,
                            container: UIView,
                            subview: UIView) -> [NSLayoutConstraint] {

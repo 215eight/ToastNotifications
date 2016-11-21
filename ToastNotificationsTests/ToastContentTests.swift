@@ -1,5 +1,5 @@
 //
-//  ContentTests.swift
+//  ToastContentTests.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/3/16.
@@ -9,14 +9,14 @@
 @testable import ToastNotifications
 import XCTest
 
-class ContentTests: XCTestCase {
+class ToastContentTests: XCTestCase {
 
     func testTextContent() {
 
         let size = ContentSize(width: 1, height: 1)
-        let expected = Content.element(size,
+        let expected = ToastContent.element(size,
                                             ContentElement(text: "Test"))
-        let toast = Content(text: "Test")
+        let toast = ToastContent(text: "Test")
 
         XCTAssertEqual(expected, toast)
         XCTAssertEqual(toast.size, size)
@@ -25,8 +25,8 @@ class ContentTests: XCTestCase {
     func testImageContent() {
 
         let size = ContentSize(width: 1, height: 1)
-        let expected = Content.element(size, .image("icon"))
-        let toast = Content(imageName: "icon")
+        let expected = ToastContent.element(size, .image("icon"))
+        let toast = ToastContent(imageName: "icon")
 
         XCTAssertEqual(expected, toast)
         XCTAssertEqual(toast.size, size)
@@ -34,36 +34,48 @@ class ContentTests: XCTestCase {
 
     func testBesideElements() {
 
-        let leftToast = Content(text: "Testy")
-        let rightToast = Content(text: "Toasty")
+        let leftToast = ToastContent(text: "Testy")
+        let rightToast = ToastContent(text: "Toasty")
 
-        let besideToasts = Content.beside(leftToast, rightToast)
+        let besideToasts = ToastContent.beside(leftToast, rightToast)
 
         XCTAssertEqual(besideToasts.size, ContentSize(width: 2, height: 1))
     }
 
     func testBesideElementsWithCustomSize() {
 
-        let leftToast = Content.element(ContentSize(width: 2, height: 1),
+        let leftToast = ToastContent.element(ContentSize(width: 2, height: 1),
                                              ContentElement(text: "Testy"))
-        let rightToast = Content.element(ContentSize(width: 2, height: 1),
+        let rightToast = ToastContent.element(ContentSize(width: 2, height: 1),
                                               ContentElement(text: "Testy"))
 
-        let besideToasts = Content.beside(leftToast, rightToast)
+        let besideToasts = ToastContent.beside(leftToast, rightToast)
 
         XCTAssertEqual(besideToasts.size, ContentSize(width: 4, height: 1))
     }
 
     func testBesideOpertor() {
 
-        let leftToast = Content.element(ContentSize(width: 2, height: 1),
+        let leftToast = ToastContent.element(ContentSize(width: 2, height: 1),
                                              ContentElement(text: "Testy"))
-        let rightToast = Content.element(ContentSize(width: 2, height: 1),
+        let rightToast = ToastContent.element(ContentSize(width: 2, height: 1),
                                               ContentElement(text: "Testy"))
 
         let besideToasts = leftToast ||| rightToast
 
         XCTAssertEqual(besideToasts.size, ContentSize(width: 4, height: 1))
+    }
+
+    func testStackedOpertor() {
+
+        let topToast = ToastContent.element(ContentSize(width: 2, height: 1),
+                                            ContentElement(text: "Testy"))
+        let bottomToast = ToastContent.element(ContentSize(width: 2, height: 1),
+                                               ContentElement(text: "Testy"))
+
+        let stackedToasts = topToast --- bottomToast
+
+        XCTAssertEqual(stackedToasts.size, ContentSize(width: 2, height: 2))
     }
 }
 

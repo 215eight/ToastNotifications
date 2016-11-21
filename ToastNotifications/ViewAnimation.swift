@@ -6,9 +6,7 @@
 //  Copyright © 2016 pman215. All rights reserved.
 //
 
-import Foundation
 import UIKit
-
 
 /**
  A block that receives a view which properties will be updated during animation
@@ -18,7 +16,7 @@ typealias AnimationState = (UIView) -> Void
 /**
  Data structure that models a view animation
  */
-internal struct ViewAnimation {
+struct ViewAnimation {
 
     let duration: TimeInterval
     let delay: TimeInterval
@@ -35,10 +33,10 @@ internal struct ViewAnimation {
     }
 
     init(duration: TimeInterval,
-                 delay: TimeInterval,
-                 options: UIViewAnimationOptions,
-                 initialState: @escaping AnimationState,
-                 finalState: @escaping AnimationState) {
+         delay: TimeInterval,
+         options: UIViewAnimationOptions,
+         initialState: @escaping AnimationState,
+         finalState: @escaping AnimationState) {
         self.duration = duration
         self.delay = delay
         self.options = options

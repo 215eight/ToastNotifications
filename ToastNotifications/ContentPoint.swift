@@ -13,12 +13,10 @@ internal struct ContentPoint {
     let y: Double
 
     func offsetX(_ offset: Double) -> ContentPoint {
-        return ContentPoint(x: x + offset,
-                            y: y)
+        return ContentPoint(x: x + offset, y: y)
     }
 
     func offsetY(_ offset: Double) -> ContentPoint {
-        return ContentPoint(x: x,
-                            y: y + offset)
+        return ContentPoint(x: x, y: y + offset)
     }
 }

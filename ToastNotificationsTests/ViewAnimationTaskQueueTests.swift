@@ -9,7 +9,7 @@
 @testable import ToastNotifications
 import XCTest
 
-fileprivate extension ViewAnimationTask {
+internal extension ViewAnimationTask {
 
     convenience init() {
         self.init(view: UIView(),
@@ -57,14 +57,14 @@ class ViewAnimationTaskQueueTests: XCTestCase {
         XCTAssertTrue(task1.state == .animating)
 
         // Simulate animation did finish
-        queue.animationDidFinish(task: task1)
+        queue.dequeue(task: task1)
 
         XCTAssertEqual(queue.state, .processing)
         XCTAssertEqual(queue.tasks.count, 1)
         XCTAssertTrue(task2.state == .animating)
 
         // Simulate animation did finish
-        queue.animationDidFinish(task: task2)
+        queue.dequeue(task: task2)
 
         XCTAssertEqual(queue.state, .finished)
         XCTAssertEqual(queue.tasks.count, 0)

@@ -48,11 +48,13 @@ struct ToastQueueStatus {
     fileprivate var presenter: ToastPresenter
 
     fileprivate var state: ToastQueueState = .idle {
-
         willSet(newState) {
+
             switch (state, newState) {
+                
             case (.idle, .processing) where shouldStartProcessing():
                 break
+                
             case (.processing, .idle):
                 break
             case (.idle, _),
@@ -77,17 +79,17 @@ struct ToastQueueStatus {
         processFirstToastIfNeeded()
     }
 
+    func dequeue(_ toast: Toast) {
+        dequeueFirstToast()
+        processFirstToastIfNeeded()
+    }
+
     func cancel() {
         print("Cancelling...")
         if let currentToast = queue.first {
             currentToast.hide()
         }
         queue.removeAll()
-    }
-
-    func toastDidHide(_ toast: Toast) {
-        dequeueFirstToast()
-        processFirstToastIfNeeded()
     }
 }
 

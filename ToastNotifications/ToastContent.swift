@@ -1,5 +1,5 @@
 //
-//  Content.swift
+//  ToastContent.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/1/16.
@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- Model of text or image content arranged in a grid layout positione beside or
+ Model of text or image content arranged in a grid layout positioned beside or
  stacked relative to each other
 
  + Element: A content element and its size relative to other elements that compose
@@ -19,11 +19,11 @@ import Foundation
 
  + Stack: Two content items positioned against each other
  */
-indirect enum Content {
+indirect enum ToastContent {
 
     case element(ContentSize, ContentElement)
-    case beside(Content, Content)
-    case stack(Content, Content)
+    case beside(ToastContent, ToastContent)
+    case stack(ToastContent, ToastContent)
 
     /**
      Creates a text content element of size 1x1
@@ -50,6 +50,7 @@ indirect enum Content {
      */
     var size: ContentSize {
         switch self {
+
         case .element(let size, _):
             return size
 
@@ -68,9 +69,9 @@ indirect enum Content {
     }
 }
 
-extension Content: Equatable { }
+extension ToastContent: Equatable { }
 
-func ==(lhs: Content, rhs: Content) -> Bool {
+func ==(lhs: ToastContent, rhs: ToastContent) -> Bool {
 
     switch (lhs, rhs) {
 
@@ -94,20 +95,20 @@ func ==(lhs: Content, rhs: Content) -> Bool {
 }
 
 /**
- Returns a new `Content` with the content of lhs and rhs beside each other
+ Returns a new `ToastContent` with the content of lhs and rhs beside each other
  */
 infix operator ||| : AdditionPrecedence
 
-func |||(lhs: Content, rhs: Content) -> Content {
-    return Content.beside(lhs, rhs)
+func |||(lhs: ToastContent, rhs: ToastContent) -> ToastContent {
+    return ToastContent.beside(lhs, rhs)
 }
 
 /**
- Returns a new `Content` with the content of top and bottom stack against
+ Returns a new `ToastContent` with the content of top and bottom stack against
  each other
  */
 infix operator --- : AdditionPrecedence
 
-func ---(top: Content, bottom: Content) -> Content {
-    return Content.stack(top, bottom)
+func ---(top: ToastContent, bottom: ToastContent) -> ToastContent {
+    return ToastContent.stack(top, bottom)
 }

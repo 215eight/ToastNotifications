@@ -9,13 +9,13 @@
 import UIKit
 
 
-enum ViewAnimationStyle {
-    case autoDismiss
-    case manualDismiss
+enum ViewAnimationTransition {
+    case automatic
+    case manual
 }
 
 struct ToastAnimation {
-    let style: ViewAnimationStyle
+    let transition: ViewAnimationTransition
     let showAnimations: [ViewAnimation]
     let hideAnimations: [ViewAnimation]
 }
@@ -23,7 +23,7 @@ struct ToastAnimation {
 extension ToastAnimation {
 
     static func defaultAnimations() -> ToastAnimation {
-        let style = ViewAnimationStyle.autoDismiss
+        let transition: ViewAnimationTransition = .automatic
         let showAnimations: [ViewAnimation] = {
 
             func hide(_ view: UIView) {
@@ -57,7 +57,7 @@ extension ToastAnimation {
             return [exit]
         }()
 
-        return ToastAnimation(style: style,
+        return ToastAnimation(transition: transition,
                               showAnimations: showAnimations,
                               hideAnimations: hideAnimations)
     }

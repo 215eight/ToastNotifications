@@ -61,16 +61,22 @@ extension TextAttribute: Equatable { }
 func == (lhs: TextAttribute, rhs: TextAttribute) -> Bool {
 
     switch (lhs, rhs) {
+
     case (.font(let lhsFont), .font(let rhsFont)):
         return lhsFont == rhsFont
+
     case (.alignment(let lhsAlignment), .alignment(let rhsAlignment)):
         return lhsAlignment == rhsAlignment
+
     case (.foregroundColor(let lhsColor), .foregroundColor(let rhsColor)):
         return lhsColor == rhsColor
+
     case (.backgroundColor(let lhsColor), .backgroundColor(let rhsColor)):
         return lhsColor == rhsColor
+
     case (.compose(let lhsAttrribute), .compose(let rhsAttribute)):
         return lhsAttrribute == rhsAttribute
+
     case (.font(_), _),
          (.alignment(_), _),
          (.foregroundColor(_), _),

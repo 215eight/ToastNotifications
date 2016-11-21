@@ -35,11 +35,15 @@ indirect enum ContentElement {
 extension ContentElement: Equatable { }
 
 func == (lhs: ContentElement, rhs: ContentElement) -> Bool {
+
     switch (lhs, rhs) {
+
     case (.text(let lhsText, let lhsAttribute), .text(let rhsText, let rhsAttribute)):
         return lhsText == rhsText && lhsAttribute == rhsAttribute
+
     case (.image(let lhsName), .image(let rhsName)):
         return lhsName == rhsName
+
     case (.text(_, _), _),
          (.image(_), _):
         return false

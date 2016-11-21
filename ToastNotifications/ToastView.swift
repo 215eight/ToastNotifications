@@ -2,66 +2,57 @@
 //  ToastView.swift
 //  ToastNotifications
 //
-//  Created by pman215 on 6/4/16.
-//  Copyright © 2016 pman215. All rights reserved.
+//  Created by pman215 on 11/14/16.
+//  Copyright © 2016 Erick Andrade. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-/**
- A `ToastView` object is in charge of presenting, animating and translating a
- `Toast` object into UI elements.
- */
-class ToastView: UIView, AnimatableView {
-
-    // MARK: AnimatableView Properties Begin
-    var state: AnimatableViewState
-
-    weak var delegate: AnimatableViewDelegate?
-
-    let showAnimationsQueue: ViewAnimationTaskQueue
-    let hideAnimationsQueue: ViewAnimationTaskQueue
-
-    var showAnimations = [ViewAnimationTask]()
-    var hideAnimations = [ViewAnimationTask]()
-
-    var style: ViewAnimationStyle {
-        return toast.animation.style
-    }
-
-    func removeFromHierarchy() {
-        removeFromSuperview()
-    }
-    // MARK: AnimatbleView Properties End
+class ToastView: UIView {
 
     fileprivate let toast: Toast
 
-    init(toast: Toast,
-         showAnimationsQueue: ViewAnimationTaskQueue = ViewAnimationTaskQueue(),
-         hideAnimationsQueue: ViewAnimationTaskQueue = ViewAnimationTaskQueue()) {
+    fileprivate lazy var animator: SequenceViewAnimator = {
 
+        let transition = self.toast.animation.transition
+
+        let showAnimations = self.toast.animation.showAnimations.map {
+            ViewAnimationTask(view: self, animation: $0)
+        }
+
+        let hideAnimations = self.toast.animation.hideAnimations.map {
+            ViewAnimationTask(view: self, animation: $0)
+        }
+
+        var animator = SequenceViewAnimator(transition: transition,
+                                            showAnimations: showAnimations,
+                                            hideAnimations: hideAnimations)
+        animator.delegate = self
+
+        return animator
+    }()
+    
+    init(toast: Toast) {
         self.toast = toast
-        self.showAnimationsQueue = showAnimationsQueue
-        self.hideAnimationsQueue = hideAnimationsQueue
-
-        state = .new
-
-        super.init(frame: CGRect.zero)
-
-        showAnimationsQueue.delegate = self
-        hideAnimationsQueue.delegate = self
-
+        super.init(frame: .zero)
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("Use init(toast:showAnimationsQueue:hideAnimationsQueue:)")
+        fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with view: UIView) {
+    func configure(with superview: UIView) {
         buildContentView()
-        buildViewAnimations()
-        buildStyle(with: view)
+        buildStyle(with: superview)
+    }
+
+    func show() {
+        animator.show()
+    }
+
+    func hide() {
+        animator.hide()
     }
 }
 
@@ -109,27 +100,30 @@ private extension ToastView {
         NSLayoutConstraint.activate([width,height,centerX,centerY])
     }
 
-    func buildViewAnimations() {
-        buildShowViewAnimations()
-        buildHideViewAnimations()
-    }
-
-    func buildShowViewAnimations() {
-        showAnimations = toast.animation.showAnimations.map {
-            ViewAnimationTask(view: self, animation: $0)
-        }
-    }
-
-    func buildHideViewAnimations() {
-        hideAnimations = toast.animation.hideAnimations.map {
-            ViewAnimationTask(view: self, animation: $0)
-        }
-    }
-
     func buildStyle(with view: UIView) {
         isHidden = true
         view.addSubview(self)
         view.bringSubview(toFront: self)
         toast.presentation.configure(with: self)
+    }
+}
+
+extension ToastView: SequenceViewAnimatorDelegate {
+    
+    func willShow() {
+
+    }
+
+    func didShow() {
+
+    }
+
+    func willHide() {
+
+    }
+
+    func didHide() {
+        removeFromSuperview()
+        toast.didHide()
     }
 }

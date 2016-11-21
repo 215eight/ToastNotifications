@@ -12,8 +12,8 @@ class MockViewAnimationTaskQueue: ViewAnimationTaskQueue {
 
     var animationDidFinishHandler: (() -> Void)?
 
-    override func animationDidFinish(task: ViewAnimationTask) {
-        super.animationDidFinish(task: task)
+    override func dequeue(task: ViewAnimationTask) {
+        super.dequeue(task: task)
         animationDidFinishHandler?()
     }
 }

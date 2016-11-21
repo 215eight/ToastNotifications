@@ -28,10 +28,6 @@ internal enum ViewAnimationTaskQueueState {
     case finished
 }
 
-/**
- Interface that defines the communication messages sent between the queue and
- its delegate
- */
 internal protocol ViewAnimationTaskQueueDelegate: class {
 
     /**
@@ -44,11 +40,7 @@ internal protocol ViewAnimationTaskQueueDelegate: class {
  A `ViewAnimationTaskQueue` coordinates the execution of `ViewAnimationTask`
  objects. When a task is added to the queue it will start execution immediately
  as long as there are no other task being processed. Tasks are processed in a
- FIFO serial order
-
- When a `ViewAnimationTaskQueue` object is initialized, all tasks intended for
- processing should be added. Once the queue starts processing, by colling its
- `process()`, no more tasks can be queued.
+ FIFO order
 
  A queue is a single-shot object, once it has finished processing all its tasks,
  the queue should be disposed.
@@ -74,14 +66,31 @@ internal class ViewAnimationTaskQueue {
         queue.append(task)
     }
 
-    func process() {
+    func dequeue(task: ViewAnimationTask) {
+
         switch state {
+
+        case .processing:
+            remove(task)
+            processTask()
+        case .new:
+            assertionFailure("ViewAnimationTaskQueue should be processing")
+
+        case .finished:
+            assertionFailure("ViewAnimationTaskQueue can't process tasks after finishing")
+        }
+    }
+
+    func process() {
+
+        switch state {
+
         case .new:
             state = .processing
             processTask()
 
         case .processing:
-            assertionFailure("ViewAnimationTaskQueue is processing already.")
+            assertionFailure("ViewAnimationTaskQueue is already processing")
 
         case .finished:
             assertionFailure("ViewAnimationTaskQueue is done processing.")
@@ -89,7 +98,9 @@ internal class ViewAnimationTaskQueue {
     }
 
     func cancel() {
+
         switch state {
+
         case .new, .processing:
             cancelAllTasks()
             state = .finished
@@ -97,20 +108,6 @@ internal class ViewAnimationTaskQueue {
         case .finished:
             assertionFailure("ViewAnimationTaskQueue is done processing.")
         }
-    }
-
-    func animationDidFinish(task: ViewAnimationTask) {
-        switch state {
-        case .processing:
-            dequeueTask(task)
-            processTask()
-        case .new:
-            assertionFailure("ViewAnimationTaskQueue should be processing")
-
-        case .finished:
-            assertionFailure("ViewAnimationTaskQueue can't process task after finishing.")
-        }
-
     }
 }
 
@@ -134,7 +131,7 @@ private extension ViewAnimationTaskQueue {
         queue.removeAll()
     }
 
-    func dequeueTask(_ task: ViewAnimationTask) {
+    func remove(_ task: ViewAnimationTask) {
         if let _task = queue.first , _task === task {
             let dequeueTask = queue.removeFirst()
             dequeueTask.queue = nil

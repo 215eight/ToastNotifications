@@ -6,50 +6,38 @@
 //  Copyright © 2016 pman215. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 /**
- Lists the possible states of a `ViewAnimationTask`
+ A `ViewAnimationTask` represents the life span of the execution of an
+ `ViewAnimation`
 
- + Ready: View animation task was initialized and is ready to animate
- + Animating: View animation task started animating. It will continue in this
- state until the animation finished
- + Finished: View animation task finished
- */
-internal enum ViewAnimationTaskState {
-    case ready
-    case animating
-    case finished
-}
-
-/**
- The `ViewAnimationTask` encapsulates the code and data associated with a view
- animation task.
-
- A `ViewAnimationTask` object is a single-shot object that will animate its view
- with its animation.
-
- The animation is triggered by calling its `animate` method. When added to a
- `ViewAnimationTaskQueue`, it will be processed serially in a FIFO order.
-
- If the `ViewAnimationTask` finished its animation it will call its queue
- callback to notifiy. If the animation is cut short the queue is not notified
+ A `ViewAnimationTask` object is a single-shot object thus can't be reused
  */
 
 internal class ViewAnimationTask {
+    
+    /**
+     + Ready: Initialized and is ready to animate
+     + Animating: Task started and is animating
+     + Finished: View animation finished either by completion or cancellation
+     */
+    internal enum ViewAnimationTaskState {
+        case ready
+        case animating
+        case finished
+    }
 
     fileprivate let view: UIView
     fileprivate let animation: ViewAnimation
+    fileprivate(set) var state: ViewAnimationTaskState
 
     weak var queue: ViewAnimationTaskQueue?
 
-    fileprivate(set) var state: ViewAnimationTaskState
-
     init(view: UIView, animation: ViewAnimation) {
-        state = .ready
         self.view = view
         self.animation = animation
+        state = .ready
     }
 
     func animate() {
@@ -61,7 +49,7 @@ internal class ViewAnimationTask {
             triggerAnimation()
 
         case .animating:
-            assertionFailure("Task is already animating. Call is dismissed")
+            assertionFailure("Task is already animating. Call is being dismissed")
 
         case .finished:
             assertionFailure("Task already finished animating, can't animate again.")
@@ -82,20 +70,20 @@ private extension ViewAnimationTask {
             self.animation.initialState(self.view)
             
             UIView.animate(withDuration: self.animation.duration,
-                                       delay: self.animation.delay,
-                                       options: self.animation.options,
-                                       animations: { 
-                                            self.animation.finalState(self.view)
-                                       }) { (finished) in
-                                            if finished {
-                                                self.notifiyQueueAnimationDidFinish()
-                                            }
-                                       }
+                           delay: self.animation.delay,
+                           options: self.animation.options,
+                           animations: { 
+                              self.animation.finalState(self.view)
+                           }) { (finished) in
+                              if finished {
+                                  self.notifiyQueueAnimationDidFinish()
+                              }
+                           }
         }
     }
 
     func notifiyQueueAnimationDidFinish() {
         state = .finished
-        queue?.animationDidFinish(task: self)
+        queue?.dequeue(task: self)
     }
 }

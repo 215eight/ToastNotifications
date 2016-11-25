@@ -84,7 +84,7 @@ func ==(lhs: ToastContent, rhs: ToastContent) -> Bool {
         return lhsLeft == rhsLeft && lhsRight == rhsRight
 
     case (.stack(let lhsLeft, let lhsRight),
-        .stack(let rhsLeft, let rhsRight)):
+          .stack(let rhsLeft, let rhsRight)):
         return lhsLeft == rhsLeft && lhsRight == rhsRight
 
     case (.element(_,_), _),

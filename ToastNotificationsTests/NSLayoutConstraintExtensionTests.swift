@@ -12,9 +12,23 @@ import XCTest
 
 class NSLayoutConstraintExtensionTests: XCTestCase {
 
-    let view1 = UIView()
-    let view2 = UIView()
-    let view3 = UIView()
+     var view1: UIView!
+     var view2: UIView!
+     var view3: UIView!
+
+    override func setUp() {
+        super.setUp()
+        view1 = UIView()
+        view2 = UIView()
+        view3 = UIView()
+    }
+
+    override func tearDown() {
+        view1 = nil
+        view2 = nil
+        view3 = nil
+        super.tearDown()
+    }
 
     func testEqualConstraints() {
 
@@ -34,7 +48,7 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
                                             multiplier: 1,
                                             constant: 0)
 
-        XCTAssertEqual(constraint1, constraint2)
+        XCTAssertTrue(constraint1 == constraint2)
     }
 
     func testNonEqualItemConstraints() {
@@ -55,7 +69,7 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
                                             multiplier: 1,
                                             constant: 0)
 
-        XCTAssertNotEqual(constraint1, constraint2)
+        XCTAssertTrue(constraint1 != constraint2)
     }
 
     func testNonEqualAttributeConstraints() {
@@ -76,7 +90,7 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
                                             multiplier: 1,
                                             constant: 0)
 
-        XCTAssertNotEqual(constraint1, constraint2)
+        XCTAssertTrue(constraint1 != constraint2)
     }
 
     func testNonEqualRelatedByConstraints() {
@@ -97,7 +111,7 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
                                             multiplier: 1,
                                             constant: 0)
 
-        XCTAssertNotEqual(constraint1, constraint2)
+        XCTAssertTrue(constraint1 != constraint2)
     }
 
     func testNonEqualMultiplyConstraints() {
@@ -118,7 +132,7 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
                                             multiplier: 1,
                                             constant: 0)
 
-        XCTAssertNotEqual(constraint1, constraint2)
+        XCTAssertTrue(constraint1 != constraint2)
     }
 
     func testNonEqualConstantConstraints() {
@@ -139,7 +153,7 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
                                             multiplier: 1,
                                             constant: 0)
 
-        XCTAssertNotEqual(constraint1, constraint2)
+        XCTAssertTrue(constraint1 != constraint2)
     }
 
     func testFindEqualConstraintInArray() {
@@ -152,24 +166,25 @@ class NSLayoutConstraintExtensionTests: XCTestCase {
                                                     multiplier: 1,
                                                     constant: 0)
 
-        let constraint1 = NSLayoutConstraint(item: view1,
-                                             attribute: .width,
-                                             relatedBy: .equal,
-                                             toItem: view2,
-                                             attribute: .width,
-                                             multiplier: 1,
-                                             constant: 0)
+        let widthConstraint = NSLayoutConstraint(item: view1,
+                                                 attribute: .width,
+                                                 relatedBy: .equal,
+                                                 toItem: view2,
+                                                 attribute: .width,
+                                                 multiplier: 1,
+                                                 constant: 0)
 
-        let constraint2 = NSLayoutConstraint(item: view1,
-                                             attribute: .bottom,
-                                             relatedBy: .equal,
-                                             toItem: view3,
-                                             attribute: .top,
-                                             multiplier: 1,
-                                             constant: 0)
+        let bottomConstraint = NSLayoutConstraint(item: view1,
+                                                  attribute: .bottom,
+                                                  relatedBy: .equal,
+                                                  toItem: view3,
+                                                  attribute: .top,
+                                                  multiplier: 1,
+                                                  constant: 0)
 
-        let constraints = [constraint1, constraint2]
+        let constraints = [widthConstraint, bottomConstraint]
 
-        XCTAssertTrue(constraints.contains(expectedConstraint))
+        XCTAssertTrue(expectedConstraint.present(in: constraints))
+        XCTAssertFalse(expectedConstraint.present(in: [bottomConstraint]))
     }
 }

@@ -16,8 +16,8 @@ struct ToastPresentation {
 
     func configure(with view: UIView) {
         style.styleConfigurator()(view)
-        position.positionConfigurator()(view)
-        size.sizeConfigurator()(view)
+        position.addPositionConstraints(to: view)
+        size.addSizeConstraints(to: view)
     }
 }
 

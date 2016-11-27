@@ -2,12 +2,20 @@
 //  SequenceViewAnimatorTests.swift
 //  ToastNotifications
 //
-//  Created by Party Man on 10/30/16.
+//  Created by pman215 on 10/30/16.
 //  Copyright © 2016 Erick Andrade. All rights reserved.
 //
 
 @testable import ToastNotifications
 import XCTest
+
+class FakeViewAnimationTask: ViewAnimationTask {
+
+    override func animate() {
+        cancel()
+        queue?.dequeue(task: self)
+    }
+}
 
 class SequenceViewAnimatorTests: XCTestCase {
 
@@ -17,8 +25,8 @@ class SequenceViewAnimatorTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        showAnimation = ViewAnimationTask()
-        hideAnimation = ViewAnimationTask()
+        showAnimation = FakeViewAnimationTask()
+        hideAnimation = FakeViewAnimationTask()
         sequenceAnimator = SequenceViewAnimator(transition: .manual,
                                                 showAnimations: [showAnimation],
                                                 hideAnimations: [hideAnimation])
@@ -35,7 +43,7 @@ class SequenceViewAnimatorTests: XCTestCase {
     }
 
     func testAnimatableViewCanTransitionAutomatically() {
-        sequenceAnimator = SequenceViewAnimator(transition: .manual,
+        sequenceAnimator = SequenceViewAnimator(transition: .automatic,
                                                 showAnimations: [showAnimation],
                                                 hideAnimations: [hideAnimation])
         sequenceAnimator.show()

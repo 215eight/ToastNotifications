@@ -40,6 +40,17 @@ final class ToastQueueTests: XCTestCase {
                       "Expected: Processing. Actual: \(queue.status.state)")
     }
 
+    func testQueueCanCancelToasts() {
+        let view = UIView()
+        let queue = ToastQueue(presenter: view)
+        queue.queue(Toast(text: "Toast1"))
+        queue.queue(Toast(text: "Toast2"))
+        queue.cancel()
+        XCTAssertTrue(queue.status.state == .idle,
+                      "Expected: Idle. Actual: \(queue.status.state)")
+
+    }
+
     func testQueueFIFOAutomaticToastProcessing() {
 
         let toast1 = Toast(text: "QueueFIFO1")

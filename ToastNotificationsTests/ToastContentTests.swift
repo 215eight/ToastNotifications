@@ -141,8 +141,8 @@ class ToastContentTests: XCTestCase {
         let aContent = ToastContent(text: "Testy")
         let bContent = ToastContent(text: "Toasty")
 
-        let aStacked = aContent ||| bContent
-        let bStacked = bContent ||| aContent
+        let aStacked = aContent --- bContent
+        let bStacked = bContent --- aContent
 
         let different = aStacked != bStacked
         XCTAssertTrue(different)

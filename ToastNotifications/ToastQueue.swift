@@ -47,22 +47,7 @@ struct ToastQueueStatus {
     fileprivate var queue = [Toast]()
     fileprivate var presenter: ToastPresenter
 
-    fileprivate var state: ToastQueueState = .idle {
-        willSet(newState) {
-
-            switch (state, newState) {
-                
-            case (.idle, .processing) where shouldStartProcessing():
-                break
-                
-            case (.processing, .idle):
-                break
-            case (.idle, _),
-                 (.processing, _):
-                fatalError("Invalid state transition \(state) -> \(newState)")
-            }
-        }
-    }
+    fileprivate var state: ToastQueueState = .idle
 
     var status: ToastQueueStatus {
         return ToastQueueStatus(toastCount: queue.count,
@@ -90,6 +75,7 @@ struct ToastQueueStatus {
             currentToast.hide()
         }
         queue.removeAll()
+        state = .idle
     }
 }
 

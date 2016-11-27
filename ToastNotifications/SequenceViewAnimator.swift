@@ -86,11 +86,13 @@ internal class SequenceViewAnimator {
         case .new:
             state = .didHide
             cancelShowAnimations()
+            cancelHideAnimations()
             delegate?.didHide()
 
         case .showing:
             state = .didHide
-            cancelShowAnimations()
+            cancelAnimationQueue()
+            cancelHideAnimations()
             delegate?.didHide()
 
         case .didShow:
@@ -99,7 +101,7 @@ internal class SequenceViewAnimator {
 
         case .hiding:
             state = .didHide
-            cancelHideAnimations()
+            cancelAnimationQueue()
             delegate?.didHide()
 
         case .didHide:
@@ -146,10 +148,14 @@ private extension SequenceViewAnimator {
     }
 
     func cancelShowAnimations() {
-        animationTaskQueue.cancel()
+        showAnimations.forEach { $0.cancel() }
     }
 
     func cancelHideAnimations() {
+        hideAnimations.forEach{ $0.cancel() }
+    }
+
+    func cancelAnimationQueue() {
         animationTaskQueue.cancel()
     }
 }

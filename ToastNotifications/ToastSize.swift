@@ -12,37 +12,41 @@ enum ToastSize {
     case absolute(width: CGFloat, height: CGFloat)
     case relative(xRatio: CGFloat, yRatio: CGFloat)
 
-    func sizeConfigurator() -> (UIView) -> Void {
-        return { (view) in
-            guard let superView = view.superview else {
-                assertionFailure("View must be part of the view hierarchy")
-                return
-            }
+    init(width: CGFloat, height: CGFloat) {
+        self = .absolute(width: width, height: height)
+    }
 
+    init(xRatio: CGFloat, yRatio: CGFloat) {
+        self = .relative(xRatio: xRatio, yRatio: yRatio)
+    }
 
-            let constraints: [NSLayoutConstraint]
-            switch self {
-            case .absolute(let width, let height):
-                constraints = self.absoluteConstraints(view: view,
-                                                       width: width,
-                                                       height: height)
-            case .relative(let xRatio, let yRatio):
-                constraints = self.relativeConstraints(view: view,
-                                                       superView: superView,
-                                                       xRatio: xRatio,
-                                                       yRatio: yRatio)
-            }
-
-            NSLayoutConstraint.activate(constraints)
+    func addSizeConstraints(to view: UIView) {
+        guard let superView = view.superview else {
+            assertionFailure("View must be part of the view hierarchy")
+            return
         }
+
+        let constraints: [NSLayoutConstraint]
+        switch self {
+        case .absolute(let width, let height):
+            constraints = self.absoluteConstraints(view: view,
+                                                   width: width,
+                                                   height: height)
+        case .relative(let xRatio, let yRatio):
+            constraints = self.relativeConstraints(view: view,
+                                                   superView: superView,
+                                                   xRatio: xRatio,
+                                                   yRatio: yRatio)
+        }
+        NSLayoutConstraint.activate(constraints)
     }
 }
 
 private extension ToastSize {
 
     func absoluteConstraints(view: UIView,
-                                  width: CGFloat,
-                                  height: CGFloat) -> [NSLayoutConstraint] {
+                             width: CGFloat,
+                             height: CGFloat) -> [NSLayoutConstraint] {
         let width = NSLayoutConstraint(item: view,
                                        attribute: .width,
                                        relatedBy: .equal,
@@ -62,9 +66,9 @@ private extension ToastSize {
     }
 
     func relativeConstraints(view: UIView,
-                                  superView: UIView,
-                                  xRatio: CGFloat,
-                                  yRatio: CGFloat) -> [NSLayoutConstraint] {
+                             superView: UIView,
+                             xRatio: CGFloat,
+                             yRatio: CGFloat) -> [NSLayoutConstraint] {
         let width = NSLayoutConstraint(item: view,
                                        attribute: .width,
                                        relatedBy: .equal,

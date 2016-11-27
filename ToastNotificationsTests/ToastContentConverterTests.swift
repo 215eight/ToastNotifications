@@ -26,7 +26,7 @@ class ToastContentConverterTests: XCTestCase {
                                                  attribute: .width,
                                                  multiplier: 1,
                                                  constant: 0)
-        XCTAssertTrue(constraints.contains(widthConstraint))
+        XCTAssertTrue(widthConstraint.present(in: constraints))
 
         let heightConstraint = NSLayoutConstraint(item: contentView.subviews.first!,
                                                   attribute: .height,
@@ -35,7 +35,7 @@ class ToastContentConverterTests: XCTestCase {
                                                   attribute: .height,
                                                   multiplier: 1,
                                                   constant: 0)
-        XCTAssertTrue(constraints.contains(heightConstraint))
+        XCTAssertTrue(heightConstraint.present(in: constraints))
 
         let centerXConstraint = NSLayoutConstraint(item: contentView.subviews.first!,
                                                    attribute: .centerX,
@@ -44,7 +44,7 @@ class ToastContentConverterTests: XCTestCase {
                                                    attribute: .centerX,
                                                    multiplier: 1,
                                                    constant: 0)
-        XCTAssertTrue(constraints.contains(centerXConstraint))
+        XCTAssertTrue(centerXConstraint.present(in: constraints))
 
         let centerYConstraint = NSLayoutConstraint(item: contentView.subviews.first!,
                                                    attribute: .centerY,
@@ -53,7 +53,7 @@ class ToastContentConverterTests: XCTestCase {
                                                    attribute: .centerY,
                                                    multiplier: 1,
                                                    constant: 0)
-        XCTAssertTrue(constraints.contains(centerYConstraint))
+        XCTAssertTrue(centerYConstraint.present(in: constraints))
     }
 
     func testConvertToastContentBeside() {
@@ -63,10 +63,6 @@ class ToastContentConverterTests: XCTestCase {
         let content = leftToastContent ||| rightToastContent
         let contentView = convert(content: content)
 
-        let constraints = contentView.constraints
-
-        XCTAssertEqual(constraints.count, 8)
-
         let leftViewWidth = NSLayoutConstraint(item: contentView.subviews.first!,
                                                attribute: .width,
                                                relatedBy: .equal,
@@ -74,7 +70,6 @@ class ToastContentConverterTests: XCTestCase {
                                                attribute: .width,
                                                multiplier: 0.5,
                                                constant: 0)
-        XCTAssertTrue(constraints.contains(leftViewWidth))
 
         let rightViewWidth = NSLayoutConstraint(item: contentView.subviews.last!,
                                                 attribute: .width,
@@ -83,7 +78,6 @@ class ToastContentConverterTests: XCTestCase {
                                                 attribute: .width,
                                                 multiplier: 0.5,
                                                 constant: 0)
-        XCTAssertTrue(constraints.contains(rightViewWidth))
 
         let leftViewHeight = NSLayoutConstraint(item: contentView.subviews.first!,
                                                 attribute: .height,
@@ -92,7 +86,6 @@ class ToastContentConverterTests: XCTestCase {
                                                 attribute: .height,
                                                 multiplier: 1,
                                                 constant: 0)
-        XCTAssertTrue(constraints.contains(leftViewHeight))
 
         let rightViewHeight = NSLayoutConstraint(item: contentView.subviews.last!,
                                                  attribute: .height,
@@ -101,7 +94,6 @@ class ToastContentConverterTests: XCTestCase {
                                                  attribute: .height,
                                                  multiplier: 1,
                                                  constant: 0)
-        XCTAssertTrue(constraints.contains(rightViewHeight))
 
         let leftViewCenterX = NSLayoutConstraint(item: contentView.subviews.first!,
                                                  attribute: .centerX,
@@ -110,7 +102,6 @@ class ToastContentConverterTests: XCTestCase {
                                                  attribute: .centerX,
                                                  multiplier: 0.5,
                                                  constant: 0)
-        XCTAssertTrue(constraints.contains(leftViewCenterX))
 
         let rightViewCenterX = NSLayoutConstraint(item: contentView.subviews.last!,
                                                   attribute: .centerX,
@@ -119,7 +110,6 @@ class ToastContentConverterTests: XCTestCase {
                                                   attribute: .centerX,
                                                   multiplier: 1.5,
                                                   constant: 0)
-        XCTAssertTrue(constraints.contains(rightViewCenterX))
 
         let leftViewCenterY = NSLayoutConstraint(item: contentView.subviews.first!,
                                                  attribute: .centerY,
@@ -128,7 +118,6 @@ class ToastContentConverterTests: XCTestCase {
                                                  attribute: .centerY,
                                                  multiplier: 1,
                                                  constant: 0)
-        XCTAssertTrue(constraints.contains(leftViewCenterY))
 
         let rightViewCenterY = NSLayoutConstraint(item: contentView.subviews.last!,
                                                   attribute: .centerY,
@@ -137,8 +126,12 @@ class ToastContentConverterTests: XCTestCase {
                                                   attribute: .centerY,
                                                   multiplier: 1,
                                                   constant: 0)
-        XCTAssertTrue(constraints.contains(rightViewCenterY))
 
+        let expectedConstraints = [leftViewWidth, leftViewHeight, leftViewCenterX, leftViewCenterY,
+                                   rightViewWidth, rightViewHeight, rightViewCenterX, rightViewCenterY]
+
+        contentView.constraints.map { $0.present(in: expectedConstraints) }
+                               .forEach { XCTAssertTrue($0) }
     }
 
     func testConvertToastContentStack() {
@@ -148,8 +141,6 @@ class ToastContentConverterTests: XCTestCase {
         let content = topToastContent --- bottomToastContent
         let contentView = convert(content: content)
 
-        let constraints = contentView.constraints
-        XCTAssertEqual(constraints.count, 8)
 
         let topViewWidth = NSLayoutConstraint(item: contentView.subviews.first!,
                                               attribute: .width,
@@ -158,7 +149,6 @@ class ToastContentConverterTests: XCTestCase {
                                               attribute: .width,
                                               multiplier: 1,
                                               constant: 0)
-        XCTAssertTrue(constraints.contains(topViewWidth))
 
         let bottomViewWidth = NSLayoutConstraint(item: contentView.subviews.last!,
                                                  attribute: .width,
@@ -167,7 +157,6 @@ class ToastContentConverterTests: XCTestCase {
                                                  attribute: .width,
                                                  multiplier: 1,
                                                  constant: 0)
-        XCTAssertTrue(constraints.contains(bottomViewWidth))
 
         let topViewHeight = NSLayoutConstraint(item: contentView.subviews.first!,
                                                attribute: .height,
@@ -176,7 +165,6 @@ class ToastContentConverterTests: XCTestCase {
                                                attribute: .height,
                                                multiplier: 0.5,
                                                constant: 0)
-        XCTAssertTrue(constraints.contains(topViewHeight))
 
         let bottomViewHeight = NSLayoutConstraint(item: contentView.subviews.last!,
                                                   attribute: .height,
@@ -185,7 +173,6 @@ class ToastContentConverterTests: XCTestCase {
                                                   attribute: .height,
                                                   multiplier: 0.5,
                                                   constant: 0)
-        XCTAssertTrue(constraints.contains(bottomViewHeight))
 
         let topViewCenterX = NSLayoutConstraint(item: contentView.subviews.first!,
                                                 attribute: .centerX,
@@ -194,7 +181,6 @@ class ToastContentConverterTests: XCTestCase {
                                                 attribute: .centerX,
                                                 multiplier: 1,
                                                 constant: 0)
-        XCTAssertTrue(constraints.contains(topViewCenterX))
 
         let bottomViewCenterX = NSLayoutConstraint(item: contentView.subviews.last!,
                                                    attribute: .centerX,
@@ -203,7 +189,6 @@ class ToastContentConverterTests: XCTestCase {
                                                    attribute: .centerX,
                                                    multiplier: 1,
                                                    constant: 0)
-        XCTAssertTrue(constraints.contains(bottomViewCenterX))
 
         let topViewCenterY = NSLayoutConstraint(item: contentView.subviews.first!,
                                                 attribute: .centerY,
@@ -212,7 +197,6 @@ class ToastContentConverterTests: XCTestCase {
                                                 attribute: .centerY,
                                                 multiplier: 0.5,
                                                 constant: 0)
-        XCTAssertTrue(constraints.contains(topViewCenterY))
 
         let bottomViewCenterY = NSLayoutConstraint(item: contentView.subviews.last!,
                                                    attribute: .centerY,
@@ -221,6 +205,11 @@ class ToastContentConverterTests: XCTestCase {
                                                    attribute: .centerY,
                                                    multiplier: 1.5,
                                                    constant: 0)
-        XCTAssertTrue(constraints.contains(bottomViewCenterY))
+
+        let expectedConstraints = [topViewWidth, topViewHeight, topViewCenterX, topViewCenterY,
+                                   bottomViewWidth, bottomViewHeight, bottomViewCenterX, bottomViewCenterY]
+
+        contentView.constraints.map { $0.present(in: expectedConstraints) }
+                               .forEach { XCTAssertTrue($0) }
     }
 }

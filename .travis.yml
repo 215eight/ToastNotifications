@@ -1,0 +1,7 @@
+
+language: objective-c
+xcode_project: ToastNotifications.xcodeproj 
+xcode_scheme: ToastNotifications 
+osx_image: xcode8
+xcode_sdk: iphonesimulator10.0
+    

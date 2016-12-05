@@ -2,6 +2,8 @@
 
 Simple and yet robust Swift library to show non intrusive notifications in iOS. 
 
+[![Build Status](https://travis-ci.org/pman215/ToastNotifications.svg?branch=master)](https://travis-ci.org/pman215/ToastNotifications)
+
 ![Hello World](./resources/Overview.gif)
 
 ## Features

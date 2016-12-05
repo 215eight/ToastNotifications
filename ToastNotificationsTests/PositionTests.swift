@@ -1,5 +1,5 @@
 //
-//  ToastPositionTests.swift
+//  PositionTests.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 11/26/16.
@@ -9,7 +9,7 @@
 @testable import ToastNotifications
 import XCTest
 
-class ToastPositionTests: XCTestCase {
+class PositionTests: XCTestCase {
 
     var superview: UIView!
     var view: UIView!
@@ -27,7 +27,7 @@ class ToastPositionTests: XCTestCase {
     }
 
     func testTopPosition() {
-        let position = ToastPosition.top(offset: 0)
+        let position = Position.top(offset: 0)
         position.addPositionConstraints(to: view)
 
         superview.layoutIfNeeded()
@@ -38,7 +38,7 @@ class ToastPositionTests: XCTestCase {
     }
 
     func testCenterPosition() {
-        let position = ToastPosition.center
+        let position = Position.center
         position.addPositionConstraints(to: view)
 
         superview.layoutIfNeeded()
@@ -49,7 +49,7 @@ class ToastPositionTests: XCTestCase {
     }
 
     func testBottomPosition() {
-        let position = ToastPosition.bottom(offset: 0)
+        let position = Position.bottom(offset: 0)
         position.addPositionConstraints(to: view)
 
         superview.layoutIfNeeded()
@@ -60,7 +60,7 @@ class ToastPositionTests: XCTestCase {
     }
 }
 
-private extension ToastPositionTests {
+private extension PositionTests {
 
     func setSuperview() {
         let superview = UIView(frame: CGRect.zero)

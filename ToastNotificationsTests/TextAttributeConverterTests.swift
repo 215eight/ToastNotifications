@@ -9,7 +9,7 @@
 @testable import ToastNotifications
 import XCTest
 
-class ToastAttributeConverterTests: XCTestCase {
+class NotificationAttributeConverterTests: XCTestCase {
 
     func testConvertFontAttribute() {
 
@@ -71,7 +71,7 @@ class ToastAttributeConverterTests: XCTestCase {
         let color = UIColor.black
 
         let textAttributes = TextAttribute.font(font)
-                                          .map{ .foregroundColor(color) }
+                                          .map( .foregroundColor(color) )
 
         let attributes = convert(attribute: textAttributes)
 

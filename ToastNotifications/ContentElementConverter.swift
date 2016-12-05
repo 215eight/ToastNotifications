@@ -10,11 +10,14 @@ import Foundation
 import UIKit
 
 /**
- Converts a toast element to a UI element
+ Converts a notification to a UI element
  */
 func convert(element: ContentElement) -> UIView {
 
     switch element {
+
+    case .empty:
+        return UIView(frame: CGRect.zero)
 
     case .text(let text, let attribute):
         let attributes = convert(attribute: attribute)
@@ -22,6 +25,7 @@ func convert(element: ContentElement) -> UIView {
                                                 attributes: attributes)
         let label = UILabel(frame: CGRect.zero)
         label.attributedText = attributedText
+        label.numberOfLines = 0
 
         if let backgroundColor = attributes[NSBackgroundColorAttributeName] as? UIColor{
             label.backgroundColor = backgroundColor

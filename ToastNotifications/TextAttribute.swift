@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 
 /**
- List attributes for a text toast element
+ List attributes for a text element
  */
+
 indirect enum TextAttribute {
     case font(UIFont)
     case alignment(NSTextAlignment)
@@ -19,40 +20,15 @@ indirect enum TextAttribute {
     case backgroundColor(UIColor)
     case compose(TextAttribute, TextAttribute)
 
-    init(fontName: String, size: CGFloat) {
-
-        let font: UIFont
-
-        if let _font = UIFont(name: fontName, size: size) {
-            font = _font
-        } else {
-            font = UIFont.systemFont(ofSize: size)
-        }
-
-        self = .font(font)
-    }
-
-    init(alignment: NSTextAlignment) {
-        self = .alignment(alignment)
-    }
-
-    init(color: UIColor) {
-        self = .foregroundColor(color)
-    }
-
-    init(backgroundColor: UIColor) {
-        self = .backgroundColor(backgroundColor)
-    }
-
-    func map(_ f: () -> TextAttribute) -> TextAttribute {
+    func map(_ f: @autoclosure () -> TextAttribute) -> TextAttribute {
         return .compose(self, f())
     }
 
     init() {
        self = TextAttribute.font(UIFont.systemFont(ofSize: 16))
-                           .map { .alignment(.center) }
-                           .map { .foregroundColor(UIColor.black) }
-                           .map { .backgroundColor(UIColor.clear) }
+                           .map ( .alignment(.center) )
+                           .map ( .foregroundColor(UIColor.black) )
+                           .map ( .backgroundColor(UIColor.clear) )
     }
 }
 

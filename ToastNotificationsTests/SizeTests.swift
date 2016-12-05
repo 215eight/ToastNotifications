@@ -1,5 +1,5 @@
 //
-//  ToastSizeTests.swift
+//  SizeTests.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 11/24/16.
@@ -9,7 +9,7 @@
 @testable import ToastNotifications
 import XCTest
 
-class ToastSizeTests: XCTestCase {
+class SizeTests: XCTestCase {
 
     func testAbsoluteSize() {
 
@@ -21,7 +21,7 @@ class ToastSizeTests: XCTestCase {
 
         superview.addSubview(view)
         
-        let size = ToastSize(width: 200, height: 100)
+        let size = Size(width: 200, height: 100)
         size.addSizeConstraints(to: view)
 
         superview.layoutIfNeeded()
@@ -51,7 +51,7 @@ class ToastSizeTests: XCTestCase {
 
         superview.addSubview(view)
 
-        let size = ToastSize(xRatio: 0.5, yRatio: 0.5)
+        let size = Size(xRatio: 0.5, yRatio: 0.5)
         size.addSizeConstraints(to: view)
 
         superview.layoutIfNeeded()

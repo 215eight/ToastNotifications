@@ -1,5 +1,5 @@
 //
-//  ToastPosition.swift
+//  Position.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 8/8/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ToastPosition {
+enum Position {
     case top(offset: CGFloat)
     case bottom(offset: CGFloat)
     case center
@@ -46,7 +46,7 @@ enum ToastPosition {
     }
 }
 
-private extension ToastPosition {
+private extension Position {
 
     var offset: CGFloat {
         switch self  {

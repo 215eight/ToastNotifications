@@ -1,5 +1,5 @@
 //
-//  ToastView.swift
+//  NotificationView.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 11/14/16.
@@ -9,19 +9,19 @@
 import Foundation
 import UIKit
 
-class ToastView: UIView {
+class NotificationView: UIView {
 
-    fileprivate let toast: Toast
+    fileprivate let notification: Notification
 
     fileprivate lazy var animator: SequenceViewAnimator = {
 
-        let transition = self.toast.animation.transition
+        let transition = self.notification.animation.transition
 
-        let showAnimations = self.toast.animation.showAnimations.map {
+        let showAnimations = self.notification.animation.showAnimations.map {
             ViewAnimationTask(view: self, animation: $0)
         }
 
-        let hideAnimations = self.toast.animation.hideAnimations.map {
+        let hideAnimations = self.notification.animation.hideAnimations.map {
             ViewAnimationTask(view: self, animation: $0)
         }
 
@@ -33,8 +33,8 @@ class ToastView: UIView {
         return animator
     }()
     
-    init(toast: Toast) {
-        self.toast = toast
+    init(notification: Notification) {
+        self.notification = notification
         super.init(frame: .zero)
     }
 
@@ -56,11 +56,11 @@ class ToastView: UIView {
     }
 }
 
-private extension ToastView {
+private extension NotificationView {
 
     func buildContentView() {
 
-        let contentView = ToastNotifications.convert(content: toast.content)
+        let contentView = ToastNotifications.convert(content: notification.content)
         addSubview(contentView)
 
         translatesAutoresizingMaskIntoConstraints = false
@@ -104,11 +104,11 @@ private extension ToastView {
         isHidden = true
         view.addSubview(self)
         view.bringSubview(toFront: self)
-        toast.presentation.configure(with: self)
+        notification.appearance.configure(with: self)
     }
 }
 
-extension ToastView: SequenceViewAnimatorDelegate {
+extension NotificationView: SequenceViewAnimatorDelegate {
     
     func willShow() {
 
@@ -124,6 +124,6 @@ extension ToastView: SequenceViewAnimatorDelegate {
 
     func didHide() {
         removeFromSuperview()
-        toast.didHide()
+        notification.didHide()
     }
 }

@@ -16,6 +16,7 @@ import Foundation
  */
 
 indirect enum ContentElement {
+    case empty
     case text(String, TextAttribute)
     case image(String)
 
@@ -27,8 +28,12 @@ indirect enum ContentElement {
         self = .image(imageName)
     }
 
-    init(text: String , attribute: TextAttribute) {
-        self = .text(text, attribute)
+    init(text: String , attributes: TextAttribute) {
+        self = .text(text, attributes)
+    }
+
+    init() {
+        self = .empty
     }
 }
 
@@ -38,13 +43,17 @@ func == (lhs: ContentElement, rhs: ContentElement) -> Bool {
 
     switch (lhs, rhs) {
 
+    case (.empty, .empty):
+        return true
+
     case (.text(let lhsText, let lhsAttribute), .text(let rhsText, let rhsAttribute)):
         return lhsText == rhsText && lhsAttribute == rhsAttribute
 
     case (.image(let lhsName), .image(let rhsName)):
         return lhsName == rhsName
 
-    case (.text(_, _), _),
+    case (.empty, _),
+         (.text(_, _), _),
          (.image(_), _):
         return false
     }

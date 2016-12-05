@@ -17,8 +17,8 @@ class ContentElementTests: XCTestCase {
     }
 
     func testTextElementWithAttribute() {
-        let attribute = TextAttribute(alignment: .center)
-        let text = ContentElement(text: "Toast", attribute: attribute)
+        let attribute = TextAttribute.alignment(.center)
+        let text = ContentElement(text: "Toast", attributes: attribute)
         XCTAssertNotNil(text)
     }
 

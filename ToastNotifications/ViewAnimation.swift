@@ -27,7 +27,7 @@ struct ViewAnimation {
     init() {
         self.init(duration: 0,
                   delay: 0,
-                  options: .beginFromCurrentState,
+                  options: [.beginFromCurrentState, .curveLinear],
                   initialState: { (_) in },
                   finalState: { (_) in })
     }
@@ -42,6 +42,26 @@ struct ViewAnimation {
         self.options = options
         self.initialState = initialState
         self.finalState = finalState
+    }
+
+    static func duration(_ value: TimeInterval) -> ViewAnimation {
+        return ViewAnimation().duration(value)
+    }
+
+    static func delay(_ value: TimeInterval) -> ViewAnimation {
+        return ViewAnimation().delay(value)
+    }
+
+    static func options(_ value: UIViewAnimationOptions) -> ViewAnimation {
+        return ViewAnimation().options(value)
+    }
+
+    static func initialState(_ value: @escaping AnimationState) -> ViewAnimation {
+        return ViewAnimation().initialState(value)
+    }
+
+    static func finalState(_ value: @escaping AnimationState) -> ViewAnimation {
+        return ViewAnimation().finalState(value)
     }
 
     func duration(_ duration: TimeInterval) -> ViewAnimation{

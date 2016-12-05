@@ -1,5 +1,5 @@
 //
-//  ToastSize.swift
+//  Size.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 8/8/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ToastSize {
+enum Size {
     case absolute(width: CGFloat, height: CGFloat)
     case relative(xRatio: CGFloat, yRatio: CGFloat)
 
@@ -42,7 +42,7 @@ enum ToastSize {
     }
 }
 
-private extension ToastSize {
+private extension Size {
 
     func absoluteConstraints(view: UIView,
                              width: CGFloat,

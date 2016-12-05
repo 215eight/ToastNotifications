@@ -12,8 +12,8 @@ import XCTest
 class UIImageExtensionsTests: XCTestCase {
 
     func testExistingImage() {
-        let image = UIImage.nonNullImage(name: "test.png")
-        XCTAssertEqual(image.size, CGSize(width: 141, height: 37))
+        let image = UIImage.nonNullImage(name: "Animations.png")
+        XCTAssertEqual(image.size, CGSize(width: 518, height: 138))
     }
 
     func testEmptyImage() {

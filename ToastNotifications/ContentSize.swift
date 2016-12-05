@@ -30,7 +30,3 @@ func / (lhs: ContentSize, rhs: ContentSize) -> ContentSize {
     let height = lhs.height / rhs.height
     return ContentSize(width: width, height: height)
 }
-
-func + (lhs: ContentPoint, rhs: ContentSize) -> ContentPoint {
-    return ContentPoint(x: lhs.x + rhs.width, y: lhs.y + rhs.height)
-}

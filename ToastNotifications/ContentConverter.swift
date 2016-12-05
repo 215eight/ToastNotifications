@@ -1,5 +1,5 @@
 //
-//  ToastContentConverter.swift
+//  ContentConverter.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/12/16.
@@ -11,7 +11,7 @@ import UIKit
 
 typealias UIElements = (subviews: [UIView], constraints: [NSLayoutConstraint])
 
-func convert(content: ToastContent) -> UIView {
+func convert(content: Content) -> UIView {
     let subContentOrigin = ContentPoint(x: 0, y: 0)
     let container = UIView()
     let (subViews, constraints) = convert(content: content,
@@ -33,8 +33,8 @@ func convert(content: ToastContent) -> UIView {
  Converts content to a collection of UI elements contained by the
  specified container view
  */
-func convert(content: ToastContent,
-             subContent: ToastContent,
+func convert(content: Content,
+             subContent: Content,
              subContentOrigin: ContentPoint,
              container: UIView) -> UIElements {
 
@@ -87,8 +87,8 @@ func convert(content: ToastContent,
     }
 }
 
-func subContentConstraints(content: ToastContent,
-                           subContent: ToastContent,
+func subContentConstraints(content: Content,
+                           subContent: Content,
                            subContentOrigin: ContentPoint,
                            container: UIView,
                            subview: UIView) -> [NSLayoutConstraint] {
@@ -96,7 +96,7 @@ func subContentConstraints(content: ToastContent,
     subview.translatesAutoresizingMaskIntoConstraints = false
 
     let ratio = subContent.size / content.size
-    let center = subContentOrigin + ratio
+    let center = (subContentOrigin + subContent.center) / content.center
 
     let widthConstraint = NSLayoutConstraint(item: subview,
                                              attribute: .width,
@@ -119,7 +119,7 @@ func subContentConstraints(content: ToastContent,
                                                relatedBy: .equal,
                                                toItem: container,
                                                attribute: .centerX,
-                                               multiplier: center.x == 0 ? 1 : CGFloat(center.x),
+                                               multiplier: CGFloat(center.x),
                                                constant: 0)
 
     let centerYConstraint = NSLayoutConstraint(item: subview,
@@ -127,7 +127,7 @@ func subContentConstraints(content: ToastContent,
                                                relatedBy: .equal,
                                                toItem: container,
                                                attribute: .centerY,
-                                               multiplier: center.y == 0 ? 1 : CGFloat(center.y),
+                                               multiplier: CGFloat(center.y),
                                                constant: 0)
     return [widthConstraint,
             heightConstraint,

@@ -17,7 +17,7 @@ class ViewAnimationTests: XCTestCase {
 
         XCTAssertEqual(test.duration, 0)
         XCTAssertEqual(test.delay, 0)
-        XCTAssertTrue(test.options == .beginFromCurrentState)
+        XCTAssertTrue(test.options == [.beginFromCurrentState, .curveLinear])
     }
 
     func testViewAnimationComposition() {

@@ -1,5 +1,5 @@
 //
-//  ToastContent.swift
+//  Content.swift
 //  ToastNotifications
 //
 //  Created by pman215 on 6/1/16.
@@ -19,11 +19,11 @@ import Foundation
 
  + Stack: Two content items positioned against each other
  */
-indirect enum ToastContent {
+indirect enum Content {
 
     case element(ContentSize, ContentElement)
-    case beside(ToastContent, ToastContent)
-    case stack(ToastContent, ToastContent)
+    case beside(Content, Content)
+    case stack(Content, Content)
 
     /**
      Creates a text content element of size 1x1
@@ -43,6 +43,10 @@ indirect enum ToastContent {
 
     init(size: ContentSize, element: ContentElement) {
         self = .element(size, element)
+    }
+
+    init(size: ContentSize) {
+        self = .element(size, .empty)
     }
 
     /**
@@ -67,11 +71,15 @@ indirect enum ToastContent {
             return size
         }
     }
+
+    var center: ContentPoint {
+        return ContentPoint(x: size.width / 2, y: size.height / 2)
+    }
 }
 
-extension ToastContent: Equatable { }
+extension Content: Equatable { }
 
-func ==(lhs: ToastContent, rhs: ToastContent) -> Bool {
+func ==(lhs: Content, rhs: Content) -> Bool {
 
     switch (lhs, rhs) {
 
@@ -95,20 +103,20 @@ func ==(lhs: ToastContent, rhs: ToastContent) -> Bool {
 }
 
 /**
- Returns a new `ToastContent` with the content of lhs and rhs beside each other
+ Returns a new `Content` with the content of lhs and rhs beside each other
  */
 infix operator ||| : AdditionPrecedence
 
-func |||(lhs: ToastContent, rhs: ToastContent) -> ToastContent {
-    return ToastContent.beside(lhs, rhs)
+func |||(lhs: Content, rhs: Content) -> Content {
+    return Content.beside(lhs, rhs)
 }
 
 /**
- Returns a new `ToastContent` with the content of top and bottom stack against
+ Returns a new `Content` with the content of top and bottom stack against
  each other
  */
 infix operator --- : AdditionPrecedence
 
-func ---(top: ToastContent, bottom: ToastContent) -> ToastContent {
-    return ToastContent.stack(top, bottom)
+func ---(top: Content, bottom: Content) -> Content {
+    return Content.stack(top, bottom)
 }

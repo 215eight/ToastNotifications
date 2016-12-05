@@ -20,3 +20,11 @@ internal struct ContentPoint {
         return ContentPoint(x: x, y: y + offset)
     }
 }
+
+func + (lhs: ContentPoint, rhs: ContentPoint) -> ContentPoint {
+    return ContentPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+}
+
+func / (lhs: ContentPoint, rhs: ContentPoint) -> ContentPoint {
+    return ContentPoint(x: lhs.x / rhs.x, y: lhs.y / rhs.y)
+}

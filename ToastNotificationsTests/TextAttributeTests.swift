@@ -15,7 +15,7 @@ class TextAttributeTests: XCTestCase {
         let fontName = "AvenirNextCondensed-UltraLight"
         let fontSize: CGFloat = 14
 
-        let attribute = TextAttribute(fontName: fontName, size: fontSize)
+        let attribute = TextAttribute.font(UIFont(name: fontName, size: fontSize)!)
 
         if case let .font(font) = attribute {
             XCTAssertEqual(font.fontName, fontName)
@@ -28,7 +28,7 @@ class TextAttributeTests: XCTestCase {
     func testAlignmentAttribute() {
         let center: NSTextAlignment = .center
 
-        let attribute = TextAttribute(alignment: center)
+        let attribute = TextAttribute.alignment(.center)
 
         if case let .alignment(alignment) = attribute {
             XCTAssertEqual(alignment, center)
@@ -40,7 +40,7 @@ class TextAttributeTests: XCTestCase {
     func testForegroundColor() {
         let black: UIColor = .black
 
-        let attribute = TextAttribute(color: black)
+        let attribute = TextAttribute.foregroundColor(black)
 
         if case let .foregroundColor(color) = attribute {
             XCTAssertEqual(color, black)
@@ -52,7 +52,7 @@ class TextAttributeTests: XCTestCase {
     func testBackgroundColor() {
         let black: UIColor = .black
 
-        let attribute = TextAttribute(backgroundColor: black)
+        let attribute = TextAttribute.backgroundColor(black)
 
         if case let .backgroundColor(color) = attribute {
             XCTAssertEqual(color, black)
@@ -62,10 +62,10 @@ class TextAttributeTests: XCTestCase {
     }
 
     func testComposeAttributes() {
-        let color = TextAttribute(color: .white)
-        let backgrondColor = TextAttribute(color: .black)
+        let color = TextAttribute.foregroundColor(.white)
+        let backgrondColor = TextAttribute.backgroundColor(.black)
 
-        let attributes = color.map { backgrondColor }
+        let attributes = color.map(backgrondColor)
 
         if case let .compose(_color, _backgroundColor) = attributes {
             XCTAssertEqual(_color, color)
@@ -76,18 +76,18 @@ class TextAttributeTests: XCTestCase {
     }
 
     func testSameAttributesComparison() {
-        let blackColor = TextAttribute(color: .black)
-        let aBlackColor = TextAttribute(color: .black)
+        let blackColor = TextAttribute.foregroundColor(.black)
+        let aBlackColor = TextAttribute.foregroundColor(.black)
 
         XCTAssertEqual(blackColor, aBlackColor)
         XCTAssertEqual(aBlackColor, blackColor)
     }
 
     func testSameComposedAttributesComparison() {
-        let blackColor = TextAttribute(color: .black)
-        let center = TextAttribute(alignment: .center)
+        let blackColor = TextAttribute.foregroundColor(.black)
+        let center = TextAttribute.alignment(.center)
 
-        let aAttr = blackColor.map{ center }
+        let aAttr = blackColor.map(center)
         let bAttr = TextAttribute.compose(blackColor, center)
 
         XCTAssertEqual(aAttr, bAttr)
@@ -95,26 +95,26 @@ class TextAttributeTests: XCTestCase {
     }
 
     func testDifferentAttributesComparison() {
-        let blackColor = TextAttribute(color: .black)
-        let whiteColor = TextAttribute(color: .white)
+        let blackColor = TextAttribute.foregroundColor(.black)
+        let whiteColor = TextAttribute.foregroundColor(.white)
 
         XCTAssertNotEqual(blackColor, whiteColor)
         XCTAssertNotEqual(whiteColor, blackColor)
     }
 
     func testDifferentAttributeTypeComparison() {
-        let center = TextAttribute(alignment: .center)
-        let black = TextAttribute(color: .black)
+        let center = TextAttribute.alignment(.center)
+        let black = TextAttribute.foregroundColor(.black)
 
         XCTAssertNotEqual(center, black)
         XCTAssertNotEqual(black, center)
     }
 
     func testDifferentComposedAttributesComparison() {
-        let blackColor = TextAttribute(color: .black)
-        let center = TextAttribute(alignment: .center)
+        let blackColor = TextAttribute.foregroundColor(.black)
+        let center = TextAttribute.alignment(.center)
 
-        let aAttr = blackColor.map{ center }
+        let aAttr = blackColor.map(center)
         let bAttr = TextAttribute.compose(center, blackColor)
 
         XCTAssertNotEqual(aAttr, bAttr)

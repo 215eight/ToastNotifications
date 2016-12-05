@@ -1,7 +1,7 @@
 
 language: objective-c
+osx_image: xcode8
 xcode_project: ToastNotifications.xcodeproj 
 xcode_scheme: ToastNotifications 
-osx_image: xcode8.1
-xcode_sdk: iphonesimulator10.0
-    
+script: xcodebuild test -project ToastNotifications.xcodeproj -scheme ToastNotifications -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=10.0,name=iPhone 7'
+
